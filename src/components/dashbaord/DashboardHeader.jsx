@@ -7,13 +7,11 @@ import gif from "../../assets/spin.gif";
 const DashboardHeader = ({ role, setOpen }) => {
   return (
     <header className="h-14 bg-[#020617]/90 backdrop-blur-md border-b border-white/10 flex items-center justify-between px-5">
-
       {/* 🔥 LEFT */}
       <div className="flex items-center gap-3">
-
         {/* Sidebar Toggle (MUI) */}
         <IconButton
-          onClick={() => setOpen(prev => !prev)}
+          onClick={() => setOpen((prev) => !prev)}
           sx={{
             color: "#9CA3AF",
             "&:hover": { backgroundColor: "rgba(255,255,255,0.08)" },
@@ -28,7 +26,6 @@ const DashboardHeader = ({ role, setOpen }) => {
             {role === "admin" ? "Admin Panel" : "Dashboard"}
           </span>
         </div>
-
       </div>
 
       {/* 🔥 RIGHT (MUI BASED) */}
@@ -68,7 +65,6 @@ const DashboardHeader = ({ role, setOpen }) => {
         </IconButton>
 
         <Box
-
           gap={1}
           sx={{
             height: 32,
@@ -77,16 +73,12 @@ const DashboardHeader = ({ role, setOpen }) => {
             background: "rgba(255,255,255,0.05)",
             border: "1px solid rgba(255,255,255,0.1)",
             backdropFilter: "blur(6px)",
-            display:"flex",
-            alignItems:"center",
-            gap:1
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
           }}
         >
-          <Avatar
-            src={gif}
-            alt="wallet"
-            sx={{ width: 18, height: 18 }}
-          />
+          <Avatar src={gif} alt="wallet" sx={{ width: 18, height: 18 }} />
 
           <Typography
             sx={{
@@ -104,15 +96,24 @@ const DashboardHeader = ({ role, setOpen }) => {
             height: 32,
             fontSize: 12,
             fontWeight: "bold",
-            background: "linear-gradient(135deg, #b76e79, #7f9ca8)",
+
+            background:
+              "linear-gradient(135deg, var(--primary-dark), var(--primary), #67e8f9)",
+              border: "1px solid rgba(34, 211, 238, 0.4)",
+backdropFilter: "blur(4px)",
+
             color: "#000",
             cursor: "pointer",
-            "&:hover": { transform: "scale(1.05)" },
+            transition: "all 0.25s ease",
+
+            "&:hover": {
+              transform: "scale(1.08)",
+              boxShadow: "0 0 14px var(--primary-glow)",
+            },
           }}
         >
           U
         </Avatar>
-
       </Box>
     </header>
   );

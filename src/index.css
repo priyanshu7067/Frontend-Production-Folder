@@ -2,38 +2,31 @@
 
 /* 🌈 Root Variables (Design System) */
 :root {
-  --bg-main: #020617;
+  /* 🌑 Base */
+  --bg-main: #000000;
+  --bg-soft: #020617;
 
-  /* 🔥 Black → Metallic Gradient */
+  /* ⚡ Primary Accent (Logo Cyan) */
+  --primary: #22d3ee;
+  --primary-dark: #06b6d4;
+  --primary-glow: rgba(34, 211, 238, 0.35);
+
+  /* 🤍 Neutral */
+  --white: #ffffff;
+  --text-main: #e6faff;
+  --text-dim: #94a3b8;
+
+  /* 🌈 Gradient (Logo Inspired) */
   --gradient-logo: linear-gradient(
     135deg,
-    #000000 0%,       /* deep black start */
-    #1a1a1a 15%,      /* soft black */
-    #b95766 35%,      /* rose gold */
-    #7f9ca8 60%,      /* steel blue */
-    #4f6d7a 80%,      /* deep metallic */
-    #000000 100%      /* back to black */
+    #000000 0%,
+    #020617 25%,
+    #06b6d4 50%,
+    #22d3ee 75%,
+    #000000 100%
   );
-  --text-main: #e5e7eb;
-
-  --accent-primary: #ba5463;
-  --accent-secondary: #7f9ca8;
-
-  /* 🔥 STRONG VISIBLE HOVER */
-  --sidebar-hover: linear-gradient(
-    90deg,
-    rgba(183,110,121,0.18),
-    rgba(127,156,168,0.18)
-  );
-
-  /* 🔥 STRONG ACTIVE */
-  --sidebar-active: linear-gradient(
-    90deg,
-    rgba(183,110,121,0.35),
-    rgba(127,156,168,0.35)
-  );
-  
 }
+
 /* 🧱 Base Reset */
 * {
   @apply box-border;
@@ -51,29 +44,23 @@ body {
 }
 
 .bg-gradient-dark {
-  background: var(--gradient-dark);
+  background: linear-gradient(135deg, #000000, #020617, #000000);
 }
 
 /* ✨ Gradient Text */
 .text-gradient {
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.text-metal {
   background: linear-gradient(
     120deg,
-    #ae5562,
-    #7f9ca8,
-    #a86161,
-    #4f6d7a
+    #22d3ee,
+    #06b6d4,
+    #67e8f9,
+    #22d3ee
   );
   background-size: 200% auto;
 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
-  animation: shine 4s linear infinite;
+  animation: shine 3s linear infinite;
 }
 
 @keyframes shine {
@@ -89,17 +76,113 @@ body {
 
 /* 🧊 Glass Effect */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(34, 211, 238, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(34, 211, 238, 0.15);
 }
 
 /* 🔥 Card Style */
 .card {
-  background: var(--bg-card);
+  background: rgba(2, 6, 23, 0.7);
+  border: 1px solid rgba(34, 211, 238, 0.12);
   border-radius: 16px;
   padding: 1rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(34, 211, 238, 0.08);
+}
+
+/* ✅ UseCases Carousel */
+.usecase-card {
+  min-height: 430px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.065),
+      rgba(255, 255, 255, 0.025)
+    ),
+    rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.center-card {
+  z-index: 30;
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  filter: blur(0);
+}
+
+.left-card-1 {
+  z-index: 20;
+  transform: translateX(-68%) scale(0.9);
+  opacity: 0.6;
+  filter: blur(1px);
+}
+
+.right-card-1 {
+  z-index: 20;
+  transform: translateX(68%) scale(0.9);
+  opacity: 0.6;
+  filter: blur(1px);
+}
+
+.left-card-2 {
+  z-index: 10;
+  transform: translateX(-122%) scale(0.78);
+  opacity: 0.25;
+  filter: blur(2px);
+}
+
+.right-card-2 {
+  z-index: 10;
+  transform: translateX(122%) scale(0.78);
+  opacity: 0.25;
+  filter: blur(2px);
+}
+
+.hidden-card {
+  z-index: 0;
+  transform: translateX(0) scale(0.7);
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(8px);
+}
+
+@media (max-width: 1024px) {
+  .left-card-2,
+  .right-card-2 {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .left-card-1 {
+    transform: translateX(-58%) scale(0.88);
+    opacity: 0.4;
+  }
+
+  .right-card-1 {
+    transform: translateX(58%) scale(0.88);
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 768px) {
+  .left-card-1,
+  .right-card-1,
+  .left-card-2,
+  .right-card-2 {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(0) scale(0.82);
+  }
+
+  .center-card {
+    transform: translateX(0) scale(1);
+  }
 }
 
 /* ⚡ Scrollbar Styling */
@@ -108,7 +191,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
+  background: #22d3ee;
   border-radius: 10px;
 }
 
