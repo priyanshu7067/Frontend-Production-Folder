@@ -320,6 +320,15 @@ body {
   transition: 0.3s ease;
 }
 
+.tradingview-widget-container,
+.tradingview-widget-container iframe {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+
+
+
 /* ===============================
    CUSTOM TOAST (LOGO THEME)
 ================================= */

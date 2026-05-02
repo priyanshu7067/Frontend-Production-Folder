@@ -7,7 +7,7 @@ const Navigation = () => {
     const token = localStorage.getItem('token')
     return (
         <>
-            {token ? <Authenticated /> : <Auth />}
+            {!token ? <Authenticated /> : <Auth />}
 
         </>
     )

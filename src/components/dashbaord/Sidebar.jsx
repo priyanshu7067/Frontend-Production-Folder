@@ -67,10 +67,10 @@ const Sidebar = ({ open, setOpen }) => {
       ModalProps={{ keepMounted: true }}
     >
       {/* 🔥 FULL HEIGHT FLEX */}
-      <Box className="flex flex-col h-full">
+      <Box className="flex flex-col h-full  ">
 
         {/* 🔥 TOP */}
-        <div className="px-4 py-3 flex items-center justify-center">
+        <div className="px-4 py-3 flex items-center justify-center " >
           <img
             src={MainContent.logo}
             alt="logo"
@@ -81,7 +81,8 @@ const Sidebar = ({ open, setOpen }) => {
         {/* 🔥 MENU */}
         <List className="flex-1">
           {menu.map((item, i) => {
-            const active = location.pathname === item.path;
+            const active = (location.pathname?.split("/")[2] || location.pathname) === item.path;
+            // console.log(location.pathname?.split("/")[2] || location.pathname);
 
             return (
               <Tooltip key={i} title={!open ? item.name : ""} placement="right">

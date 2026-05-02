@@ -21,21 +21,24 @@ const LivePricing = () => {
 
   useEffect(() => {
     fetchCoins();
-    const interval = setInterval(fetchCoins, 30000);
+
+    // 🔥 5 MIN INTERVAL (SAFE)
+    const interval = setInterval(fetchCoins, 300000);
+
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="dashboard-bg min-h-screen p-4 md:p-6 space-y-6">
 
-      {/* 🔥 LIVE CARDS (NO SCROLL) */}
+      {/* 🔥 LIVE CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
 
         {loading
           ? [...Array(4)].map((_, i) => (
               <div key={i} className="glow-card p-4 animate-pulse h-[120px]" />
             ))
-          : coins.slice(0, 8).map((coin) => {
+          : coins.map((coin) => {
               const change = coin.price_change_percentage_24h || 0;
               const isUp = change >= 0;
 
@@ -44,7 +47,6 @@ const LivePricing = () => {
                   key={coin.id}
                   className="glow-card p-4 hover:scale-[1.02] transition"
                 >
-                  {/* TOP */}
                   <div className="flex items-center gap-3 mb-3">
                     <img src={coin.image} className="w-7 h-7" />
                     <p className="text-sm text-white font-semibold">
@@ -52,17 +54,14 @@ const LivePricing = () => {
                     </p>
                   </div>
 
-                  {/* PRICE */}
                   <h2 className="text-lg font-bold text-white">
                     ${coin.current_price.toLocaleString()}
                   </h2>
 
-                  {/* MARKET CAP */}
                   <p className="text-xs text-gray-400">
                     MCap: ${(coin.market_cap / 1e9).toFixed(2)}B
                   </p>
 
-                  {/* CHANGE */}
                   <p
                     className={`text-xs mt-1 font-semibold ${
                       isUp
@@ -74,7 +73,6 @@ const LivePricing = () => {
                     {change.toFixed(2)}%
                   </p>
 
-                  {/* MINI BAR */}
                   <div className="h-10 mt-3 rounded bg-gradient-to-r from-transparent via-[var(--primary)]/20 to-transparent" />
                 </div>
               );
