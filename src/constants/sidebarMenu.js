@@ -9,6 +9,7 @@ export const sidebarMenu = {
     { name: "Settings", path: "/user/settings", icon: "settings" },
     { name: "Profile", path: UserRoutes.PROFILE, icon: "user" },
     { name: "Forget Password", path: UserRoutes.PROFILE, icon: "user" },
+    { name: "KYC", path: UserRoutes.KYC_PAGE, icon: "user" },
 
   ],
 

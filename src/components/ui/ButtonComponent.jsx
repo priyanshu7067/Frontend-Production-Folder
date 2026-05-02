@@ -22,6 +22,27 @@ const ButtonComponent = ({
         background: "rgba(255,255,255,0.06)",
       },
     },
+     neon: {
+      minWidth: "unset",
+      // width: 24,
+      // height: 24,
+      // padding: 0,
+
+      background: "#000",
+      border: "1px solid rgba(34,211,238,0.4)",
+      color: "#22d3ee",
+
+      boxShadow: "0 0 8px rgba(34,211,238,0.3)",
+
+      "&:hover": {
+        background: "#22d3ee",
+        color: "#000",
+        transform: "scale(1.1)",
+        boxShadow: "0 0 14px rgba(34,211,238,0.6)",
+      },
+
+      transition: "all 0.2s ease",
+    },
   };
 
   return (

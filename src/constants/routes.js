@@ -10,7 +10,7 @@ export const UserRoutes = {
     PROFILE: "/profile",
     LIVE_PRICING: "live-pricing",
     TRADING_BOT: "trading-bot",
-
+    KYC_PAGE: "kyc-page",
 }
 
 export const AdminRoutes = {

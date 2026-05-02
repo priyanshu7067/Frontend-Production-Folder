@@ -13,17 +13,33 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 // ✅ MUI Cache (Tailwind conflict fix)
 import { CacheProvider } from "@emotion/react";
 import muiCache from "./lib/muiCache";
+import { ToastContainer } from "react-toastify";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     {/* <CacheProvider value={muiCache}> */}
-      {/* <QueryClientProvider client={queryClient}> */}
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-        {/* 🔥 Devtools */}
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-      {/* </QueryClientProvider> */}
+    {/* <QueryClientProvider client={queryClient}> */}
+    <BrowserRouter>
+      <AuthProvider>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          pauseOnHover
+          theme="dark"
+          toastClassName="custom-toast"
+          bodyClassName="custom-toast-body"
+          progressClassName="custom-toast-progress"
+        />
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
+    {/* 🔥 Devtools */}
+    {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+    {/* </QueryClientProvider> */}
     {/* </CacheProvider> */}
-  </StrictMode>
+  </StrictMode>,
 );

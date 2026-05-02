@@ -46,17 +46,44 @@ const ReusableInput = ({
       size="small"
       sx={{
         width: "100%",
-        "& .MuiOutlinedInput-root": {
-          "&:hover fieldset": {
-            borderColor: "#0097b2",
-          },
-          "&.Mui-focused fieldset": {
-            borderColor: "#0097b2",
-          },
+
+        /* ✅ Input text */
+        "& .MuiInputBase-input": {
+          color: "#ffffff",
+        },
+
+        /* ✅ Label */
+        "& .MuiInputLabel-root": {
+          color: "#94a3b8",
         },
         "& .MuiInputLabel-root.Mui-focused": {
-          color: "#0097b2",
+          color: "#22d3ee",
         },
+
+        /* ✅ Border */
+        "& .MuiOutlinedInput-root": {
+          "& fieldset": {
+            borderColor: "rgba(255,255,255,0.2)",
+          },
+          "&:hover fieldset": {
+            borderColor: "#22d3ee",
+          },
+          "&.Mui-focused fieldset": {
+            borderColor: "#22d3ee",
+          },
+        },
+
+        /* ✅ Placeholder */
+        "& .MuiInputBase-input::placeholder": {
+          color: "#64748b",
+          opacity: 1,
+        },
+
+        /* ✅ Icons */
+        "& .MuiSvgIcon-root": {
+          color: "#94a3b8",
+        },
+
         ...sx,
       }}
       InputProps={{
@@ -70,7 +97,11 @@ const ReusableInput = ({
               onClick={() => setShowPassword((prev) => !prev)}
               edge="end"
             >
-              {showPassword ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
+              {showPassword ? (
+                <VisibilityOffIcon fontSize="small" />
+              ) : (
+                <VisibilityIcon fontSize="small" />
+              )}
             </IconButton>
           </InputAdornment>
         ) : null,

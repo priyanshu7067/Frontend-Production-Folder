@@ -4,12 +4,13 @@ import { Routes, Route } from 'react-router-dom'
 import MainLayout from '../layout/MainLayout'
 import UserDashBoard from '../screens/user/UserDashBoard'
 import DashboardLayout from '../layout/DashboardLayout'
-import ProfilePage from '../screens/user/ProfilePage'
+// import ProfilePage from '../screens/user/ProfilePage'
 import AdminDashboard from '../screens/admin/AdminDashboard'
 import HomeSection from '../website/HomeSection'
 import LoginPage from '../screens/AuthPages/LoginPage'
 import AdminLogin from '../screens/AuthPages/AdminLogin'
 import RegisterPage from '../screens/AuthPages/RegisterPage'
+import KycPage from '../screens/user/KycPage'
 import LivePricing from '../screens/user/LivePricing'
 import TradingBot from '../screens/user/TradingBot'
 const Authenticated = () => {
@@ -29,6 +30,8 @@ const Authenticated = () => {
 
                 <Route path={UserRoutes.DASHBOARD} element={<DashboardLayout />}>
                     <Route index element={<UserDashBoard />} />
+                    <Route path={UserRoutes.KYC_PAGE} element={<KycPage />} />
+                    {/* <Route path={UserRoutes.PROFILE} element={<ProfilePage   />} /> */}
                     <Route path={UserRoutes.LIVE_PRICING} element={<LivePricing   />} />
                     <Route path={UserRoutes.TRADING_BOT} element={<TradingBot   />} />
                 </Route>

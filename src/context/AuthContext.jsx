@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { getToken, removeToken, setToken } from "../utils/authStorage";
 import { useNavigate } from "react-router-dom";
-import { authRoutes } from "../constants/routes";
-import { getProfile } from "../api/auth.api";
+import { getProfile } from "../apis/user/users.api";
+import { AuthRoutes } from "../constants/routes";
+import { getToken, removeToken, setToken } from "../utils/authStorage";
 
 const AuthContext = createContext(null);
 
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
     removeToken();
     setUser(null);
     setIsAuthenticated(false);
-    navigate(authRoutes.LOGIN);
+    navigate(AuthRoutes.LOGIN);
   };
 
   return (
