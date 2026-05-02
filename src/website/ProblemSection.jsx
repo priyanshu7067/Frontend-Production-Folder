@@ -1,79 +1,80 @@
-import { TrendingDown, Clock3, AlertTriangle } from "lucide-react";
+import React from "react";
+import { Zap, BarChart3, ShieldCheck } from "lucide-react";
+import ButtonComponent from "../components/ui/ButtonComponent";
 
-const problemCards = [
+const opportunityCards = [
   {
-    icon: TrendingDown,
-    title: "Overloaded Market Data",
-    desc: "Too many charts, signals, and numbers make trading decisions slow and overwhelming.",
+    icon: BarChart3,
+    title: "Data-Driven Precision",
+    desc: "Cut through market noise with AI-filtered signals that highlight high-probability opportunities in real-time.",
   },
   {
-    icon: Clock3,
-    title: "Manual Trading Delay",
-    desc: "Constant monitoring and manual execution reduce speed and limit your potential gains.",
+    icon: Zap,
+    title: "Instant Execution",
+    desc: "Eliminate manual latency. Our infrastructure ensures your strategies execute at the speed of the market.",
   },
   {
-    icon: AlertTriangle,
-    title: "Uncontrolled Risk",
-    desc: "Without intelligent systems, managing volatility and risk becomes difficult and inconsistent.",
+    icon: ShieldCheck,
+    title: "Adaptive Risk Logic",
+    desc: "Navigate crypto volatility with automated guardrails designed to protect capital and lock in gains.",
   },
 ];
 
 export default function ProblemSection() {
   return (
-    <section className="relative overflow-hidden bg-[var(--bg-main)] py-24 text-white">
+    <section className="relative overflow-hidden bg-[#0a0c10] py-24 text-white">
       
-      {/* Grid */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(127,156,168,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(127,156,168,0.05)_1px,transparent_1px)] bg-[size:64px_64px]" />
+      {/* Background Tech Grid */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(127,156,168,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(127,156,168,0.1)_1px,transparent_1px)] bg-[size:50px_50px]" />
       </div>
 
-      {/* Glow blobs */}
-      <div className="absolute left-1/2 top-28 h-[380px] w-[380px] -translate-x-1/2 rounded-full bg-[#b76e79]/10 blur-[120px]" />
-      <div className="absolute left-[-120px] bottom-0 h-[260px] w-[260px] rounded-full bg-[#7f9ca8]/10 blur-[120px]" />
-      <div className="absolute right-[-120px] bottom-0 h-[260px] w-[260px] rounded-full bg-[#4f6d7a]/10 blur-[120px]" />
+      {/* Strategic Glow Effects */}
+      <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-emerald-500/5 blur-[120px]" />
+      <div className="absolute right-[-10%] bottom-[-10%] h-[400px] w-[400px] rounded-full bg-blue-500/5 blur-[120px]" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4">
 
-        {/* 🔰 Heading */}
-        <div className="mx-auto mb-16 max-w-5xl text-center">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
-            The Problem
+        {/* 🔰 Heading Section */}
+        <div className="mx-auto mb-20 max-w-4xl text-center">
+          <p className="mb-4 text-xs font-bold uppercase tracking-[0.4em] text-emerald-500">
+            Strategic Intelligence
           </p>
 
-          <h2 className="text-metal text-4xl font-black leading-tight md:text-6xl">
-            Trading is complex.
+          <h2 className="text-4xl font-black leading-[1.1] md:text-6xl text-metal">
+            Trade with the edge of 
             <br />
-            <span className="text-white">
-              Without automation, it's slow.
-            </span>
+            <span className="text-white">Institutional Logic.</span>
           </h2>
 
-          <p className="mx-auto mt-7 max-w-3xl text-base leading-relaxed text-slate-300/70 md:text-xl">
-            Modern markets move fast, but manual workflows slow you down. 
-            Without intelligent systems, analyzing data and executing trades 
-            becomes inefficient and risky.
+          <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-gray-400 md:text-lg">
+            Stop reacting and start anticipating. BYNEXA.AI transforms raw crypto volatility 
+            into a structured, high-performance trading environment.
           </p>
         </div>
 
-        {/* 🔰 Cards */}
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-7 md:grid-cols-3">
-          {problemCards.map((item) => {
+        {/* 🔰 Opportunity Cards */}
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
+          {opportunityCards.map((item) => {
             const Icon = item.icon;
 
             return (
               <div
                 key={item.title}
-                className="problem-card group rounded-[26px] border border-white/10 p-8 text-center"
+                className="group relative rounded-[32px] border border-white/5 bg-white/[0.02] p-10 transition-all duration-500 hover:border-emerald-500/30 hover:bg-white/[0.04] hover:-translate-y-2 overflow-hidden"
               >
-                <div className="mx-auto mb-7 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/5 transition duration-300 group-hover:bg-white/10">
-                  <Icon className="h-8 w-8 text-[#7f9ca8]" />
+                {/* Subtle Hover Glow inside card */}
+                <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-500/10 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+                <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.1)] transition-transform duration-500 group-hover:scale-110">
+                  <Icon className="h-7 w-7" />
                 </div>
 
-                <h3 className="mb-4 text-xl font-black text-white">
+                <h3 className="mb-4 text-xl font-bold text-white tracking-tight">
                   {item.title}
                 </h3>
 
-                <p className="mx-auto max-w-xs text-sm leading-relaxed text-slate-300/65">
+                <p className="text-sm leading-relaxed text-gray-400 group-hover:text-gray-300 transition-colors">
                   {item.desc}
                 </p>
               </div>
@@ -81,26 +82,31 @@ export default function ProblemSection() {
           })}
         </div>
 
-        {/* 🔥 CTA SECTION (same component me added) */}
-        <div className="mt-20 flex justify-center">
-          <div className="w-full max-w-4xl rounded-[30px] border border-white/10 bg-white/[0.035] px-4 py-10 text-center backdrop-blur-xl md:px-12 md:py-14">
+        {/* 🔥 Unified CTA Platform Section */}
+        <div className="mt-28 flex justify-center">
+          <div className="relative w-full max-w-5xl overflow-hidden rounded-[40px] border border-white/10 bg-[#11141a]/50 px-6 py-12 text-center backdrop-blur-2xl md:px-20 md:py-20">
             
-            <h2 className="text-metal text-3xl font-black md:text-4xl">
-              BYNEXA.AI : Your intelligent trading assistant.
+            {/* Background Accent for CTA */}
+            <div className="absolute left-1/2 top-1/2 -z-10 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/10 blur-[100px]" />
+
+            <h2 className="text-3xl font-black md:text-5xl tracking-tight text-metal">
+              M.F Finor<span className="text-gray-500">|</span> The Smart Money Protocol
             </h2>
 
-            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-slate-300/75 md:text-xl">
-              A platform that combines live market data with artificial intelligence
-              to generate actionable insights.
-              <span className="font-bold text-[#b76e79]">
-                {" "}
-                A smart assistant to optimize your trading decisions.
-              </span>
+            <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-gray-400 md:text-xl">
+              We bridges the gap between complex market data and 
+              <span className="text-emerald-400 font-semibold"> profitable execution. </span>
+              Experience the future of decentralized asset management.
             </p>
 
-            <button className="mt-9 rounded-2xl bg-gradient-main px-9 py-4 text-base font-bold text-white shadow-[0_18px_45px_rgba(0,0,0,0.35)] transition duration-300 hover:-translate-y-1 hover:opacity-95">
-              Discover the Platform
-            </button>
+            <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <ButtonComponent>
+                Launch 
+              </ButtonComponent>
+              <ButtonComponent >
+                View Documentation
+              </ButtonComponent>
+            </div>
 
           </div>
         </div>

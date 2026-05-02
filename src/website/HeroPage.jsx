@@ -172,7 +172,7 @@ const HeroPage = () => {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[var(--bg-main)] text-white">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[var(--bg-main)] text-white md:mt-10">
       {/* 3D GIF Background */}
       <div className="absolute inset-0 z-0">
         <img
@@ -280,9 +280,9 @@ const HeroPage = () => {
 
           <motion.span
             className="block text-metal"
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.7 }}
+            // initial={{ opacity: 0, y: 35 }}
+            // animate={{ opacity: 1, y: 0 }}
+            // transition={{ delay: 0.35, duration: 0.7 }}
           >
             Future of Finance
           </motion.span>

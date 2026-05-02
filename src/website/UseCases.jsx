@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Shield,
   Zap,
@@ -10,8 +10,7 @@ import {
   Lock,
 } from "lucide-react";
 
-
-  const useCases = [
+const useCases = [
   {
     icon: Shield,
     title: "Secure Trading Engine",
@@ -69,25 +68,26 @@ import {
     points: ["Stop-loss automation", "Risk alerts", "Portfolio protection"],
   },
 ];
+
 const colorClasses = {
   green: {
-    bg: "from-[#22c55e]/16 to-transparent",
-    border: "border-[#22c55e]/15",
+    bg: "from-[#22c55e]/10 to-transparent",
+    border: "border-[#22c55e]/20",
     text: "text-[#22c55e]",
   },
   orange: {
-    bg: "from-[#f97316]/16 to-transparent",
-    border: "border-[#f97316]/15",
+    bg: "from-[#f97316]/10 to-transparent",
+    border: "border-[#f97316]/20",
     text: "text-[#f97316]",
   },
   blue: {
-    bg: "from-[#38bdf8]/16 to-transparent",
-    border: "border-[#38bdf8]/15",
+    bg: "from-[#38bdf8]/10 to-transparent",
+    border: "border-[#38bdf8]/20",
     text: "text-[#38bdf8]",
   },
   purple: {
-    bg: "from-[#a855f7]/16 to-transparent",
-    border: "border-[#a855f7]/15",
+    bg: "from-[#a855f7]/10 to-transparent",
+    border: "border-[#a855f7]/20",
     text: "text-[#a855f7]",
   },
 };
@@ -98,129 +98,94 @@ export default function UseCases() {
   useEffect(() => {
     const timer = setInterval(() => {
       setActive((prev) => (prev + 1) % useCases.length);
-    }, 2000);
-
+    }, 4000); // Increased time for better readability
     return () => clearInterval(timer);
   }, []);
-
-  const nextSlide = () => {
-    setActive((prev) => (prev + 1) % useCases.length);
-  };
-
-  const prevSlide = () => {
-    setActive((prev) => (prev - 1 + useCases.length) % useCases.length);
-  };
 
   const getPosition = (index) => {
     const total = useCases.length;
     const diff = (index - active + total) % total;
 
-    if (diff === 0) return "center-card";
-    if (diff === 1) return "right-card-1";
-    if (diff === 2) return "right-card-2";
-    if (diff === total - 1) return "left-card-1";
-    if (diff === total - 2) return "left-card-2";
+    if (diff === 0) return "scale-100 opacity-100 z-30 translate-x-0";
+    if (diff === 1) return "scale-90 opacity-60 z-20 translate-x-[40%] md:translate-x-[60%] blur-[1px]";
+    if (diff === 2) return "scale-75 opacity-30 z-10 translate-x-[70%] md:translate-x-[110%] blur-[2px]";
+    if (diff === total - 1) return "scale-90 opacity-60 z-20 -translate-x-[40%] md:-translate-x-[60%] blur-[1px]";
+    if (diff === total - 2) return "scale-75 opacity-30 z-10 -translate-x-[70%] md:-translate-x-[110%] blur-[2px]";
 
-    return "hidden-card";
+    return "scale-50 opacity-0 z-0 translate-x-0 pointer-events-none";
   };
 
   return (
-    <section className="relative overflow-hidden bg-[var(--bg-main)] py-24 text-[var(--text-main)]">
-      <div className="absolute inset-0 opacity-35">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(127,156,168,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(127,156,168,0.045)_1px,transparent_1px)] bg-[size:64px_64px]" />
+    <section className="relative overflow-hidden bg-[#0a0c10] py-24 text-white">
+      {/* Background Grids */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(127,156,168,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(127,156,168,0.1)_1px,transparent_1px)] bg-[size:50px_50px]" />
       </div>
 
-      <div className="absolute left-1/2 top-24 h-[360px] w-[360px] -translate-x-1/2 rounded-full bg-[#22c55e]/10 blur-[120px]" />
-      <div className="absolute -left-40 bottom-20 h-[280px] w-[280px] rounded-full bg-[#b76e79]/10 blur-[120px]" />
-      <div className="absolute -right-40 top-40 h-[280px] w-[280px] rounded-full bg-[#7f9ca8]/10 blur-[120px]" />
-
       <div className="relative z-10 mx-auto max-w-7xl px-4">
-        <div className="mb-14 text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
+        <div className="mb-16 text-center">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-emerald-500">
             Use Cases
           </p>
-
-          <h2 className="text-metal text-4xl font-black md:text-5xl">
+          <h2 className="text-4xl font-black md:text-6xl text-metal">
             Powering the Future of Trading
           </h2>
-
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate-300/65 md:text-lg">
-            Explore advanced tools, AI-driven insights, and high-performance systems designed
-    to give you a competitive edge in the modern trading ecosystem.077ytjj
-          </p>
         </div>
 
-        <div className="relative mx-auto h-[500px] max-w-7xl">
-          <button
-            onClick={prevSlide}
-            className="absolute left-2 top-1/2 z-40 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-white backdrop-blur-xl transition hover:bg-white/[0.08] md:flex"
-          >
-            ←
-          </button>
+        {/* Carousel Container */}
+        <div className="relative mx-auto flex h-[550px] w-full items-center justify-center overflow-visible">
+          {useCases.map((item, index) => {
+            const Icon = item.icon;
+            const colors = colorClasses[item.color];
+            const positionClass = getPosition(index);
 
-          <button
-            onClick={nextSlide}
-            className="absolute right-2 top-1/2 z-40 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-white backdrop-blur-xl transition hover:bg-white/[0.08] md:flex"
-          >
-            →
-          </button>
-
-          <div className="relative flex h-full items-center justify-center">
-            {useCases.map((item, index) => {
-              const Icon = item.icon;
-              const colors = colorClasses[item.color];
-              const position = getPosition(index);
-
-              return (
-                <div
-                  key={item.title}
-                  className={`usecase-card absolute w-[88%] max-w-[410px] rounded-[28px] border p-6 transition-all duration-700 ease-out md:w-[410px] ${position} ${colors.border}`}
-                >
-                  <div
-                    className={`mb-7 flex h-[72px] items-center justify-center rounded-2xl border border-white/8 bg-gradient-to-r ${colors.bg}`}
-                  >
-                    <Icon className={`h-9 w-9 ${colors.text}`} />
-                  </div>
-
-                  <h3 className="mb-4 text-center text-2xl font-black text-white">
-                    {item.title}
-                  </h3>
-
-                  <p className="mx-auto mb-7 max-w-sm text-center text-sm leading-relaxed text-slate-300/65">
-                    {item.desc}
-                  </p>
-
-                  <div className="space-y-3">
-                    {item.points.map((point) => (
-                      <div
-                        key={point}
-                        className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3 text-sm font-semibold text-slate-200/90 backdrop-blur-md"
-                      >
-                        <span className="h-2 w-2 rounded-full bg-[#22c55e]/80" />
-                        {point}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-8 flex items-center justify-center gap-2 text-xs text-slate-400">
-                    <span className="text-[#22c55e]">♧</span>
-                    Propulsé par IA
-                  </div>
+            return (
+              <div
+                key={item.title}
+                className={`absolute w-[90%] max-w-[400px] rounded-[32px] border bg-[#11141a]/80 p-8 backdrop-blur-xl transition-all duration-700 ease-in-out ${positionClass} ${colors.border}`}
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <div className={`mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/5 bg-gradient-to-br ${colors.bg}`}>
+                  <Icon className={`h-8 w-8 ${colors.text}`} />
                 </div>
-              );
-            })}
-          </div>
+
+                <h3 className="mb-3 text-2xl font-bold text-white tracking-tight">
+                  {item.title}
+                </h3>
+
+                <p className="mb-6 text-sm leading-relaxed text-gray-400">
+                  {item.desc}
+                </p>
+
+                <div className="space-y-3">
+                  {item.points.map((point) => (
+                    <div
+                      key={point}
+                      className="flex items-center gap-3 rounded-xl border border-white/[0.03] bg-white/[0.02] px-4 py-3 text-xs font-medium text-gray-300 transition hover:bg-white/[0.05]"
+                    >
+                      <div className={`h-1.5 w-1.5 rounded-full ${colors.text} shadow-[0_0_8px_currentColor]`} />
+                      {point}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-8 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                  <span className="h-px w-8 bg-gray-800" />
+                  Propulsé par IA
+                </div>
+              </div>
+            );
+          })}
         </div>
 
-        <div className="mt-6 flex justify-center gap-2">
+        {/* Navigation Dots */}
+        <div className="mt-12 flex justify-center gap-3">
           {useCases.map((_, index) => (
             <button
               key={index}
               onClick={() => setActive(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                active === index
-                  ? "w-8 bg-[#22c55e]/80"
-                  : "w-2 bg-white/20 hover:bg-white/35"
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                active === index ? "w-10 bg-emerald-500" : "w-2 bg-gray-700 hover:bg-gray-600"
               }`}
             />
           ))}

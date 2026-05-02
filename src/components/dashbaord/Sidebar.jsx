@@ -1,88 +1,163 @@
-// import { useLocation, Link } from "react-router-dom";
-// import { LayoutDashboard, Users, User } from "lucide-react";
-// import { sidebarMenu } from "../../constants/sidebarMenu";
+import React from "react";
+import {
+  Drawer,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+  Divider,
+  Box,
+  useMediaQuery,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  LayoutDashboard,
+  Users,
+  User,
+  BarChart,
+  Bot,
+  ChartCandlestick,
+  LogOut,
+} from "lucide-react";
 
-// const iconMap = {
-//   dashboard: LayoutDashboard,
-//   users: Users,
-//   user: User,
-// };
-
-// const Sidebar = ({ open }) => {
-//   const location = useLocation();
-//   const menu = sidebarMenu[0] || [];
-
-//   return (
-//     <aside className={`bg-black text-white ${open ? "w-64" : "w-16"} transition-all`}>
-
-//       <div className="p-4 font-bold">MF</div>
-
-//       <nav className="flex flex-col gap-2">
-//         {menu.map((item, i) => {
-//           const Icon = iconMap[item.icon];
-
-//           return (
-//             <Link
-//               key={i}
-//               to={item.path}
-//               className={`flex items-center gap-3 px-4 py-2 hover:bg-gray-800 ${
-//                 location.pathname === item.path ? "bg-gray-800" : ""
-//               }`}
-//             >
-//               <Icon size={18} />
-//               {open && <span>{item.name}</span>}
-//             </Link>
-//           );
-//         })}
-//       </nav>
-//     </aside>
-//   );
-// };
-
-// export default Sidebar;
-
-import { useLocation, Link } from "react-router-dom";
-import { LayoutDashboard, Users, User, BarChart } from "lucide-react";
 import { sidebarMenu } from "../../constants/sidebarMenu";
+import {
+  drawerStyles,
+  listItemStyles,
+  iconStyles,
+  textStyles,
+} from "../../styles/sidebarStyles";
+import { MainContent } from "../../constants/mainContent";
 
 const iconMap = {
-  dashboard: LayoutDashboard,
-  users: Users,
-  user: User,
-  chart: BarChart,
+  dashboard: <LayoutDashboard size={18} />,
+  users: <Users size={18} />,
+  user: <User size={18} />,
+  chart: <BarChart size={18} />,
+  settings: <User size={18} />,
+  profile: <User size={18} />,
+  bot: <Bot size={18} />,
+  live: <ChartCandlestick size={18} />,
 };
 
-const Sidebar = ({ open }) => {
+const Sidebar = ({ open, setOpen }) => {
   const location = useLocation();
+  const navigate = useNavigate();
 
-  // 🔥 URL se role detect
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   const role = location.pathname.startsWith("/admin") ? "admin" : "user";
-
   const menu = sidebarMenu[role] || [];
 
+  const handleLogout = () => {
+    // 👉 yaha apna logout logic lagao (token clear etc)
+    localStorage.clear();
+    navigate("/login");
+  };
+
   return (
-    <aside className={`bg-black text-white ${open ? "w-64" : "w-16"} transition-all`}>
+    <Drawer
+      variant={isMobile ? "temporary" : "permanent"}
+      open={open}
+      onClose={() => setOpen(false)}
+      sx={drawerStyles(open)}
+      ModalProps={{ keepMounted: true }}
+    >
+      {/* 🔥 FULL HEIGHT FLEX */}
+      <Box className="flex flex-col h-full">
 
-      <div className="p-4 font-bold">MF</div>
+        {/* 🔥 TOP */}
+        <div className="px-4 py-3 flex items-center justify-center">
+          <img
+            src={MainContent.logo}
+            alt="logo"
+            className={`${open ? "h-8" : "h-6"} object-contain`}
+          />
+        </div>
 
-      <nav className="flex flex-col gap-2">
-        {menu.map((item, i) => {
-          const Icon = iconMap[item.icon];
+        {/* 🔥 MENU */}
+        <List className="flex-1">
+          {menu.map((item, i) => {
+            const active = location.pathname === item.path;
 
-          return (
-            <Link
-              key={i}
-              to={item.path}
-              className={`flex items-center gap-3 px-4 py-2 hover:bg-gray-800 ${location.pathname === item.path ? "bg-gray-800" : ""
-                }`}
+            return (
+              <Tooltip key={i} title={!open ? item.name : ""} placement="right">
+                <ListItemButton
+                  onClick={() => {
+                    navigate(item.path);
+                    if (isMobile) setOpen(false);
+                  }}
+                  sx={listItemStyles(open, active)}
+                >
+                  <ListItemIcon sx={iconStyles(open, active)}>
+                    {iconMap[item.icon]}
+                  </ListItemIcon>
+
+                  {open && (
+                    <ListItemText
+                      primary={item.name}
+                      sx={textStyles(active)}
+                    />
+                  )}
+                </ListItemButton>
+              </Tooltip>
+            );
+          })}
+        </List>
+
+        {/* 🔥 DIVIDER */}
+        <Divider sx={{ borderColor: "rgba(255,255,255,0.08)" }} />
+
+        {/* 🔥 LOGOUT */}
+        <Box className="p-2">
+          <Tooltip title={!open ? "Logout" : ""} placement="right">
+            <ListItemButton
+              onClick={handleLogout}
+              sx={{
+                mx: 1,
+                my: 0.5,
+                borderRadius: "12px",
+                display: "flex",
+                justifyContent: open ? "flex-start" : "center",
+
+                "&:hover": {
+                  background:
+                    "linear-gradient(90deg, rgba(183,110,121,0.15), rgba(127,156,168,0.15))",
+                },
+              }}
             >
-              <Icon size={18} />
-              {open && <span>{item.name}</span>}
-            </Link>
-          );
-        })}
-      </nav>
-    </aside>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 2 : 0,
+                  justifyContent: "center",
+                  color: "#f87171", // 🔥 subtle red
+                }}
+              >
+                <LogOut size={18} />
+              </ListItemIcon>
+
+              {open && (
+                <ListItemText
+                  primary="Logout"
+                  sx={{
+                    "& .MuiTypography-root": {
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      color: "#f87171",
+                    },
+                  }}
+                />
+              )}
+            </ListItemButton>
+          </Tooltip>
+        </Box>
+
+      </Box>
+    </Drawer>
   );
 };
 

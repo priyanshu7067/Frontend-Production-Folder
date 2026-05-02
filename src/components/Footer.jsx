@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { MainContent } from "../constants/mainContent";
 
 const Footer = () => {
   return (
@@ -9,7 +10,7 @@ const Footer = () => {
         {/* Brand */}
         <div>
           <h2 className="text-xl font-bold text-white mb-3">
-            MF<span className="text-green-500">.</span>
+          <img src={MainContent.logo} alt="" className="w-20" />
           </h2>
           <p className="text-sm">
             Build your future with smart shopping & earning platform.
