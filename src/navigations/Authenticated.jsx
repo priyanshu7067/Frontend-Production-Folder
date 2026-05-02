@@ -13,6 +13,14 @@ import RegisterPage from '../screens/AuthPages/RegisterPage'
 import KycPage from '../screens/user/KycPage'
 import LivePricing from '../screens/user/LivePricing'
 import TradingBot from '../screens/user/TradingBot'
+import ProfilePage from '../screens/user/ProfilePage'
+import LevelIncomeHistory from '../screens/user/history/LevelIncome'
+import MyTeams from '../screens/user/Teams/MyTeams'
+import DirectTeam from '../screens/user/Teams/DirectTeam'
+import TradeHistory from '../screens/user/history/TradeHistory'
+import PromotionIncome from '../screens/user/history/PromotionIncome'
+import RefferalIncome from '../screens/user/history/RefferalIncome'
+import Rank_RoyalityBonus from '../screens/user/history/Rank_RoyalityBonus'
 const Authenticated = () => {
     return (
         <>
@@ -31,9 +39,16 @@ const Authenticated = () => {
                 <Route path={UserRoutes.DASHBOARD} element={<DashboardLayout />}>
                     <Route index element={<UserDashBoard />} />
                     <Route path={UserRoutes.KYC_PAGE} element={<KycPage />} />
-                    {/* <Route path={UserRoutes.PROFILE} element={<ProfilePage   />} /> */}
+                    <Route path={UserRoutes.PROFILE} element={<ProfilePage   />} />
                     <Route path={UserRoutes.LIVE_PRICING} element={<LivePricing   />} />
                     <Route path={UserRoutes.TRADING_BOT} element={<TradingBot   />} />
+                    <Route path={UserRoutes.LEVEL_INCOME_HISTORY} element={<LevelIncomeHistory   />} />
+                    <Route path={UserRoutes.TRADE_HISTORY} element={<TradeHistory   />} />
+                    <Route path={UserRoutes.PROMOTION_BONUS_HISTORY} element={<PromotionIncome   />} />
+                    <Route path={UserRoutes.REFFERAL_INCOME_HISTORY} element={<RefferalIncome   />} />
+                    <Route path={UserRoutes.RANK_ROYALITY_HISTORY} element={<Rank_RoyalityBonus   />} />
+                    <Route path={UserRoutes.MY_TEAMS} element={<MyTeams   />} />
+                    <Route path={UserRoutes.DIRECT_TEAMS} element={<DirectTeam   />} />
                 </Route>
 
                 <Route path={AdminRoutes.DASHBOARD} element={<DashboardLayout />}>

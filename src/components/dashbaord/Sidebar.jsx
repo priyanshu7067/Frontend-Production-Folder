@@ -29,6 +29,8 @@ import {
   iconStyles,
   textStyles,
 } from "../../styles/sidebarStyles";
+import { ChevronDown } from "lucide-react";
+import Collapse from "@mui/material/Collapse";
 import { MainContent } from "../../constants/mainContent";
 import { useAuth } from "../../context/AuthContext";
 
@@ -44,6 +46,7 @@ const iconMap = {
 };
 
 const Sidebar = ({ open, setOpen }) => {
+  const [openMenu, setOpenMenu] = React.useState(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -81,27 +84,99 @@ const Sidebar = ({ open, setOpen }) => {
         {/* 🔥 MENU */}
         <List className="flex-1">
           {menu.map((item, i) => {
-            const active = (location.pathname?.split("/")[2] || location.pathname) === item.path;
-            // console.log(location.pathname?.split("/")[2] || location.pathname);
+            const isChild = Array.isArray(item.children);
+             const isOpen = openMenu === item.name;
+
+            const isActive =
+              location.pathname === item.path ||
+              item.children?.some((c) => location.pathname === c.path);
 
             return (
-              <Tooltip key={i} title={!open ? item.name : ""} placement="right">
-                <ListItemButton
-                  onClick={() => {
-                    navigate(item.path);
-                    if (isMobile) setOpen(false);
-                  }}
-                  sx={listItemStyles(open, active)}
-                >
-                  <ListItemIcon sx={iconStyles(open, active)}>
-                    {iconMap[item.icon]}
-                  </ListItemIcon>
+              <Box key={i}>
+                {/* 🔥 PARENT ITEM */}
+                <Tooltip title={!open ? item.name : ""} placement="right">
+                  <ListItemButton
+                    onClick={() => {
+                      if (isChild) {
+                        setOpenMenu(isOpen ? null : item.name);
+                      } else {
+                        navigate(item.path);
+                        if (isMobile) setOpen(false);
+                      }
+                    }}
+                    sx={listItemStyles(open, isActive)}
+                  >
+                    <ListItemIcon sx={iconStyles(open, isActive)}>
+                      {iconMap[item.icon]}
+                    </ListItemIcon>
 
-                  {open && (
-                    <ListItemText primary={item.name} sx={textStyles(active)} />
-                  )}
-                </ListItemButton>
-              </Tooltip>
+                    {open && (
+                      <>
+                        <ListItemText
+                          primary={item.name}
+                          sx={textStyles(isActive)}
+                        />
+
+                        {/* 🔥 DROPDOWN ICON */}
+                        {isChild && (
+                          <ChevronDown
+                            size={16}
+                            style={{
+                              transition: "0.3s",
+                              color: "#9CA3AF",
+                              transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                            }}
+                          />
+                        )}
+                      </>
+                    )}
+                  </ListItemButton>
+                </Tooltip>
+
+                {/* 🔥 CHILDREN */}
+                {isChild && open && (
+                  <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      {item.children.map((child, idx) => {
+                        const childActive = location.pathname === child.path;
+
+                        return (
+                          <ListItemButton
+                            key={idx}
+                            onClick={() => {
+                              navigate(child.path);
+                              if (isMobile) setOpen(false);
+                            }}
+                            sx={{
+                              pl: open ? 5 : 2,
+                              py: 0.5,
+                              mx: 1,
+                              borderRadius: "10px",
+                              background: childActive
+                                ? "rgba(59,130,246,0.15)"
+                                : "transparent",
+
+                              "&:hover": {
+                                background: "rgba(255,255,255,0.05)",
+                              },
+                            }}
+                          >
+                            <ListItemText
+                              primary={child.name}
+                              sx={{
+                                "& .MuiTypography-root": {
+                                  fontSize: "12px",
+                                  color: childActive ? "#fff" : "#9CA3AF",
+                                },
+                              }}
+                            />
+                          </ListItemButton>
+                        );
+                      })}
+                    </List>
+                  </Collapse>
+                )}
+              </Box>
             );
           })}
         </List>
@@ -113,7 +188,7 @@ const Sidebar = ({ open, setOpen }) => {
         <Box className="p-2">
           <Tooltip title={!open ? "Logout" : ""} placement="right">
             <ListItemButton
-              onClick={()=>logout()}
+              onClick={() => logout()}
               sx={{
                 mx: 1,
                 my: 0.5,

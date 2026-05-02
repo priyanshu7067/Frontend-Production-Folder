@@ -146,11 +146,16 @@ export default function TradingBot() {
     const [amount, setAmount] = useState("");
     const [price, setPrice] = useState("2305.04");
     const [trades, setTrades] = useState([]);
-    const [aiActive, setAiActive] = useState(false);
+    // const [aiActive, setAiActive] = useState(false);
+    const aiActive = true; // 🔥 ALWAYS ON
     const [aiSignal, setAiSignal] = useState(null);
     const [orderBook, setOrderBook] = useState({ asks: [], bids: [] });
     const [livePrice, setLivePrice] = useState(2305.04);
     const [portfolioValue, setPortfolioValue] = useState(12847.32);
+
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [timer, setTimer] = useState(0);
+
 
     // Generate order book
     useEffect(() => {
@@ -203,16 +208,24 @@ export default function TradingBot() {
     }, [aiActive]);
 
     const handleOrder = (side) => {
-        if (!amount) return;
-        const total = (+price * +amount).toFixed(2);
-        const now = new Date();
-        const time = `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`;
-        setTrades((prev) => [
-            { side, price: +price, amount: +amount, time, own: true },
-            ...prev.slice(0, 19),
-        ]);
-        setPortfolioValue((v) => side === "BUY" ? v - +total : v + +total);
-        setAmount("");
+        if (isProcessing) return;
+
+        setIsProcessing(true);
+        setTimer(30); // 🔥 30 sec start
+
+        // 👉 yaha backend API call aayega later
+        // await placeOrderAPI()
+
+        const interval = setInterval(() => {
+            setTimer((t) => {
+                if (t <= 1) {
+                    clearInterval(interval);
+                    setIsProcessing(false);
+                    return 0;
+                }
+                return t - 1;
+            });
+        }, 1000);
     };
 
     const maxAsk = Math.max(...orderBook.asks.map((a) => a.amount), 1);
@@ -255,13 +268,13 @@ export default function TradingBot() {
                 {/* LEFT PANEL - Coin List */}
                 {/* LEFT PANEL */}
                 <div className="
-  w-full xl:w-[220px] 
-  border-b xl:border-b-0 xl:border-r 
-  border-white/10 
-  bg-[#0a1120]s
-  flex flex-col
-h-[200px] sm:h-[250px] xl:h-auto
-">
+                             w-full xl:w-[220px] 
+                             border-b xl:border-b-0 xl:border-r 
+                             border-white/10 
+                             bg-[#0a1120]s
+                             flex flex-col
+                           h-[200px] sm:h-[250px] xl:h-auto
+                           ">
                     <div style={{ padding: "14px 12px 10px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                             <PulsingDot color="#22c55e" />
@@ -323,8 +336,8 @@ h-[200px] sm:h-[250px] xl:h-auto
                 <div className="flex-1 flex flex-col min-w-0">
                     {/* Header bar */}
                     <div className="flex flex-wrap items-center gap-3 p-3 border-b border-white/10 bg-[#0a1120]">                        <div>
-                        <div style={{ fontSize: 11, paddingleft: 8, color: "#6b7280", marginBottom: 2, letterSpacing: 1 }}>SELECTED PAIR</div>
-                        <div style={{ fontSize: 18, paddingleft: 8, fontWeight: 700, color: "#e2e8f0", fontFamily: "'Rajdhani',sans-serif", letterSpacing: 1 }}>
+                        <div style={{ fontSize: 11, marginLeft: 8, color: "#6b7280", marginBottom: 2, letterSpacing: 1 }}>SELECTED PAIR</div>
+                        <div style={{ fontSize: 18, marginLeft: 8, fontWeight: 700, color: "#e2e8f0", fontFamily: "'Rajdhani',sans-serif", letterSpacing: 1 }}>
                             {selectedCoin.pair}
                         </div>
                     </div>
@@ -333,17 +346,21 @@ h-[200px] sm:h-[250px] xl:h-auto
                         <div style={{ fontSize: 12, color: selectedCoin.change >= 0 ? "#22c55e" : "#ef4444", fontFamily: "'Rajdhani',sans-serif", fontWeight: 600 }}>
                             {selectedCoin.change >= 0 ? "▲" : "▼"} {Math.abs(selectedCoin.change)}%
                         </div>
-                        <div className="flex gap-2 items-center ml-auto w-full sm:w-auto">                            <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 6, padding: "4px 10px", fontSize: 10, color: "#6b7280" }}>
-                            <span style={{ color: "#94a3b8" }}>MA(7) </span>
-                            <span style={{ color: "#f59e0b" }}>2,296</span>
-                            <span style={{ color: "#94a3b8", margin: "0 8px" }}>MA(25) </span>
-                            <span style={{ color: "#a855f7" }}>2,303</span>
-                        </div>
+                        <div className="flex gap-2 items-center ml-auto w-full sm:w-auto">
+                            <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 6, padding: "4px 10px", fontSize: 10, color: "#6b7280" }}>
+                                <span style={{ color: "#94a3b8" }}>MA(7) </span>
+                                <span style={{ color: "#f59e0b" }}>2,296</span>
+                                <span style={{ color: "#94a3b8", margin: "0 8px" }}>MA(25) </span>
+                                <span style={{ color: "#a855f7" }}>2,303</span>
+                            </div>
                             <button
-                                className={`ai-btn ${aiActive ? "active" : ""}`}
-                                onClick={() => setAiActive((a) => !a)}
+                                className="ai-btn active w-full sm:w-auto 
+                                     px-2 sm:px-5 py-1 sm:py-2 
+                                     text-[10px] sm:text-sm 
+                                     flex items-center justify-center gap-1.5 sm:gap-2 
+                                     whitespace-nowrap"
                             >
-                                {aiActive ? "⚡ AI ON" : "⚡ AI OFF"}
+                                ⚡ <span>AI TRADING ACTIVE</span>
                             </button>
                         </div>
                     </div>
@@ -379,7 +396,7 @@ h-[200px] sm:h-[250px] xl:h-auto
                         </div>
                     )}
 
-                   <div className="w-full h-[250px] sm:h-[400px] xl:h-[500px] min-h-[250px]">
+                    <div className="w-full h-[250px] sm:h-[400px] xl:h-[500px] min-h-[250px]">
                         <TradingViewWidget symbol={selectedCoin.tvSymbol} style={{
                             width: "100%",
                             height: "100%",
@@ -414,9 +431,8 @@ h-[200px] sm:h-[250px] xl:h-auto
   border-white/10
   bg-[#0a1120]
   flex flex-col
-h-[300px] sm:h-[400px] xl:h-auto
+h-[300px] sm:h-[400px] xl:min-h-[550px]
 ">
-
 
                     {/* Order Book */}
                     <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
@@ -484,6 +500,8 @@ h-[300px] sm:h-[400px] xl:h-auto
                             </div>
                         )}
                     </div>
+
+
                     {/* Order Form */}
                     <div style={{ padding: "12px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
                         <div style={{ display: "flex", gap: 4, marginBottom: 10 }}>
@@ -521,12 +539,38 @@ h-[300px] sm:h-[400px] xl:h-auto
                         )}
 
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-                            <button className="order-btn buy-btn" onClick={() => handleOrder("BUY")}>▲ BUY</button>
-                            <button className="order-btn sell-btn" onClick={() => handleOrder("SELL")}>▼ SELL</button>
+                            <button
+                                className="order-btn buy-btn"
+                                onClick={() => handleOrder("BUY")}
+                                disabled={isProcessing}
+                                style={{ opacity: isProcessing ? 0.6 : 1 }}
+                            >
+                                {isProcessing ? `WAIT ${timer}s` : "▲ BUY"}
+                            </button>
+
+                            <button
+                                className="order-btn sell-btn"
+                                onClick={() => handleOrder("SELL")}
+                                disabled={isProcessing}
+                                style={{ opacity: isProcessing ? 0.6 : 1 }}
+                            >
+                                {isProcessing ? `WAIT ${timer}s` : "▼ SELL"}
+                            </button>
                         </div>
                     </div>
-
-                    {/* AI Status Footer */}
+                    {isProcessing && (
+                        <h2
+                            style={{
+                                fontSize: 11,
+                                color: "#0ea5e9",
+                                marginTop: 8,
+                                letterSpacing: 1,
+                                textAlign: "center",
+                            }}
+                        >
+                            🤖 AI trade placed successfully — wait {timer}s for balance update
+                        </h2>
+                    )}                    {/* AI Status Footer */}
                     <div style={{ padding: "8px 12px", borderTop: "1px solid rgba(255,255,255,0.07)", display: "flex", alignItems: "center", gap: 8, background: aiActive ? "rgba(168,85,247,0.06)" : "transparent" }}>
                         <PulsingDot color={aiActive ? "#a855f7" : "#374151"} />
                         <span style={{ fontSize: 10, color: aiActive ? "#a855f7" : "#4b5563", fontFamily: "'Rajdhani',sans-serif", letterSpacing: 1 }}>
