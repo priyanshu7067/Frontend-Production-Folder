@@ -6,6 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 import ReusableInput from "../../components/global/ReusableInput";
 import ButtonComponent from "../../components/ui/ButtonComponent";
 import { setRole } from "../../utils/authStorage";
+import { AdminRoutes } from "../../constants/routes";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const AdminLogin = () => {
         login(res?.token, res?.data);
         setRole(res?.data?.role);
         setTimeout(() => {
-          navigate("/admin/dashboard");
+          navigate(AdminRoutes.DASHBOARD);
         }, 1200);
       } else {
         toast.error(res?.message || "Admin login failed");
