@@ -17,10 +17,10 @@ import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "./context/AuthContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  <BrowserRouter>
+  {/* <StrictMode> */}
     {/* <CacheProvider value={muiCache}> */}
     {/* <QueryClientProvider client={queryClient}> */}
-    <BrowserRouter>
       <AuthProvider>
         <ToastContainer
           position="top-right"
@@ -36,10 +36,10 @@ createRoot(document.getElementById("root")).render(
         />
         <App />
       </AuthProvider>
-    </BrowserRouter>
     {/* 🔥 Devtools */}
     {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     {/* </QueryClientProvider> */}
     {/* </CacheProvider> */}
-  </StrictMode>,
+  {/* </StrictMode>, */}
+    </BrowserRouter>
 );

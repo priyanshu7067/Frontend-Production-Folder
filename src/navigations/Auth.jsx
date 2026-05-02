@@ -9,7 +9,7 @@ const Auth = () => {
     return (
         <>
             <Routes>
-                <Route path={AuthRoutes.LOGIN} element={<LoginPage />} />
+                {/* <Route path={AuthRoutes.LOGIN} element={<LoginPage />} /> */}
                 <Route path={AuthRoutes.REGISTER} element={<RegisterPage />} />
                 <Route element={<MainLayout />}>
                     <Route path={AuthRoutes.WEBSITE} element={<HomeSection />} />

@@ -60,7 +60,8 @@ export const AuthProvider = ({ children }) => {
     removeToken();
     setUser(null);
     setIsAuthenticated(false);
-    navigate(AuthRoutes.LOGIN);
+    // navigate(AuthRoutes.LOGIN);
+    navigate(AuthRoutes.WEBSITE);
   };
 
   return (

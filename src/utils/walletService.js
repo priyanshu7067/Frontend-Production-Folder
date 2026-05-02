@@ -13,7 +13,7 @@ export const connectAndSign = async () => {
   const address = await signer.getAddress();
 
   // 🔐 Create message (backend should also generate this ideally)
-  const message = `Login to Crypto App at ${new Date().toISOString()}`;
+  const message = `Login to Crypto App at ${new Date().toLocaleString()}`;
 
   // ✍️ Sign message
   const signature = await signer.signMessage(message);

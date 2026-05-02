@@ -30,6 +30,7 @@ import {
   textStyles,
 } from "../../styles/sidebarStyles";
 import { MainContent } from "../../constants/mainContent";
+import { useAuth } from "../../context/AuthContext";
 
 const iconMap = {
   dashboard: <LayoutDashboard size={18} />,
@@ -49,14 +50,14 @@ const Sidebar = ({ open, setOpen }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
+  const { logout } = useAuth();
   const role = location.pathname.startsWith("/admin") ? "admin" : "user";
   const menu = sidebarMenu[role] || [];
 
-  const handleLogout = () => {
-    // 👉 yaha apna logout logic lagao (token clear etc)
-    localStorage.clear();
-    navigate("/login");
-  };
+  // const handleLogout = () => {
+  //   localStorage.clear();
+  //   navigate("/login");
+  // };
 
   return (
     <Drawer
@@ -67,8 +68,7 @@ const Sidebar = ({ open, setOpen }) => {
       ModalProps={{ keepMounted: true }}
     >
       {/* 🔥 FULL HEIGHT FLEX */}
-      <Box className="flex flex-col h-full  ">
-
+      <Box className="flex flex-col h-full">
         {/* 🔥 TOP */}
         <div className="px-4 py-3 flex items-center justify-center " >
           <img
@@ -98,10 +98,7 @@ const Sidebar = ({ open, setOpen }) => {
                   </ListItemIcon>
 
                   {open && (
-                    <ListItemText
-                      primary={item.name}
-                      sx={textStyles(active)}
-                    />
+                    <ListItemText primary={item.name} sx={textStyles(active)} />
                   )}
                 </ListItemButton>
               </Tooltip>
@@ -116,7 +113,7 @@ const Sidebar = ({ open, setOpen }) => {
         <Box className="p-2">
           <Tooltip title={!open ? "Logout" : ""} placement="right">
             <ListItemButton
-              onClick={handleLogout}
+              onClick={()=>logout()}
               sx={{
                 mx: 1,
                 my: 0.5,
@@ -156,7 +153,6 @@ const Sidebar = ({ open, setOpen }) => {
             </ListItemButton>
           </Tooltip>
         </Box>
-
       </Box>
     </Drawer>
   );

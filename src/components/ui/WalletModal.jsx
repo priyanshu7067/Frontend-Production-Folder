@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import { connectAndSign } from "../../utils/walletService";
 import { userLogin, UserRegister } from "../../apis/user/users.api";
 import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { UserRoutes } from "../../constants/routes";
 
 const wallets = [
   {
@@ -20,6 +22,7 @@ const wallets = [
 ];
 
 const WalletModal = ({ open, onClose, sponsor, type = "login" }) => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
 
@@ -28,38 +31,41 @@ const WalletModal = ({ open, onClose, sponsor, type = "login" }) => {
   const handleConnect = async () => {
     try {
       setLoading(true);
-
       const address = await connectAndSign();
-
+debugger
       let res;
 
       // ✅ REGISTER
       if (type === "register") {
         res = await UserRegister({
-          walletAddress: address,
+        //   walletAddress: address?.address,
+          walletAddress: "0x567ced645a5b17baA7CCdC6e74F419aC2F12caFf",
           sponsor,
         });
       }
       // ✅ LOGIN
       else {
         res = await userLogin({
-          walletAddress: address,
+          walletAddress: address?.address,
         });
       }
 
       if (res?.success) {
-        login(res?.token, res?.data);
+        login(res?.data?.token, res?.data?.user);
+        onClose();
         toast.success(
           type === "register"
             ? "Registration successful 🚀"
             : "Login successful 🚀",
+          {
+            onClose: () => {
+              navigate(UserRoutes.DASHBOARD);
+            },
+          },
         );
-        onClose();
       } else {
         toast.error(res?.message || "Something went wrong");
       }
-
-
     } catch (err) {
       toast.error(err.message || "Something went wrong");
     } finally {
