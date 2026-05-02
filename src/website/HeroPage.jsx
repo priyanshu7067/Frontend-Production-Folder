@@ -186,7 +186,7 @@ const HeroPage = () => {
       <div className="absolute inset-0 z-[1] bg-[#020617]/88 backdrop-blur-[2px]" />
 
       {/* Premium Gradient Layers */}
-      <div className="absolute inset-0 z-[2] bg-[radial-gradient(circle_at_25%_20%,rgba(183,110,121,0.35),transparent_35%),radial-gradient(circle_at_75%_75%,rgba(127,156,168,0.32),transparent_38%),radial-gradient(circle_at_50%_45%,rgba(79,109,122,0.22),transparent_48%)]" />
+      <div className="absolute inset-0 z-[2] bg-[radial-gradient(circle_at_25%_20%,rgba(34,211,238,0.35),transparent_35%),radial-gradient(circle_at_75%_75%,rgba(127,156,168,0.32),transparent_38%),radial-gradient(circle_at_50%_45%,rgba(79,109,122,0.22),transparent_48%)]" />
 
       {/* Grid */}
       <div className="grid-bg z-[3]" />

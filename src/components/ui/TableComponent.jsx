@@ -95,7 +95,7 @@ const TableComponent = ({
     return (
       <div className="bg-gray-900 rounded-2xl shadow p-6 space-y-4">
         {[...Array(5)].map((_, i) => (
-          <div key={i} className="h-10 bg-gray-700 rounded animate-pulse" />
+          <div key={i} className="h-10 bg-[#22d3ee]/10 rounded animate-pulse" />
         ))}
       </div>
     );
@@ -103,16 +103,27 @@ const TableComponent = ({
 
   return (
     <div
-      className="bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#0b1120] 
-  border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl"
+      className="
+  bg-[rgba(2,6,23,0.85)]
+  border border-[#22d3ee]/15
+  rounded-2xl
+  shadow-[0_0_25px_rgba(0,0,0,0.7)]
+  backdrop-blur-xl
+  overflow-hidden
+"
     >
       {/* SEARCH */}
       {searchable && (
         <div className="p-4 border-b border-white/10 bg-white/5">
           <div className="relative max-w-sm">
-            <Search
-              size={16}
-              className="absolute left-3 top-2.5 text-purple-400"
+            <SearchIcon
+              sx={{
+                position: "absolute",
+                left: 10,
+                top: 8,
+                fontSize: 18,
+                color: "#22d3ee",
+              }}
             />
             <input
               value={searchInput}
@@ -123,7 +134,7 @@ const TableComponent = ({
               placeholder="Search..."
               className="w-full pl-9 pr-3 py-2 rounded-lg 
             bg-black/40 border border-white/10 text-white text-sm
-            focus:ring-2 focus:ring-purple-500 focus:border-purple-500
+            focus:ring-2 focus:ring-[#22d3ee] focus:border-[#22d3ee]
             placeholder:text-gray-400"
             />
           </div>
@@ -138,7 +149,7 @@ const TableComponent = ({
               {columns.map((col, i) => (
                 <th
                   key={i}
-                  className="px-4 py-3 text-left font-semibold text-purple-400 tracking-wide text-nowrap"
+                  className="px-4 py-3 text-left font-semibold text-[#22d3ee] tracking-wide text-nowrap"
                 >
                   {col.header}
                 </th>
@@ -151,7 +162,7 @@ const TableComponent = ({
               paginatedData.map((row, rowIndex) => (
                 <tr
                   key={row._id || rowIndex}
-                  className="border-b border-white/5 hover:bg-purple-500/5 transition"
+                  className="border-b border-white/5 hover:bg-[#22d3ee]/5 transition"
                 >
                   {columns.map((col, colIndex) => (
                     <td key={colIndex} className="px-4 py-3 whitespace-nowrap">
@@ -202,7 +213,7 @@ const TableComponent = ({
               onClick={() => setCurrentPage((p) => p - 1)}
               className="px-3 py-1.5 rounded-full border border-white/10 
         text-gray-300 disabled:opacity-30 
-        hover:bg-purple-600/20 transition"
+        hover:bg-[#22d3ee]/10 transition"
             >
               ←
             </button>
@@ -226,7 +237,7 @@ const TableComponent = ({
                         className={`h-2.5 w-2.5 rounded-full cursor-pointer transition-all
                   ${
                     currentPage === page
-                      ? "bg-gradient-to-r from-purple-500 to-indigo-500 scale-125"
+                      ? "bg-gradient-to-r from-[#06b6d4] to-[#22d3ee] scale-125"
                       : "bg-gray-500/50 hover:bg-gray-400"
                   }`}
                       />
@@ -260,7 +271,7 @@ const TableComponent = ({
                       className={`px-3 py-1.5 rounded-lg border transition
                 ${
                   currentPage === page
-                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-none shadow-lg"
+                    ? "bg-gradient-to-r from-[#06b6d4] to-[#22d3ee] text-white border-none shadow-lg"
                     : "border-white/10 text-gray-300 hover:bg-white/10"
                 }`}
                     >
@@ -277,7 +288,7 @@ const TableComponent = ({
               onClick={() => setCurrentPage((p) => p + 1)}
               className="px-3 py-1.5 rounded-full border border-white/10 
         text-gray-300 disabled:opacity-30 
-        hover:bg-purple-600/20 transition"
+        hover:bg-[#22d3ee]/10 transition"
             >
               →
             </button>

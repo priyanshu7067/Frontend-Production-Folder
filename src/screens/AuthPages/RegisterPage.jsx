@@ -4,22 +4,29 @@ import ButtonComponent from "../../components/ui/ButtonComponent";
 import { Activity, Shield, Sparkles } from "lucide-react";
 import { AuthRoutes } from "../../constants/routes";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import WalletModal from "../../components/ui/WalletModal";
 
 const RegisterPage = () => {
-    const [form, setForm] = useState({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-    });
+  const [form, setForm] = useState({
+    sponsor: "",
+  });
+  const [openWalletModal, setOpenWalletModal] = useState(false);
 
-    return (
-        <div className="min-h-screen dashboard-bg flex items-center justify-center px-4">
+  const handleConnectClick = () => {
+    // if (!form.sponsor.trim()) {
+    //   toast.error("Sponsor ID is required");
+    //   return;
+    // }
 
-            <div className="w-full max-w-6xl grid md:grid-cols-2 gap-10 items-center">
+    setOpenWalletModal(true);
+  };
 
-                {/* 🔥 LEFT SIDE */}
-                <div className="space-y-6 hidden md:block">
+  return (
+    <div className="min-h-screen dashboard-bg flex items-center justify-center px-4">
+      <div className="w-full max-w-6xl flex justify-center items-center">
+        {/* 🔥 LEFT SIDE */}
+        {/* <div className="space-y-6 hidden md:block">
 
                     <h1 className="text-4xl font-bold leading-tight text-metal text-glow">
                         AI Powered <br /> Smart Platform
@@ -29,7 +36,6 @@ const RegisterPage = () => {
                         Intelligent system designed to analyze and process your data in real-time.
                     </p>
 
-                    {/* FEATURES */}
                     <div className="space-y-4 mt-6">
 
                         <div className="flex items-start gap-3 p-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur">
@@ -64,41 +70,36 @@ const RegisterPage = () => {
 
                     </div>
 
-                </div>
+                </div> */}
 
-                {/* 🔥 RIGHT SIDE FORM */}
-                <div className="glow-card p-6 md:p-8 w-full max-w-md mx-auto">
+        {/* 🔥 RIGHT SIDE FORM */}
+        <div className="glow-card p-6 md:p-8 w-full max-w-md mx-auto">
+          {/* subtle gradient */}
+          <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-[#b76e79] to-[#7f9ca8]" />
 
-                    {/* subtle gradient */}
-                    <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-[#b76e79] to-[#7f9ca8]" />
+          <div className="relative z-10 space-y-6">
+            {/* 🔥 HEADER */}
+            <div className="text-center">
+              <h2 className="text-xl font-semibold text-white">
+                Create Account
+              </h2>
+              <p className="text-xs text-gray-400">Start your AI journey</p>
+            </div>
 
-                    <div className="relative z-10 space-y-6">
-
-                        {/* 🔥 HEADER */}
-                        <div className="text-center">
-                            <h2 className="text-xl font-semibold">Create Account</h2>
-                            <p className="text-xs text-gray-400">
-                                Start your AI journey
-                            </p>
-                        </div>
-
-                        {/* 🔥 STEP BAR */}
-                        <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+            {/* 🔥 STEP BAR */}
+            {/* <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
                             <div className="h-full w-[25%] bg-gradient-to-r from-[#b76e79] to-[#7f9ca8]" />
-                        </div>
+                        </div> */}
 
-                        {/* 🔥 FORM */}
-                        <div className="space-y-4 grid grid-cols-1 gap-3">
+            {/* 🔥 FORM */}
+            <div className="space-y-4 grid grid-cols-1 gap-3">
+              <InputField
+                label="Sponsor ID"
+                value={form.sponsor}
+                onChange={(e) => setForm({ ...form, sponsor: e.target.value })}
+              />
 
-                            <InputField
-                                label="Full Name"
-                                value={form.name}
-                                onChange={(e) =>
-                                    setForm({ ...form, name: e.target.value })
-                                }
-                            />
-
-                            <InputField
+              {/* <InputField
                                 label="Email"
                                 value={form.email}
                                 onChange={(e) =>
@@ -122,31 +123,38 @@ const RegisterPage = () => {
                                 onChange={(e) =>
                                     setForm({ ...form, confirmPassword: e.target.value })
                                 }
-                            />
-
-                        </div>
-
-                        {/* 🔥 BUTTON */}
-                        <ButtonComponent fullWidth>
-                            Continue →
-                        </ButtonComponent>
-
-                        {/* 🔥 FOOTER */}
-                        <p className="text-center text-sm text-gray-400">
-                            Already have an account?{" "}
-                            <Link to={AuthRoutes.LOGIN}>
-                                <span className="text-[var(--accent-primary)] cursor-pointer">
-                                    Login
-                                </span>
-                                 </Link>
-                        </p>
-
-                    </div>
-                </div>
-
+                            /> */}
             </div>
+
+            {/* 🔥 BUTTON */}
+            <ButtonComponent
+              variant="neon"
+              fullWidth
+              onClick={handleConnectClick}
+            >
+              Connect Wallet →
+            </ButtonComponent>
+
+            {/* 🔥 FOOTER */}
+            <p className="text-center text-sm text-gray-400">
+              Already have an account?{" "}
+              <Link to={AuthRoutes.LOGIN}>
+                <span className="text-[var(--accent-primary)] cursor-pointer">
+                  Login
+                </span>
+              </Link>
+            </p>
+          </div>
         </div>
-    );
+      </div>
+      <WalletModal
+        open={openWalletModal}
+        onClose={() => setOpenWalletModal(false)}
+        sponsor={form.sponsor} // ✅ IMPORTANT
+        type="register" // ✅ differentiate login/register
+      />
+    </div>
+  );
 };
 
 export default RegisterPage;

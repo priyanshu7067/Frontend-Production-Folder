@@ -22,7 +22,7 @@ const opportunityCards = [
 
 export default function ProblemSection() {
   return (
-    <section className="relative overflow-hidden bg-[#0a0c10] py-24 text-white">
+    <section className="relative overflow-hidden bg-[#0a0c10] py-24 text-white" id="solution">
       
       {/* Background Tech Grid */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
