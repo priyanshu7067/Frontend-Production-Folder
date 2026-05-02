@@ -6,11 +6,11 @@ const RefferalIncome = () => {
   // 🔥 COLUMNS
   const columns = useMemo(() => [
     {
-      Header: "User",
+      header: "User",
       accessor: "user",
     },
     {
-      Header: "Level",
+      header: "Level",
       accessor: "level",
       Cell: ({ value }) => (
         <span className="text-purple-400 text-xs font-medium">
@@ -19,7 +19,7 @@ const RefferalIncome = () => {
       ),
     },
     {
-      Header: "Commission %",
+      header: "Commission %",
       accessor: "commission",
       Cell: ({ value }) => (
         <span className="text-blue-400 text-xs">
@@ -28,7 +28,7 @@ const RefferalIncome = () => {
       ),
     },
     {
-      Header: "Amount",
+      header: "Amount",
       accessor: "amount",
       Cell: ({ value }) => (
         <span className="text-green-400 text-sm font-semibold">
@@ -37,7 +37,7 @@ const RefferalIncome = () => {
       ),
     },
     {
-      Header: "Status",
+      header: "Status",
       accessor: "status",
       Cell: ({ value }) => (
         <span
@@ -52,7 +52,7 @@ const RefferalIncome = () => {
       ),
     },
     {
-      Header: "Date",
+      header: "Date",
       accessor: "date",
     },
   ], []);

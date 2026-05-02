@@ -6,7 +6,7 @@ const PromotionIncome = () => {
   // 🔥 COLUMNS
   const columns = useMemo(() => [
     {
-      Header: "Rank",
+      header: "Rank",
       accessor: "rank",
       Cell: ({ value }) => (
         <span className="text-purple-400 text-xs font-semibold">
@@ -15,7 +15,7 @@ const PromotionIncome = () => {
       ),
     },
     {
-      Header: "Target",
+      header: "Target",
       accessor: "target",
       Cell: ({ value }) => (
         <span className="text-gray-300 text-xs">
@@ -24,7 +24,7 @@ const PromotionIncome = () => {
       ),
     },
     {
-      Header: "Achieved",
+      header: "Achieved",
       accessor: "achieved",
       Cell: ({ value }) => (
         <span className="text-blue-400 text-xs font-medium">
@@ -33,7 +33,7 @@ const PromotionIncome = () => {
       ),
     },
     {
-      Header: "Income",
+      header: "Income",
       accessor: "income",
       Cell: ({ value }) => (
         <span className="text-green-400 text-sm font-semibold">
@@ -42,7 +42,7 @@ const PromotionIncome = () => {
       ),
     },
     {
-      Header: "Status",
+      header: "Status",
       accessor: "status",
       Cell: ({ value }) => (
         <span
@@ -57,7 +57,7 @@ const PromotionIncome = () => {
       ),
     },
     {
-      Header: "Date",
+      header: "Date",
       accessor: "date",
     },
   ], []);

@@ -6,7 +6,7 @@ const TradeHistory = () => {
   // 🔥 COLUMNS
   const columns = useMemo(() => [
     {
-      Header: "Pair",
+      header: "Pair",
       accessor: "pair",
       Cell: ({ value }) => (
         <span className="text-blue-400 text-xs font-semibold">
@@ -15,7 +15,7 @@ const TradeHistory = () => {
       ),
     },
     {
-      Header: "Type",
+      header: "Type",
       accessor: "type",
       Cell: ({ value }) => (
         <span
@@ -30,11 +30,11 @@ const TradeHistory = () => {
       ),
     },
     {
-      Header: "Amount",
+      header: "Amount",
       accessor: "amount",
     },
     {
-      Header: "Price",
+      header: "Price",
       accessor: "price",
       Cell: ({ value }) => (
         <span className="text-gray-300 text-xs">
@@ -43,7 +43,7 @@ const TradeHistory = () => {
       ),
     },
     {
-      Header: "P/L",
+      header: "P/L",
       accessor: "pl",
       Cell: ({ value }) => (
         <span
@@ -56,7 +56,7 @@ const TradeHistory = () => {
       ),
     },
     {
-      Header: "Status",
+      header: "Status",
       accessor: "status",
       Cell: ({ value }) => (
         <span
@@ -71,7 +71,7 @@ const TradeHistory = () => {
       ),
     },
     {
-      Header: "Date",
+      header: "Date",
       accessor: "date",
     },
   ], []);

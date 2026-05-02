@@ -6,7 +6,7 @@ const Rank_RoyalityBonus = () => {
   // 🔥 COLUMNS
   const columns = useMemo(() => [
     {
-      Header: "Rank",
+      header: "Rank",
       accessor: "rank",
       Cell: ({ value }) => (
         <span className="text-purple-400 text-xs font-semibold">
@@ -15,7 +15,7 @@ const Rank_RoyalityBonus = () => {
       ),
     },
     {
-      Header: "Royalty %",
+      header: "Royalty %",
       accessor: "royalty",
       Cell: ({ value }) => (
         <span className="text-blue-400 text-xs font-medium">
@@ -24,7 +24,7 @@ const Rank_RoyalityBonus = () => {
       ),
     },
     {
-      Header: "Turnover",
+      header: "Turnover",
       accessor: "turnover",
       Cell: ({ value }) => (
         <span className="text-gray-300 text-xs">
@@ -33,7 +33,7 @@ const Rank_RoyalityBonus = () => {
       ),
     },
     {
-      Header: "Bonus Earned",
+      header: "Bonus Earned",
       accessor: "bonus",
       Cell: ({ value }) => (
         <span className="text-green-400 text-sm font-semibold">
@@ -42,7 +42,7 @@ const Rank_RoyalityBonus = () => {
       ),
     },
     {
-      Header: "Status",
+      header: "Status",
       accessor: "status",
       Cell: ({ value }) => (
         <span
@@ -57,7 +57,7 @@ const Rank_RoyalityBonus = () => {
       ),
     },
     {
-      Header: "Updated On",
+      header: "Updated On",
       accessor: "date",
     },
   ], []);

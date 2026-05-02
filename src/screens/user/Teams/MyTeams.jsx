@@ -6,7 +6,7 @@ const MyTeams = () => {
   // 🔥 COLUMNS
   const columns = useMemo(() => [
     {
-      Header: "Level",
+      header: "Level",
       accessor: "level",
       Cell: ({ value }) => (
         <span className="text-xs font-medium text-purple-400">
@@ -15,7 +15,7 @@ const MyTeams = () => {
       ),
     },
     {
-      Header: "Members",
+      header: "Members",
       accessor: "members",
       Cell: ({ value }) => (
         <span className="text-white text-sm font-medium">
@@ -24,7 +24,7 @@ const MyTeams = () => {
       ),
     },
     {
-      Header: "Active Users",
+      header: "Active Users",
       accessor: "active",
       Cell: ({ value }) => (
         <span className="text-green-400 text-sm font-medium">
@@ -33,7 +33,7 @@ const MyTeams = () => {
       ),
     },
     {
-      Header: "Total Business",
+      header: "Total Business",
       accessor: "business",
       Cell: ({ value }) => (
         <span className="text-blue-400 text-xs font-semibold">
@@ -42,7 +42,7 @@ const MyTeams = () => {
       ),
     },
     {
-      Header: "Status",
+      header: "Status",
       accessor: "status",
       Cell: ({ value }) => (
         <span

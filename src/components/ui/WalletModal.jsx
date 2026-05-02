@@ -19,6 +19,14 @@ const wallets = [
     name: "SafePal",
     icon: "https://safepal.com/assets/img/logo.svg",
   },
+  {
+    name: "TokenPocket",
+    icon: "https://tokenpocket.pro/images/logo.svg",
+  },
+  {
+    name: "Bitget Wallet",
+    icon: "https://bitget.com/favicon.ico",
+  }
 ];
 
 const WalletModal = ({ open, onClose, sponsor, type = "login" }) => {
@@ -32,13 +40,13 @@ const WalletModal = ({ open, onClose, sponsor, type = "login" }) => {
     try {
       setLoading(true);
       const address = await connectAndSign();
-debugger
+      // debugger
       let res;
 
       // ✅ REGISTER
       if (type === "register") {
         res = await UserRegister({
-        //   walletAddress: address?.address,
+          //   walletAddress: address?.address,
           walletAddress: "0x567ced645a5b17baA7CCdC6e74F419aC2F12caFf",
           sponsor,
         });
