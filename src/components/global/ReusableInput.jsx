@@ -52,12 +52,23 @@ const ReusableInput = ({
           color: "#ffffff",
         },
 
+        /* 🔒 Disabled input text */
+        "& .MuiInputBase-input.Mui-disabled": {
+          color: "#64748b", // gray text
+          WebkitTextFillColor: "#64748b", // important for MUI
+        },
+
         /* ✅ Label */
         "& .MuiInputLabel-root": {
           color: "#94a3b8",
         },
         "& .MuiInputLabel-root.Mui-focused": {
           color: "#22d3ee",
+        },
+
+        /* 🔒 Disabled label */
+        "& .MuiInputLabel-root.Mui-disabled": {
+          color: "#475569",
         },
 
         /* ✅ Border */
@@ -71,6 +82,16 @@ const ReusableInput = ({
           "&.Mui-focused fieldset": {
             borderColor: "#22d3ee",
           },
+
+          /* 🔒 Disabled border */
+          "&.Mui-disabled fieldset": {
+            borderColor: "rgba(100,116,139,0.3)",
+          },
+        },
+
+        /* 🔒 Disabled background */
+        "& .MuiOutlinedInput-root.Mui-disabled": {
+          background: "rgba(100,116,139,0.08)",
         },
 
         /* ✅ Placeholder */
@@ -79,9 +100,9 @@ const ReusableInput = ({
           opacity: 1,
         },
 
-        /* ✅ Icons */
-        "& .MuiSvgIcon-root": {
-          color: "#94a3b8",
+        /* 🔒 Disabled icons */
+        "& .MuiSvgIcon-root.Mui-disabled": {
+          color: "#64748b",
         },
 
         ...sx,

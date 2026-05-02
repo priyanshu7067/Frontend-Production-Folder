@@ -41,7 +41,7 @@
 body {
   @apply min-h-screen font-sans;
   background: var(--bg-main);
-  color: var(--text-main);
+  color: var(--text-primary);
 }
 
 /* 🎨 Gradient Background Utility */
@@ -421,4 +421,8 @@ body {
 /* INFO (main theme color) */
 .Toastify__toast--info {
   border-left: 4px solid #06b6d4;
+}
+
+.swal2-container {
+  z-index: 1500 !important;
 }

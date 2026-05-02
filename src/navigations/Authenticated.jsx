@@ -13,6 +13,9 @@ import RegisterPage from '../screens/AuthPages/RegisterPage'
 import KycPage from '../screens/user/KycPage'
 import LivePricing from '../screens/user/LivePricing'
 import TradingBot from '../screens/user/TradingBot'
+import UserKycRequests from '../screens/admin/kyc/UserKycRequest'
+import UserRejectedKyc from '../screens/admin/kyc/UserRejectedKyc'
+import UserApprovedKyc from '../screens/admin/kyc/UserApprovedKyc'
 import ProfilePage from '../screens/user/ProfilePage'
 import LevelIncomeHistory from '../screens/user/history/LevelIncome'
 import MyTeams from '../screens/user/Teams/MyTeams'
@@ -53,6 +56,9 @@ const Authenticated = () => {
 
                 <Route path={AdminRoutes.DASHBOARD} element={<DashboardLayout />}>
                     <Route index element={<AdminDashboard />} />
+                    <Route path={AdminRoutes.USER_KYC_REQUESTS} element={<UserKycRequests />} />
+                    <Route path={AdminRoutes.USER_REJECTED_KYC} element={<UserRejectedKyc />} />
+                    <Route path={AdminRoutes.USER_APPROVED_KYC} element={<UserApprovedKyc />} />
                     {/* <Route path="users" element={<Users />} /> */}
                 </Route>
             </Routes>

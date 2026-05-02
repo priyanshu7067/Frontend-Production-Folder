@@ -63,7 +63,7 @@ export default function KycPage() {
           panImage: data?.pan?.panImage ?? null,
           aadhaarFront: data?.aadhaar?.frontImage ?? null,
           aadhaarBack: data?.aadhaar?.backImage ?? null,
-          // memberPhoto: data?.memberPhoto ?? null,
+          memberPhoto: data?.memberPhoto ?? null,
         });
 
       } else {
@@ -92,7 +92,10 @@ export default function KycPage() {
       !form.aadhaar ||
       !documents.panImage ||
       !documents.aadhaarFront ||
-      !documents.aadhaarBack
+      !documents.aadhaarBack || 
+      !documents.memberPhoto || 
+      !form.email || 
+      !form.phoneNo
     ) {
       return toast.error("Please fill all required fields");
     }
@@ -109,6 +112,8 @@ export default function KycPage() {
           panImage: documents.panImage,
         },
         memberPhoto: documents.memberPhoto,
+        email: form.email,
+        phoneNo: form.phoneNo
       });
 
       if (res?.success) {

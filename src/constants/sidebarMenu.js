@@ -55,5 +55,23 @@ export const sidebarMenu = {
     { name: "Dashboard", path: AdminRoutes.DASHBOARD, icon: "dashboard" },
     { name: "All Users", path: "/admin/users", icon: "users" },
     { name: "Analytics", path: "/admin/analytics", icon: "chart" },
+     {
+      name: "KYC",
+      icon: "user",
+      children: [
+        {
+          name: "All KYC Requests",
+          path: AdminRoutes.USER_KYC_REQUESTS,
+        },
+        {
+          name: "Approved Users",
+          path: AdminRoutes.USER_APPROVED_KYC,
+        },
+        {
+          name: "Rejected Requests",
+          path: AdminRoutes.USER_REJECTED_KYC,
+        },
+      ],
+    },
   ],
 };
