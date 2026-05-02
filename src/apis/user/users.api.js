@@ -20,9 +20,9 @@ export const UserRegister = async (payload) => {
   }
 };
 
-export const getProfile = async () => {
+export const getProfile = async (role) => {
   try {
-    const response = await Axios.get("/user/get-profile");
+    const response = await Axios.get(`/${role}/get-profile`);
     return response.data;
   } catch (error) {
     console.log(error, "error in apis");

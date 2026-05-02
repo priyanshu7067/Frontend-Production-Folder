@@ -5,6 +5,7 @@ import { AdminLoginApi } from "../../apis/admin/admin.api";
 import { useAuth } from "../../context/AuthContext";
 import ReusableInput from "../../components/global/ReusableInput";
 import ButtonComponent from "../../components/ui/ButtonComponent";
+import { setRole } from "../../utils/authStorage";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const AdminLogin = () => {
       if (res?.success) {
         toast.success(res?.message || "Admin login successful 🚀");
         login(res?.token, res?.data);
+        setRole(res?.data?.role);
         setTimeout(() => {
           navigate("/admin/dashboard");
         }, 1200);

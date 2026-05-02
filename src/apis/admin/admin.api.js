@@ -54,3 +54,33 @@ export async function getAllRejectedKyc() {
     }
 
 }
+
+export const getAllUsers = async () => {
+  try {
+    const response = await Axios.get("/admin/get-all-users");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in login api");
+    return error.response.data;
+  }
+};
+
+export const editUserApi = async (id, payload) => {
+  try {
+    const response = await Axios.patch(`/admin/edit-user/${id}`, payload);
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in login api");
+    return error.response.data;
+  }
+}
+
+export const toggleUserStatus = async (id) => {
+  try {
+    const response = await Axios.patch(`/admin/update-status/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in login api");
+    return error.response.data;
+  }
+}

@@ -20,6 +20,7 @@ import {
   Bot,
   ChartCandlestick,
   LogOut,
+  HistoryIcon,
 } from "lucide-react";
 
 import { sidebarMenu } from "../../constants/sidebarMenu";
@@ -43,6 +44,7 @@ const iconMap = {
   profile: <User size={18} />,
   bot: <Bot size={18} />,
   live: <ChartCandlestick size={18} />,
+  history: <HistoryIcon size={18} />
 };
 
 const Sidebar = ({ open, setOpen }) => {
@@ -53,8 +55,8 @@ const Sidebar = ({ open, setOpen }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-  const { logout } = useAuth();
-  const role = location.pathname.startsWith("/admin") ? "admin" : "user";
+  const { logout, user } = useAuth();
+  const role = user?.role === "admin" ? "admin" : "user";
   const menu = sidebarMenu[role] || [];
 
   // const handleLogout = () => {
@@ -88,8 +90,7 @@ const Sidebar = ({ open, setOpen }) => {
              const isOpen = openMenu === item.name;
 
             const isActive =
-              location.pathname === item.path ||
-              item.children?.some((c) => location.pathname === c.path);
+              (location.pathname.split("/")[2] || location.pathname) === item.path;
 
             return (
               <Box key={i}>
@@ -138,7 +139,7 @@ const Sidebar = ({ open, setOpen }) => {
                   <Collapse in={isOpen} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                       {item.children.map((child, idx) => {
-                        const childActive = location.pathname === child.path;
+                        const childActive = (location.pathname.split("/")[2] || location.pathname) === child.path;
 
                         return (
                           <ListItemButton
@@ -148,12 +149,15 @@ const Sidebar = ({ open, setOpen }) => {
                               if (isMobile) setOpen(false);
                             }}
                             sx={{
-                              pl: open ? 5 : 2,
+                              ml: open ? 5 : 2,
                               py: 0.5,
-                              mx: 1,
+                              mr: 2,
+                              // mx: 1,
+                              border: childActive ? "1px solid rgba(34, 211, 238, 0.35)" : "none",
+                              // width: "fit-content",
                               borderRadius: "10px",
                               background: childActive
-                                ? "rgba(59,130,246,0.15)"
+                                ? "linear-gradient(90deg, rgba(34, 211, 238, 0.35), transparent)"
                                 : "transparent",
 
                               "&:hover": {

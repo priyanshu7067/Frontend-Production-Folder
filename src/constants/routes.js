@@ -22,8 +22,8 @@ export const UserRoutes = {
 }
 
 export const AdminRoutes = {
-    DASHBOARD: "/admin/dashboard",
-    ALL_USERS: "users",
+    DASHBOARD: "/dashboard",
+    ALL_USERS: "all-users",
     USER_KYC_REQUESTS: "user-kyc-requests",
     USER_REJECTED_KYC: "user-rejected-kyc",
     USER_APPROVED_KYC: "user-approved-kyc",

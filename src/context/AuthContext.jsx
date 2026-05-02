@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getProfile } from "../apis/user/users.api";
 import { AuthRoutes } from "../constants/routes";
-import { getToken, removeToken, setToken } from "../utils/authStorage";
+import { getRole, getToken, removeToken, setToken } from "../utils/authStorage";
 
 const AuthContext = createContext(null);
 
@@ -10,12 +10,13 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const role = getRole();
 
   const navigate = useNavigate();
 
   const fetchUser = async () => {
     try {
-      const userData = await getProfile();
+      const userData = await getProfile(role === "admin" ? "admin" : "user");
       setUser(userData?.data);
       setIsAuthenticated(true);
     } catch (error) {

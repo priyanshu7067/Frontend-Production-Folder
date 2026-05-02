@@ -7,7 +7,7 @@ export const sidebarMenu = {
     { name: "Live Pricing", path: UserRoutes.LIVE_PRICING, icon: "live" },
     { name: "Trading Bot", path: UserRoutes.TRADING_BOT, icon: "bot" },
     { name: "History",
-      icon: "chart",
+      icon: "history",
       children: [
         {
           name: "Level Income History",
@@ -33,7 +33,7 @@ export const sidebarMenu = {
     },
     { name: "Teams",
       path: UserRoutes.TEAMS,
-      icon: "chart",
+      icon: "users",
       children: [
         {
           name: "My Direct Team",
@@ -53,7 +53,7 @@ export const sidebarMenu = {
 
   admin: [
     { name: "Dashboard", path: AdminRoutes.DASHBOARD, icon: "dashboard" },
-    { name: "All Users", path: "/admin/users", icon: "users" },
+    { name: "All Users", path: AdminRoutes.ALL_USERS, icon: "users" },
     { name: "Analytics", path: "/admin/analytics", icon: "chart" },
      {
       name: "KYC",
