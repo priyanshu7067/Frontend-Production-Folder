@@ -3,29 +3,29 @@ import { Wallet, ArrowLeftRight, Bot } from "lucide-react";
 import ButtonComponent from "../../components/ui/ButtonComponent";
 import TokenScreener from "../../components/CryptoScreenTable";
 import CryptoScreenTable from "../../components/CryptoScreenTable";
+import CryptoOverview from "./CryptoOverviews";
+import TransactionTable from "./TransactionTable";
 
 const UserDashBoard = () => {
     return (
         <div className="min-h-screen p-4 md:p-6 text-white dashboard-bg space-y-6">
 
-            {/* 🔥 Heading */}
             <h1 className="text-xl md:text-2xl font-semibold tracking-wide text-metal text-glow">
                 Become Smart Money
             </h1>
+            <CryptoOverview />
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            {/* <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
-                {/* 🔥 LEFT MAIN CARD */}
                 <div className="glow-card p-5 space-y-5">
 
-                    {/* subtle inner gradient */}
+               
                     <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-[#b76e79] to-[#7f9ca8]" />
 
                     <div className="relative z-10 space-y-5">
 
                         <div className="grid grid-cols-2 gap-4">
 
-                            {/* Main Wallet */}
                             <div className="flex items-center gap-3">
                                 <div className="p-3 rounded-full bg-[rgba(183,110,121,0.15)]">
                                     <Wallet size={20} className="text-[var(--accent-primary)]" />
@@ -36,7 +36,6 @@ const UserDashBoard = () => {
                                 </div>
                             </div>
 
-                            {/* Trading Wallet */}
                             <div className="flex items-center gap-3">
                                 <div className="p-3 rounded-full bg-[rgba(183,110,121,0.15)]">
                                     <Wallet size={20} className="text-[var(--accent-primary)]" />
@@ -49,7 +48,6 @@ const UserDashBoard = () => {
 
                         </div>
 
-                        {/* Actions */}
                         <div className="flex justify-around pt-3 border-t border-white/10">
 
                             <div className="flex flex-col items-center gap-1 text-sm text-gray-300">
@@ -68,7 +66,6 @@ const UserDashBoard = () => {
 
                         </div>
 
-                        {/* Buttons */}
                         <div className="grid grid-cols-2 gap-2 pt-3">
                             <ButtonComponent fullWidth>Deposit</ButtonComponent>
                             <ButtonComponent variant="outline" fullWidth>
@@ -79,7 +76,6 @@ const UserDashBoard = () => {
                     </div>
                 </div>
 
-                {/* 🔥 RIGHT CARD */}
                 <div className="glow-card p-5 space-y-4">
 
                     <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-[#b76e79] to-[#7f9ca8]" />
@@ -101,7 +97,6 @@ const UserDashBoard = () => {
                     </div>
                 </div>
 
-                {/* 🔥 AI BOT */}
                 <div className="glow-card p-5 space-y-4">
 
                     <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-[#b76e79] to-[#7f9ca8]" />
@@ -127,7 +122,6 @@ const UserDashBoard = () => {
                             </span>
                         </p>
 
-                        {/* Market */}
                         <div className="bg-white/5 border border-white/10 rounded-xl p-3">
                             <h3 className="text-xs mb-2 text-gray-400">
                                 Live Crypto Market
@@ -149,7 +143,6 @@ const UserDashBoard = () => {
                             </div>
                         </div>
 
-                        {/* Buttons */}
                         <div className="grid grid-cols-2 gap-3">
                             <ButtonComponent fullWidth>AI Trade</ButtonComponent>
                             <ButtonComponent fullWidth>Collect Profit</ButtonComponent>
@@ -158,10 +151,11 @@ const UserDashBoard = () => {
                     </div>
                 </div>
 
-            </div>
+            </div> */}
 
 
             <CryptoScreenTable />
+            <TransactionTable />
         </div>
     );
 };

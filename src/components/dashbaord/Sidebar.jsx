@@ -74,7 +74,7 @@ const Sidebar = ({ open, setOpen }) => {
           <img
             src={MainContent.logo}
             alt="logo"
-            className={`${open ? "h-8" : "h-6"} object-contain`}
+            className={`${open ? "h-16" : "h-8"} object-contain`}
           />
         </div>
 

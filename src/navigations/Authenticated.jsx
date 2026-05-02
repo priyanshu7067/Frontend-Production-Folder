@@ -10,6 +10,8 @@ import HomeSection from '../website/HomeSection'
 import LoginPage from '../screens/AuthPages/LoginPage'
 import AdminLogin from '../screens/AuthPages/AdminLogin'
 import RegisterPage from '../screens/AuthPages/RegisterPage'
+import LivePricing from '../screens/user/LivePricing'
+import TradingBot from '../screens/user/TradingBot'
 const Authenticated = () => {
     return (
         <>
@@ -27,7 +29,8 @@ const Authenticated = () => {
 
                 <Route path={UserRoutes.DASHBOARD} element={<DashboardLayout />}>
                     <Route index element={<UserDashBoard />} />
-                    {/* <Route path={UserRoutes.PROFILE} element={<ProfilePage   />} /> */}
+                    <Route path={UserRoutes.LIVE_PRICING} element={<LivePricing   />} />
+                    <Route path={UserRoutes.TRADING_BOT} element={<TradingBot   />} />
                 </Route>
 
                 <Route path={AdminRoutes.DASHBOARD} element={<DashboardLayout />}>

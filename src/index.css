@@ -3,27 +3,33 @@
 /* 🌈 Root Variables (Design System) */
 :root {
   /* 🌑 Base */
-  --bg-main: #000000;
+  --bg-main: #020617;
   --bg-soft: #020617;
 
-  /* ⚡ Primary Accent (Logo Cyan) */
+  /* 🔵 PRIMARY (MAIN BRAND - CYAN) */
   --primary: #22d3ee;
   --primary-dark: #06b6d4;
   --primary-glow: rgba(34, 211, 238, 0.35);
 
-  /* 🤍 Neutral */
-  --white: #ffffff;
-  --text-main: #e6faff;
-  --text-dim: #94a3b8;
+  /* 🌸 SECONDARY ACCENT (SOFT PINK GLOW) */
+  --accent-secondary: #b76e79;
+  --accent-glow: rgba(13, 169, 212, 0.35);
 
-  /* 🌈 Gradient (Logo Inspired) */
-  --gradient-logo: linear-gradient(
+  /* 🧊 TEXT */
+  --text-primary: #e6faff;
+  --text-secondary: #f0f5fa;
+
+  /* 🔥 SIDEBAR */
+  --sidebar-bg: #020617;
+  --sidebar-hover: #13a8c2;
+  --sidebar-active: rgba(4, 125, 143, 0.15);
+
+  /* 🌈 GRADIENT */
+  --gradient-main: linear-gradient(
     135deg,
-    #000000 0%,
-    #020617 25%,
-    #06b6d4 50%,
-    #22d3ee 75%,
-    #000000 100%
+    #020617,
+    #06101a,
+    #020617
   );
 }
 

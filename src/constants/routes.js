@@ -8,7 +8,9 @@ export const AuthRoutes = {
 export const UserRoutes = {
     DASHBOARD: "/dashboard",
     PROFILE: "/profile",
-    TRADING_BOT: "/trading-bot",
+    LIVE_PRICING: "live-pricing",
+    TRADING_BOT: "trading-bot",
+
 }
 
 export const AdminRoutes = {

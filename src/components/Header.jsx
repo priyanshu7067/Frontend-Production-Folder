@@ -21,7 +21,7 @@ const Header = () => {
           to="/"
           className="text-2xl font-bold tracking-wide text-metal text-glow"
         >
-          <img src={MainContent.logo} alt="" className="w-16" />
+          <img src={MainContent.logo} alt="" className="w-20" />
         </Link>
         {/* 🔥 NAV LINKS */}
         <nav className="hidden md:flex items-center gap-8 font-bold text-sm text-white/70">
