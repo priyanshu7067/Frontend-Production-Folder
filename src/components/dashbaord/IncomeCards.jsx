@@ -16,7 +16,10 @@ const IncomeCards = ({ data = [], loading = false }) => {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-44 rounded-3xl bg-gray-800/50 animate-pulse" />
+          <div
+            key={i}
+            className="h-44 rounded-3xl bg-gray-800/50 animate-pulse"
+          />
         ))}
       </div>
     );
@@ -35,28 +38,39 @@ const IncomeCards = ({ data = [], loading = false }) => {
             className="group relative cursor-pointer overflow-hidden rounded-[2rem] p-1 transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
           >
             {/* The Animated Gradient Border Layer */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${gradientClass} opacity-20 group-hover:opacity-100 transition-opacity duration-500`} />
+            <div
+              className={`absolute inset-0 bg-gradient-to-br ${gradientClass} opacity-20 group-hover:opacity-100 transition-opacity duration-500`}
+            />
 
             {/* Inner Card Content */}
             <div className="relative h-full rounded-[1.9rem] bg-[#0f1115] p-3">
-              
               {/* Top Row: Icon & Trend */}
               <div className="flex items-center justify-between">
-                <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${gradientClass} shadow-lg shadow-black/20 text-white`}>
+                <div
+                  className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${gradientClass} shadow-lg shadow-black/20 text-white`}
+                >
                   {item?.icon || <Wallet size={24} />}
                 </div>
-                
-                <div className={`flex items-center gap-1 text-sm font-bold ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
-                  {isPositive ? <ArrowUpRight size={18} /> : <ArrowDownRight size={18} />}
+
+                <div
+                  className={`flex items-center gap-1 text-sm font-bold ${isPositive ? "text-emerald-400" : "text-rose-400"}`}
+                >
+                  {isPositive ? (
+                    <ArrowUpRight size={18} />
+                  ) : (
+                    <ArrowDownRight size={18} />
+                  )}
                   {item.change}%
                 </div>
               </div>
 
               {/* Middle Row: Amount & Label */}
               <div className="mt-4">
-                <p className="text-sm font-medium text-gray-400 mb-1">{item?.title}</p>
+                <p className="text-sm font-medium text-gray-400 mb-1">
+                  {item?.title}
+                </p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-xl font-medium text-gray-400">₹</span>
+                  <span className="text-xl font-medium text-gray-400">$</span>
                   <h2 className="text-xl font-bold tracking-tight text-white">
                     {item?.amount.toLocaleString()}
                   </h2>
@@ -68,14 +82,16 @@ const IncomeCards = ({ data = [], loading = false }) => {
                 <span className="text-[11px] font-semibold uppercase tracking-widest text-gray-500">
                   {item?.subtitle || "Active Now"}
                 </span>
-                
+
                 <div className="rounded-full bg-white/5 p-2 text-gray-400 transition-all duration-300 group-hover:bg-white group-hover:text-black">
                   <ArrowRight size={16} />
                 </div>
               </div>
 
               {/* Decorative Mesh Circle */}
-              <div className={`absolute -bottom-10 -right-10 h-32 w-32 rounded-full bg-gradient-to-br ${gradientClass} opacity-10 blur-3xl group-hover:opacity-30 transition-opacity`} />
+              <div
+                className={`absolute -bottom-10 -right-10 h-32 w-32 rounded-full bg-gradient-to-br ${gradientClass} opacity-10 blur-3xl group-hover:opacity-30 transition-opacity`}
+              />
             </div>
           </div>
         );

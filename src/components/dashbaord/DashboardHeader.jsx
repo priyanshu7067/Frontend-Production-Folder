@@ -3,8 +3,11 @@ import { Search, Bell } from "lucide-react";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { IconButton, Avatar, Box, Typography, Chip } from "@mui/material";
 import gif from "../../assets/spin.gif";
+import { useAuth } from "../../context/AuthContext";
 
 const DashboardHeader = ({ role, setOpen }) => {
+  const {user} = useAuth();
+  console.log(user, "gfayuehg")
   return (
     <header className="h-14 bg-[#020617]/90 backdrop-blur-md border-b border-white/10 flex items-center justify-between px-5">
       {/* 🔥 LEFT */}
@@ -87,7 +90,7 @@ const DashboardHeader = ({ role, setOpen }) => {
               fontWeight: 500,
             }}
           >
-            $0.00
+            ${user?.wallets?.earningsWallet || 0}
           </Typography>
         </Box>
         <Avatar
