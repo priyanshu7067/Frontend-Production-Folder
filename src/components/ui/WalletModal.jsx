@@ -5,11 +5,14 @@ import { userLogin, UserRegister } from "../../apis/user/users.api";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { UserRoutes } from "../../constants/routes";
+import safePalImg from "../../assets/safepal.png";
+import tokenPocket from "../../assets/token-pocket.png";
+import bitgetWallet from "../../assets/bitget-wallet.jpg";
 
 const wallets = [
   {
     name: "MetaMask",
-    icon: "https://cdn.jsdelivr.net/gh/trustwallet/assets@master/blockchains/ethereum/info/logo.png",
+    icon: "https://img.icons8.com/color/96/metamask-logo.png",
   },
   {
     name: "Trust Wallet",
@@ -17,15 +20,15 @@ const wallets = [
   },
   {
     name: "SafePal",
-    icon: "https://safepal.com/assets/img/logo.svg",
+    icon: safePalImg,
   },
   {
-    name: "TokenPocket",
-    icon: "https://tokenpocket.pro/images/logo.svg",
+    name: "Token Pocket",
+    icon: tokenPocket,
   },
   {
     name: "Bitget Wallet",
-    icon: "https://bitget.com/favicon.ico",
+    icon: bitgetWallet,
   }
 ];
 
@@ -46,8 +49,8 @@ const WalletModal = ({ open, onClose, sponsor, type = "login" }) => {
       // ✅ REGISTER
       if (type === "register") {
         res = await UserRegister({
-          //   walletAddress: address?.address,
-          walletAddress: "0x567ced645a5b17baA7CCdC6e74F419aC2F12caFf",
+            walletAddress: address?.address,
+          // walletAddress: "0x567ced645a5b17baA7CCdC6e74F419aC2F12caFf",
           sponsor,
         });
       }
@@ -103,7 +106,7 @@ const WalletModal = ({ open, onClose, sponsor, type = "login" }) => {
                 transition-all
               "
             >
-              <img src={wallet.icon} alt={wallet.name} className="w-6 h-6" />
+              <img src={wallet.icon} alt={wallet.name} className="w-6 h-6 rounded-full" />
               <span className="text-white text-sm">{wallet.name}</span>
             </button>
           ))}

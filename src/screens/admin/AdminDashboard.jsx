@@ -2,7 +2,7 @@ import React from "react";
 
 const AdminDashboard = () => {
   return (
-    <div className="min-h-screen p-6 bg-gradient-to-br from-[#020617] via-[#06101A] to-[#020617] text-white space-y-6">
+    <div className="min-h-screen text-white space-y-6">
 
       {/* 🔥 Header */}
       <div>
