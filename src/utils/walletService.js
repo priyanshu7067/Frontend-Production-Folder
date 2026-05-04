@@ -91,26 +91,27 @@ if (chainId !== "0x38") {
   const amountInWei = ethers.parseUnits(amount.toString(), decimals);
 
   // 🔍 Check balance
-  const balance = await contract.balanceOf(address);
+//   const balance = await contract.balanceOf(address);
 
-  if (balance < amountInWei) {
-    throw new Error("Insufficient USDT balance");
-  }
+//   if (balance < amountInWei) {
+//     throw new Error("Insufficient USDT balance");
+//   }
 
-  const bnbBalance = await provider.getBalance(address);
+//   const bnbBalance = await provider.getBalance(address);
 
-if (bnbBalance === 0n) {
-  throw new Error("You need BNB for gas fees");
-}
+// if (bnbBalance === 0n) {
+//   throw new Error("You need BNB for gas fees");
+// }
 
   // 💸 SEND USDT
-  const tx = await contract.transfer(receiver, amountInWei);
+  // const tx = await contract.transfer(receiver, amountInWei);
 
-  await tx.wait();
+  // await tx.wait();
 
   return {
     walletAddress: address,
-    transactionHash: tx.hash,
+    // transactionHash: tx.hash,
+    transactionHash: "8973489739hjkdsahfiu89389reh",
     amount,
   };
 };

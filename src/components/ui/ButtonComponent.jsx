@@ -6,6 +6,9 @@ const ButtonComponent = ({
   variant = "primary",
   fullWidth = false,
   onClick,
+  wrap=true,
+  padding="8px 14px",
+  type = "button"
 }) => {
   const styles = {
     primary: {
@@ -49,11 +52,13 @@ const ButtonComponent = ({
     <Button
       fullWidth={fullWidth}
       onClick={onClick}
+      type={type}
       sx={{
         textTransform: "none",
         borderRadius: "10px",
         fontSize: "13px",
-        padding: "8px 14px",
+        padding: padding ? padding : "8px 14px",
+        textWrap: wrap && "nowrap",
         ...styles[variant],
       }}
     >

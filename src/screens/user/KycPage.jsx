@@ -7,12 +7,12 @@ import ReusableImageUpload from "../../components/global/ReusableImageUpload";
 import ButtonComponent from "../../components/ui/ButtonComponent";
 
 export default function KycPage() {
-
   const initialData = {
     pan: "",
     aadhaar: "",
     email: "",
-    phoneNo: ""
+    phoneNo: "",
+    name: ""
   };
   const { showLoader, hideLoader } = useAuth();
   const [form, setForm] = useState(initialData);
@@ -29,8 +29,7 @@ export default function KycPage() {
 
   const status = kycData?.status?.toLowerCase();
 
-  const isDisabled =
-    status === "approved" || status === "pending";
+  const isDisabled = status === "approved" || status === "pending";
 
   const canSubmit = !status || status === "rejected";
 
@@ -55,6 +54,7 @@ export default function KycPage() {
           aadhaar: data?.aadhaar?.number ?? "",
           email: data?.email ?? "",
           phoneNo: data?.phoneNo ?? "",
+          name: data?.name ?? "",
         });
 
         // ✅ DOCUMENTS SET
@@ -65,16 +65,14 @@ export default function KycPage() {
           aadhaarBack: data?.aadhaar?.backImage ?? null,
           memberPhoto: data?.memberPhoto ?? null,
         });
-
       } else {
         toast.error(res?.message || "Failed to fetch KYC");
       }
-
     } catch (error) {
       toast.error(
         error?.response?.data?.message ||
-        error?.message ||
-        "Something went wrong"
+          error?.message ||
+          "Something went wrong",
       );
     }
   };
@@ -86,16 +84,16 @@ export default function KycPage() {
   // ================= SUBMIT =================
 
   const handleSubmit = async () => {
-
     if (
       !form.pan ||
       !form.aadhaar ||
       !documents.panImage ||
       !documents.aadhaarFront ||
-      !documents.aadhaarBack || 
-      !documents.memberPhoto || 
-      !form.email || 
-      !form.phoneNo
+      !documents.aadhaarBack ||
+      !documents.memberPhoto ||
+      !form.email ||
+      !form.phoneNo ||
+      !form.name
     ) {
       return toast.error("Please fill all required fields");
     }
@@ -113,7 +111,8 @@ export default function KycPage() {
         },
         memberPhoto: documents.memberPhoto,
         email: form.email,
-        phoneNo: form.phoneNo
+        phoneNo: form.phoneNo,
+        name: form.name
       });
 
       if (res?.success) {
@@ -122,15 +121,11 @@ export default function KycPage() {
       } else {
         toast.error(res?.message || "KYC submission failed");
       }
-
     } catch (err) {
       toast.error(
-        err?.response?.data?.message ||
-        err?.message ||
-        "Something went wrong"
+        err?.response?.data?.message || err?.message || "Something went wrong",
       );
-    }
-    finally {
+    } finally {
       hideLoader();
     }
   };
@@ -138,7 +133,6 @@ export default function KycPage() {
   return (
     <div className="fade-in">
       <div className="max-w-6xl mx-auto space-y-6">
-
         {/* HEADER */}
         {status === "rejected" && kycData?.rejectionReason && (
           <div className="glass-card p-4 border border-red-500/30">
@@ -149,21 +143,21 @@ export default function KycPage() {
         )}
 
         <div className="flex justify-between">
-          <h1 className="text-2xl font-bold text-white">
-            KYC Verification
-          </h1>
+          <h1 className="text-2xl font-bold text-white">KYC Verification</h1>
 
           <span
             className={`px-3 py-1 rounded text-sm capitalize
-                         ${status === "approved"
-                ? "bg-green-500/20 text-green-400"
-                : status === "rejected"
-                  ? "bg-red-500/20 text-red-400"
-                  : "bg-yellow-500/20 text-yellow-400"
-              }
+                         ${
+                           status === "approved"
+                             ? "bg-green-500/20 text-green-400"
+                             : status === "rejected"
+                               ? "bg-red-500/20 text-red-400"
+                               : "bg-yellow-500/20 text-yellow-400"
+                         }
                 `}
           >
-            <span className="text-gray-400">Your KYC status is</span> :  {status || "not submitted"}
+            <span className="text-gray-400">Your KYC status is</span> :{" "}
+            {status || "not submitted"}
           </span>
         </div>
 
@@ -171,7 +165,6 @@ export default function KycPage() {
 
         <div className="premium-card">
           <div className="premium-card-inner grid md:grid-cols-2 gap-4">
-
             <ReusableInput
               label="PAN"
               name="pan"
@@ -186,6 +179,15 @@ export default function KycPage() {
               name="aadhaar"
               placeholder="123412341234"
               value={form.aadhaar}
+              onChange={handleChange}
+              disabled={isDisabled}
+            />
+
+            <ReusableInput
+              label="Full Name"
+              name="name"
+              value={form.name}
+              placeholder="enter full name"
               onChange={handleChange}
               disabled={isDisabled}
             />
@@ -214,7 +216,6 @@ export default function KycPage() {
 
         <div className="premium-card">
           <div className="premium-card-inner grid grid-cols-2 md:grid-cols-3 gap-5">
-
             <ReusableImageUpload
               value={documents.panImage}
               title="PAN"
@@ -253,9 +254,7 @@ export default function KycPage() {
                 !isDisabled &&
                 setDocuments((prev) => ({ ...prev, memberPhoto: val }))
               }
-
             />
-
           </div>
         </div>
 
@@ -272,7 +271,6 @@ export default function KycPage() {
             </ButtonComponent>
           </div>
         )}
-
       </div>
     </div>
   );

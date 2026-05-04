@@ -125,6 +125,9 @@ const KycDetailsModal = ({
             <span className="text-[#22d3ee]">Email:</span> {data?.email}
           </p>
           <p>
+            <span className="text-[#22d3ee]">Name:</span> {data?.name}
+          </p>
+          <p>
             <span className="text-[#22d3ee]">Phone:</span> {data?.phoneNo}
           </p>
           <p>
@@ -190,7 +193,7 @@ const KycDetailsModal = ({
         <div className="flex sm:justify-end justify-center gap-3 mt-6">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-lg border border-white/10 text-gray-300 hover:bg-white/10"
+            className="px-4 py-2 rounded-lg border border-white/10 text-gray-300 hover:bg-white/10 cursor-pointer"
           >
             Close
           </button>
@@ -200,7 +203,7 @@ const KycDetailsModal = ({
               <button
                 onClick={handleReject}
                 disabled={loading}
-                className="px-4 py-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30"
+                className="px-4 py-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 cursor-pointer"
               >
                 Reject
               </button>
@@ -208,7 +211,7 @@ const KycDetailsModal = ({
               <button
                 onClick={handleApprove}
                 disabled={loading}
-                className="px-4 py-2 rounded-lg bg-[#22d3ee]/20 text-[#22d3ee] hover:bg-[#22d3ee]/30"
+                className="px-4 py-2 rounded-lg bg-[#22d3ee]/20 text-[#22d3ee] hover:bg-[#22d3ee]/30 cursor-pointer"
               >
                 Approve
               </button>

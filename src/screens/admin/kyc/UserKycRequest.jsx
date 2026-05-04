@@ -46,6 +46,10 @@ const UserKycRequests = () => {
       render: (row) => row?.userId?.userId || "-",
     },
     {
+      header: "Name",
+      render: (row) => row?.name || "-",
+    },
+    {
       header: "Email",
       render: (row) => row?.email || "-",
     },
@@ -104,7 +108,7 @@ const UserKycRequests = () => {
         onClose={() => setOpenModal(false)}
         data={selectedKyc}
         fetchData={fetchAllApprovedUserKyc}
-        onlyClose
+        onlyClose={false}
       />
     </>
   );
