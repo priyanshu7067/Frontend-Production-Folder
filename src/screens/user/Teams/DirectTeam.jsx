@@ -51,7 +51,7 @@ const DirectTeam = () => {
         accessor: "totalInvestment",
         Cell: ({ value }) => (
           <span className="text-blue-400 text-xs font-semibold">
-            ₹{Number(value || 0).toLocaleString("en-IN")}
+            ${Number(value || 0).toLocaleString("en-IN")}
           </span>
         ),
       },
@@ -75,7 +75,7 @@ const DirectTeam = () => {
       //   accessor: "business",
       //   Cell: ({ value }) => (
       //     <span className="text-blue-400 text-xs font-medium">
-      //       ₹{value.toLocaleString()}
+      //       ${value.toLocaleString()}
       //     </span>
       //   ),
       // },

@@ -7,9 +7,25 @@ export const sidebarMenu = {
     { name: "All Incomes", path: UserRoutes.INCOME_CARDS, icon: "income" },
     { name: "Live Pricing", path: UserRoutes.LIVE_PRICING, icon: "live" },
     { name: "Trading Bot", path: UserRoutes.TRADING_BOT, icon: "bot" },
-    { name: "History",
+    { name: "Wallet Fund Transfer", path: UserRoutes.WALLET_FUND_TRANSFER, icon: "bot" },
+    {
+      name: "Withdrawal",
       icon: "history",
       children: [
+        {
+          name: "Withdrawal",
+          path: UserRoutes.WITHDRAWAL,
+        }
+      ],
+    },
+    {
+      name: "History",
+      icon: "history",
+      children: [
+        {
+          name: "Investment History",
+          path: UserRoutes.INVESTMENT_HISTORY,
+        },
         {
           name: "Level Income History",
           path: UserRoutes.LEVEL_INCOME_HISTORY,
@@ -32,7 +48,8 @@ export const sidebarMenu = {
         },
       ],
     },
-    { name: "Teams",
+    {
+      name: "Teams",
       path: UserRoutes.TEAMS,
       icon: "users",
       children: [
@@ -56,7 +73,7 @@ export const sidebarMenu = {
     { name: "Dashboard", path: AdminRoutes.DASHBOARD, icon: "dashboard" },
     { name: "All Users", path: AdminRoutes.ALL_USERS, icon: "users" },
     { name: "Analytics", path: "/admin/analytics", icon: "chart" },
-     {
+    {
       name: "KYC",
       icon: "user",
       children: [

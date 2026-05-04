@@ -64,7 +64,7 @@ const MyTeams = () => {
       header: "Investment",
       render: (row) => (
         <span className="text-blue-400 text-xs font-semibold">
-          ₹{Number(row?.totalInvestment || 0).toLocaleString("en-IN")}
+          ${Number(row?.totalInvestment || 0).toLocaleString("en-IN")}
         </span>
       ),
     },
@@ -124,7 +124,7 @@ const MyTeams = () => {
               <div>
                 <p className="text-[10px] text-gray-400">Business</p>
                 <p className="text-blue-400 text-sm font-semibold">
-                  ₹{Number(levelData?.business || 0).toLocaleString("en-IN")}
+                  ${Number(levelData?.business || 0).toLocaleString("en-IN")}
                 </p>
               </div>
 

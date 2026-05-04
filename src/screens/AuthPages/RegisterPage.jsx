@@ -195,14 +195,14 @@ const RegisterPage = () => {
             </ButtonComponent>
 
             {/* FOOTER */}
-            <p className="text-center text-sm text-gray-400">
+            {/* <p className="text-center text-sm text-gray-400">
               Already have an account?{" "}
               <Link to={AuthRoutes.LOGIN}>
                 <span className="text-[var(--accent-primary)] cursor-pointer">
                   Login
                 </span>
               </Link>
-            </p>
+            </p> */}
 
           </div>
         </div>

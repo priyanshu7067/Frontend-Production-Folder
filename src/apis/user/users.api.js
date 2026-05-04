@@ -73,7 +73,7 @@ export const topupApi = async (payload) => {
 
 export const buySellAiTradingBot = async (payload) => {
   try {
-    const response = await Axios.put("/user/buy-bot", payload);
+    const response = await Axios.post("/user/roi-trade", payload);
     return response.data;
   } catch (error) {
     console.log(error, "error in apis");
@@ -92,7 +92,7 @@ export const allincomeCards = async () => {
 // =================histories==============
 export const getLevelncomeHistory = async () => {
   try {
-    const response = await Axios.get("/user/level-history");
+    const response = await Axios.get("/user/get-level-income-history");
     return response.data;
   } catch (error) {
     console.log(error, "error in apis");
@@ -128,7 +128,26 @@ export const getPromotionHistory = async () => {
 }
 export const getReferralHistory = async () => {
   try {
-    const response = await Axios.get("/user/trade-history");
+    const response = await Axios.get("/user/get-referral-income-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
+export const getInvestmentHistory = async () => {
+  try {
+    const response = await Axios.get("/user/get-investment-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
+
+export const getTransactionHistory = async () => {
+  try {
+    const response = await Axios.get("/user/get-transaction-history");
     return response.data;
   } catch (error) {
     console.log(error, "error in apis");
@@ -157,3 +176,34 @@ export const getMyDirectTeams = async () => {
     return error.response.data;
   }
 }
+
+
+export const sendWithdrawalOtp = async () => {
+  try {
+    const response = await Axios.get(`/user/send-otp`);
+    return response?.data;
+  } catch (error) {
+    console.error(error, "error in apis");
+    return error?.response?.data;
+  }
+};
+
+export const submitWithdrawalApi = async () => {
+  try {
+    const response = await Axios.post(`/user/add-withdraw`);
+    return response?.data;
+  } catch (error) {
+    console.error(error, "error in apis");
+    return error?.response?.data;
+  }
+};
+
+export const transferToEarnings = async (payload) => {
+  try {
+    const res = await Axios.post("/user/transfer-funds-to-wallet", payload);
+    return res.data;
+  } catch (error) {
+    console.error(error, "error in apis");
+    return error.response.data;
+  }
+};

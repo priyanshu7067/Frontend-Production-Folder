@@ -27,6 +27,9 @@ import Rank_RoyalityBonus from "../screens/user/history/Rank_RoyalityBonus";
 import { useAuth } from "../context/AuthContext";
 import AllUsers from "../screens/admin/AllUsers";
 import AllIncomeCards from "../screens/user/AllIncomeCards";
+import InvestmentHistory from "../screens/user/history/InvestmentHistory";
+import WithdrawalPage from "../screens/user/WithdrawalPage";
+import WalletTransfer from "../screens/user/WalletTransfer";
 const Authenticated = () => {
   const { user } = useAuth();
   return (
@@ -82,9 +85,15 @@ const Authenticated = () => {
               path={UserRoutes.RANK_ROYALITY_HISTORY}
               element={<Rank_RoyalityBonus />}
             />
+            <Route
+              path={UserRoutes.INVESTMENT_HISTORY}
+              element={<InvestmentHistory />}
+            />
             <Route path={UserRoutes.MY_TEAMS} element={<MyTeams />} />
             <Route path={UserRoutes.DIRECT_TEAMS} element={<DirectTeam />} />
             <Route path={UserRoutes.INCOME_CARDS} element={<AllIncomeCards />} />
+            <Route path={UserRoutes.WITHDRAWAL} element={<WithdrawalPage />} />
+            <Route path={UserRoutes.WALLET_FUND_TRANSFER} element={<WalletTransfer />} />
           </Route>
         )}
       </Routes>

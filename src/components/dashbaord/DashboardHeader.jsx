@@ -7,7 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 
 const DashboardHeader = ({ role, setOpen }) => {
   const {user} = useAuth();
-  console.log(user, "gfayuehg")
+  // console.log(user, "gfayuehg")
   return (
     <header className="h-14 bg-[#020617]/90 backdrop-blur-md border-b border-white/10 flex items-center justify-between px-5">
       {/* 🔥 LEFT */}

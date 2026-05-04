@@ -1,88 +1,104 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import TableComponent from "../../../components/ui/TableComponent";
+import { getLevelncomeHistory } from "../../../apis/user/users.api";
+import { toast } from "react-toastify";
 
 const LevelIncome = () => {
-  // 🔥 TABLE COLUMNS
-  const columns = useMemo(
-    () => [
-      {
-        header: "Level",
-        accessor: "level",
-      },
-      {
-        header: "User",
-        accessor: "user",
-      },
-      {
-        header: "Amount",
-        accessor: "amount",
-        Cell: ({ value }) => (
-          <span className="text-green-400 font-medium">
-            ${value.toLocaleString()}
-          </span>
-        ),
-      },
-      {
-        header: "Status",
-        accessor: "status",
-        Cell: ({ value }) => (
-          <span
-            className={`text-xs px-2 py-1 rounded-full ${
-              value === "Completed"
-                ? "bg-green-500/20 text-green-400"
-                : "bg-yellow-500/20 text-yellow-400"
-            }`}
-          >
-            {value}
-          </span>
-        ),
-      },
-      {
-        header: "Date",
-        accessor: "date",
-      },
-    ],
-    [],
-  );
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // 🔥 SAMPLE DATA (replace with API later)
-  const data = useMemo(
-    () => [
-      {
-        level: "Level 1",
-        user: "Rahul Sharma",
-        amount: 500,
-        status: "Completed",
-        date: "12 Jan 2024",
-      },
-      {
-        level: "Level 2",
-        user: "Amit Verma",
-        amount: 300,
-        status: "Pending",
-        date: "14 Jan 2024",
-      },
-      {
-        level: "Level 3",
-        user: "Neha Singh",
-        amount: 700,
-        status: "Completed",
-        date: "16 Jan 2024",
-      },
-      {
-        level: "Level 4",
-        user: "Karan Patel",
-        amount: 250,
-        status: "Completed",
-        date: "18 Jan 2024",
-      },
-    ],
-    [],
-  );
+  // 🔥 FETCH API
+  const fetchLevelIncome = async () => {
+    try {
+      setLoading(true);
+
+      const res = await getLevelncomeHistory();
+      console.log("LEVEL INCOME:", res);
+
+      if (res?.success) {
+        setData(res?.data || []);
+      } else {
+        toast.error(res?.message || "Failed to fetch level income");
+      }
+    } catch (err) {
+      toast.error(
+        err?.response?.data?.message || "Something went wrong"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLevelIncome();
+  }, []);
+
+  // 🔥 CORRECT COLUMNS (render use karo)
+  const columns = useMemo(() => [
+    {
+      header: "Level",
+      render: (row) => (
+        <span className="text-purple-400 text-xs font-semibold">
+          Level {row?.level || 0}
+        </span>
+      ),
+    },
+    {
+      header: "From User",
+      render: (row) => (
+        <span className="text-white text-sm">
+          {row?.fromUser?.userId?.slice(0, 10) || "N/A"}...
+        </span>
+      ),
+    },
+    {
+      header: "To User",
+      render: (row) => (
+        <span className="text-gray-400 text-xs">
+          {row?.user?.userId?.slice(0, 10) || "N/A"}...
+        </span>
+      ),
+    },
+    {
+      header: "Income",
+      render: (row) => (
+        <span className="text-green-400 font-semibold">
+          ₹{Number(row?.income || 0).toLocaleString("en-IN")}
+        </span>
+      ),
+    },
+    {
+      header: "Amount",
+      render: (row) => (
+        <span className="text-blue-400 text-xs">
+          ₹{Number(row?.amount || 0).toLocaleString("en-IN")}
+        </span>
+      ),
+    },
+    {
+      header: "Note",
+      render: (row) => (
+        <span className="text-gray-300 text-xs">
+          {row?.note || "N/A"}
+        </span>
+      ),
+    },
+    {
+      header: "Date",
+      render: (row) => (
+        <span className="text-gray-400 text-xs">
+          {row?.createdAt
+            ? new Date(row.createdAt).toLocaleDateString("en-IN")
+            : "N/A"}
+        </span>
+      ),
+    },
+  ], []);
 
   return (
     <div className="dashboard-bg min-h-full p-4 md:p-6 text-white space-y-5">
-      {/* 🔥 HEADER */}
+
+      {/* HEADER */}
       <div>
         <h2 className="text-lg md:text-xl font-semibold tracking-wide">
           Level Income History
@@ -92,16 +108,18 @@ const LevelIncome = () => {
         </p>
       </div>
 
-      {/* 🔥 TABLE CARD */}
+      {/* TABLE */}
       <div className="glow-card p-4">
         <TableComponent
           columns={columns}
           data={data}
+          loading={loading}
           rowsPerPage={5}
           searchable={true}
           emptyMessage="No income records found"
         />
       </div>
+
     </div>
   );
 };

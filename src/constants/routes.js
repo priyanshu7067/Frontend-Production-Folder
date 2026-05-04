@@ -16,10 +16,14 @@ export const UserRoutes = {
     REFFERAL_INCOME_HISTORY: "refferal-income-history",
     TRADE_HISTORY: "trade-history",
     RANK_ROYALITY_HISTORY: "rank-royality-bonus-history",
+    INVESTMENT_HISTORY: "investment-history",
 
     MY_TEAMS: "my-teams",
     DIRECT_TEAMS: "direct-team",
     INCOME_CARDS: "income-cards",
+
+    WITHDRAWAL: "withdrawal",
+    WALLET_FUND_TRANSFER: "wallet-fund-transfer",
 }
 
 export const AdminRoutes = {

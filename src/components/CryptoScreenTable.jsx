@@ -1,46 +1,21 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { Info, ChevronDown, Zap } from "lucide-react";
+import React, { useState } from "react";
 import {
-  LineChart,
-  Line,
   ResponsiveContainer,
   Area,
   AreaChart,
 } from "recharts";
-const CryptoScreenTable = () => {
-  const [tokens, setTokens] = useState([]);
-  const [loading, setLoading] = useState(true);
+
+const CryptoScreenTable = ({ tokens = [], loading = false }) => {
   const [timeframe, setTimeframe] = useState("24h");
 
-  const fetchMarketData = useCallback(async () => {
-    try {
-      const response = await fetch(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&price_change_percentage=1h,24h,7d"
-      );
-      const data = await response.json();
-      setTokens(Array.isArray(data) ? data : []);
-      setLoading(false);
-    } catch (error) {
-      console.error("CoinGecko Error:", error);
-      setLoading(false);
-    }
-  }, []);
   const generateWaveData = (price) => {
     return Array.from({ length: 20 }, (_, i) => ({
       value:
         price +
-        Math.sin(i / 2) * price * 0.02 + // 🌊 wave curve
+        Math.sin(i / 2) * price * 0.02 +
         (Math.random() - 0.5) * price * 0.01,
     }));
   };
-
-  useEffect(() => {
-    fetchMarketData();
-
-    // 🔥 LIVE FEEL (every 30 sec instead of 5 min)
-    const interval = setInterval(fetchMarketData, 30000);
-    return () => clearInterval(interval);
-  }, [fetchMarketData]);
 
   const formatCurrency = (val) => {
     if (!val) return "$0";
@@ -65,10 +40,10 @@ const CryptoScreenTable = () => {
 
       {/* HEADER */}
       <div className="flex flex-col lg:flex-row justify-between p-4 gap-4 border-b border-white/5">
-        <div className="flex items-center gap-5">
-          <button className="text-[var(--primary)] border-b-2 border-[var(--primary)] pb-1 text-sm font-semibold">
+        <div>
+          <p className="text-sm font-semibold text-[var(--primary)]">
             TOP CRYPTOCURRENCY
-          </button>
+          </p>
         </div>
 
         {/* TIMEFRAME */}
@@ -77,10 +52,11 @@ const CryptoScreenTable = () => {
             <button
               key={t}
               onClick={() => setTimeframe(t)}
-              className={`px-3 py-1 text-[11px] rounded-md ${timeframe === t
-                ? "bg-[#1e293b] text-[var(--primary)] border border-[var(--primary)]/30"
-                : "text-gray-500 hover:text-white"
-                }`}
+              className={`px-3 py-1 text-[11px] rounded-md ${
+                timeframe === t
+                  ? "bg-[#1e293b] text-[var(--primary)] border border-[var(--primary)]/30"
+                  : "text-gray-500 hover:text-white"
+              }`}
             >
               {t}
             </button>
@@ -98,15 +74,21 @@ const CryptoScreenTable = () => {
               <th className="px-6 py-4 text-right">Volume</th>
               <th className="px-6 py-4 text-right">Price</th>
               <th className="px-6 py-4 text-right">Change</th>
-              <th className="px-10 py-4 ">7D Chart</th>
+              <th className="px-10 py-4">7D Chart</th>
             </tr>
           </thead>
 
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="5" className="text-center py-8 text-gray-200">
-                  Loading market data...
+                <td colSpan="5" className="text-center py-8 text-gray-400">
+                  Loading...
+                </td>
+              </tr>
+            ) : tokens.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="text-center py-8 text-gray-500">
+                  No data available
                 </td>
               </tr>
             ) : (
@@ -115,22 +97,17 @@ const CryptoScreenTable = () => {
                 const isPositive = change >= 0;
 
                 return (
-                  <tr
-                    key={coin.id}
-                    className="hover:bg-white/[0.03] transition"
-                  >
+                  <tr key={coin.id} className="hover:bg-white/[0.03]">
+
                     {/* TOKEN */}
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <img
-                          src={coin.image}
-                          className="w-7 h-7 rounded-full"
-                        />
+                        <img src={coin.image} className="w-7 h-7" />
                         <div>
                           <p className="text-sm font-bold text-white uppercase">
                             {coin.symbol}
                           </p>
-                          <p className="text-[10px] text-gray-100">
+                          <p className="text-[10px] text-gray-400">
                             {coin.name}
                           </p>
                         </div>
@@ -138,8 +115,8 @@ const CryptoScreenTable = () => {
                     </td>
 
                     {/* VOLUME */}
-                    <td className="px-6 py-4 text-white text-right">
-                      {formatCurrency(coin?.total_volume)}
+                    <td className="px-6 py-4 text-right text-white">
+                      {formatCurrency(coin.total_volume)}
                     </td>
 
                     {/* PRICE */}
@@ -149,49 +126,33 @@ const CryptoScreenTable = () => {
 
                     {/* CHANGE */}
                     <td
-                      className={`px-6 py-4 text-right text-xs font-bold ${isPositive
-                        ? "text-[var(--primary)]"
-                        : "text-red-400"
-                        }`}
+                      className={`px-6 py-4 text-right text-xs font-bold ${
+                        isPositive ? "text-green-400" : "text-red-400"
+                      }`}
                     >
                       {isPositive ? "+" : ""}
                       {change.toFixed(2)}%
                     </td>
 
-                    <td className="px-6 py-4 text-right ">
+                    {/* CHART */}
+                    <td className="px-6 py-4">
                       <div className="w-32 h-14">
                         <ResponsiveContainer width="100%" height="100%">
                           <AreaChart data={generateWaveData(coin.current_price)}>
-
-                            {/* 🔥 Gradient Fill */}
-                            <defs>
-                              <linearGradient id={`wave-${coin.id}`} x1="0" y1="0" x2="0" y2="1">
-                                <stop
-                                  offset="0%"
-                                  stopColor={change >= 0 ? "#22c55e" : "#ef4444"}
-                                  stopOpacity={0.4}
-                                />
-                                <stop
-                                  offset="100%"
-                                  stopColor={change >= 0 ? "#22c55e" : "#ef4444"}
-                                  stopOpacity={0}
-                                />
-                              </linearGradient>
-                            </defs>
-
-                            {/* 🌊 Wave Line */}
                             <Area
                               type="monotone"
                               dataKey="value"
-                              stroke={change >= 0 ? "#22c55e" : "#ef4444"}
+                              stroke={isPositive ? "#22c55e" : "#ef4444"}
                               strokeWidth={2}
-                              fill={`url(#wave-${coin.id})`}
+                              fillOpacity={0.2}
+                              fill={isPositive ? "#22c55e" : "#ef4444"}
                               dot={false}
                             />
                           </AreaChart>
                         </ResponsiveContainer>
                       </div>
                     </td>
+
                   </tr>
                 );
               })

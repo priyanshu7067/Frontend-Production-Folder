@@ -1,47 +1,117 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { getTransactionHistory } from "../../apis/user/users.api";
+import TableComponent from "../../components/ui/TableComponent";
+import { toast } from "react-toastify";
 
 const TransactionTable = () => {
-    const data = [
-        { type: "BUY", date: "12 JAN 2023", asset: "BTC", status: "PROCESS", amount: "0.223 BTC" },
-        { type: "SELL", date: "13 JAN 2023", asset: "ETH", status: "PROCESS", amount: "0.123 ETH" },
-        { type: "BUY", date: "14 JAN 2023", asset: "ADA", status: "PROCESS", amount: "320 ADA" },
-        { type: "SELL", date: "15 JAN 2023", asset: "BNB", status: "PROCESS", amount: "2.1 BNB" },
-    ];
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // 🔥 FETCH API
+    const fetchTransactions = async () => {
+        try {
+            setLoading(true);
+
+            const res = await getTransactionHistory();
+            //   console.log("TXN:", res);
+
+            if (res?.success) {
+                setData(res?.data || []);
+            } else {
+                toast.error(res?.message || "Failed to fetch transactions");
+            }
+        } catch (err) {
+            toast.error("Something went wrong");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchTransactions();
+    }, []);
+
+    // 🔥 COLUMNS (TableComponent ke hisaab se render use karo)
+    const columns = useMemo(() => [
+        {
+            header: "S.No.",
+            render: (_, i) => i + 1,
+
+        },
+        {
+            header: "Amount",
+            render: (row) => (
+                <span className="text-right text-sm font-semibold text-purple-400">
+                    ₹{Number(row?.amount || 0).toLocaleString("en-IN")}
+                </span>
+            ),
+        },
+        {
+            header: "Type",
+            render: (row) => (
+                <span className="text-blue-400 font-medium">
+                    {row?.type || "N/A"}
+                </span>
+            ),
+        },
+        {
+            header: "Transaction Id",
+            render: (row) => (
+                <span className="text-white text-sm">
+                    {row?.transactionId || "N/A"}
+                </span>
+            ),
+        },
+        {
+            header: "TransactionDate",
+            render: (row) => (
+                <span className="text-gray-300 text-xs">
+                    {row?.transactionDate
+                        ? new Date(row.transactionDate).toLocaleDateString("en-IN")
+                        : "N/A"}
+                </span>
+            ),
+        },
+
+
+        {
+            header: "Status",
+            render: (row) => (
+                <span
+                    className={`text-[10px] px-2 py-0.5 rounded-full ${row?.status === "Completed"
+                        ? "bg-green-500/20 text-green-400"
+                        : row?.status === "Pending"
+                            ? "bg-yellow-500/20 text-yellow-400"
+                            : "bg-green-500/20 text-green-400"            // dummy
+                        }`}
+                >
+                    {row?.status || "Active"}
+                </span>
+            ),
+        },
+
+    ], []);
 
     return (
-        <div className="glow-card mt-6 overflow-hidden">
+        <div className="glow-card mt-6">
 
-            <div className="p-4 border-b border-white/5 text-xs text-green-500">
+            {/* HEADER */}
+            <div className="p-4 border-b font-bold border-white/5 text-sm text-[var(--primary)]">
                 TRANSACTION HISTORY
             </div>
 
-            <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                    <thead className="text-gray-500 text-[11px] uppercase">
-                        <tr>
-                            <th className="px-4 py-3">Type</th>
-                            <th>Date</th>
-                            <th>Asset</th>
-                            <th>Status</th>
-                            <th className="text-right px-4">Amount</th>
-                        </tr>
-                    </thead>
-
-                    <tbody className="divide-y divide-white/5">
-                        {data.map((row, i) => (
-                            <tr key={i} className="hover:bg-white/[0.03]">
-                                <td className="px-4 py-3 text-blue-400">{row.type}</td>
-                                <td>{row.date}</td>
-                                <td>{row.asset}</td>
-                                <td className="text-gray-400">{row.status}</td>
-                                <td className="text-right px-4">{row.amount}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+            {/* TABLE */}
+            <div className="p-3">
+                <TableComponent
+                    columns={columns}
+                    data={data}
+                    loading={loading}
+                    rowsPerPage={5}
+                    searchable={true}
+                    emptyMessage="No transactions found"
+                />
             </div>
-     
-           
+
         </div>
     );
 };

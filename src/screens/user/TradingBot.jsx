@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import TransactionTable from "./TransactionTable";
 import { buySellAiTradingBot } from "../../apis/user/users.api";
+import { useAuth } from "../../context/AuthContext";
+
 const COINS = [
     { pair: "BTC/USDT", tvSymbol: "BINANCE:BTCUSDT", price: 63420.5, change: 2.34, vol: "1.2B", icon: "₿" },
     { pair: "ETH/USDT", tvSymbol: "BINANCE:ETHUSDT", price: 2305.04, change: 0.4, vol: "480M", icon: "Ξ" },
@@ -156,7 +158,7 @@ export default function TradingBot() {
 
     const [isProcessing, setIsProcessing] = useState(false);
     const [timer, setTimer] = useState(0);
-
+     const {user} = useAuth()
 
     // Generate order book
     useEffect(() => {
@@ -226,6 +228,9 @@ export default function TradingBot() {
             console.log("Sending Order:", payload);
 
             const res = await buySellAiTradingBot(payload);
+            if(res.success) {
+                toast.success(res?.message);
+            }
 
         } catch (err) {
             console.error("Order Error:", err);
