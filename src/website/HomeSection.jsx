@@ -12,7 +12,7 @@ const HomeSection = () => {
             <UseCases/>
             <AboutSection />
             <ProblemSection/>
-            {/* <ContactSection /> */}
+            <ContactSection />
         </div>
     )
 }

@@ -16,7 +16,7 @@ const ButtonComponent = ({
       },
     },
     outline: {
-      border: "1px solid rgba(255,255,255,0.15)",
+      border: "1px solid rgba(34,211,238,0.4)",
       color: "#E5E7EB",
       "&:hover": {
         background: "rgba(255,255,255,0.06)",

@@ -26,6 +26,7 @@ import RefferalIncome from "../screens/user/history/RefferalIncome";
 import Rank_RoyalityBonus from "../screens/user/history/Rank_RoyalityBonus";
 import { useAuth } from "../context/AuthContext";
 import AllUsers from "../screens/admin/AllUsers";
+import AllIncomeCards from "../screens/user/AllIncomeCards";
 const Authenticated = () => {
   const { user } = useAuth();
   return (
@@ -83,6 +84,7 @@ const Authenticated = () => {
             />
             <Route path={UserRoutes.MY_TEAMS} element={<MyTeams />} />
             <Route path={UserRoutes.DIRECT_TEAMS} element={<DirectTeam />} />
+            <Route path={UserRoutes.INCOME_CARDS} element={<AllIncomeCards />} />
           </Route>
         )}
       </Routes>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-
+import TransactionTable from "./TransactionTable";
+import { buySellAiTradingBot } from "../../apis/user/users.api";
 const COINS = [
     { pair: "BTC/USDT", tvSymbol: "BINANCE:BTCUSDT", price: 63420.5, change: 2.34, vol: "1.2B", icon: "₿" },
     { pair: "ETH/USDT", tvSymbol: "BINANCE:ETHUSDT", price: 2305.04, change: 0.4, vol: "480M", icon: "Ξ" },
@@ -207,14 +208,28 @@ export default function TradingBot() {
         return () => clearInterval(id);
     }, [aiActive]);
 
-    const handleOrder = (side) => {
+    const handleOrder = async (side) => {
         if (isProcessing) return;
 
         setIsProcessing(true);
-        setTimer(30); // 🔥 30 sec start
+        setTimer(30);
 
-        // 👉 yaha backend API call aayega later
-        // await placeOrderAPI()
+        try {
+            const payload = {
+                side, // BUY / SELL
+                coin: selectedCoin.pair, // ✅ BTC/USDT etc
+                symbol: selectedCoin.tvSymbol, // optional
+                amount: Number(amount) || 0, // invest amount
+                price: Number(price) || livePrice, // current price
+            };
+
+            console.log("Sending Order:", payload);
+
+            const res = await buySellAiTradingBot(payload);
+
+        } catch (err) {
+            console.error("Order Error:", err);
+        }
 
         const interval = setInterval(() => {
             setTimer((t) => {
@@ -542,11 +557,14 @@ h-[300px] sm:h-[400px] xl:min-h-[550px]
                             <button
                                 className="order-btn buy-btn"
                                 onClick={() => handleOrder("BUY")}
+
                                 disabled={isProcessing}
                                 style={{ opacity: isProcessing ? 0.6 : 1 }}
                             >
                                 {isProcessing ? `WAIT ${timer}s` : "▲ BUY"}
                             </button>
+
+
 
                             <button
                                 className="order-btn sell-btn"
@@ -579,6 +597,7 @@ h-[300px] sm:h-[400px] xl:min-h-[550px]
                     </div>
                 </div>
             </div>
+            {/* <TransactionTable/> */}
         </>
     );
 }

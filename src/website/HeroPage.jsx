@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import ButtonComponent from "../components/ui/ButtonComponent";
 
 const PriceCard = ({
   icon,
@@ -37,9 +38,8 @@ const PriceCard = ({
       <div className="text-right">
         <div className="text-white text-sm font-bold">{price}</div>
         <div
-          className={`text-xs font-semibold ${
-            isUp ? "text-emerald-400" : "text-rose-400"
-          }`}
+          className={`text-xs font-semibold ${isUp ? "text-emerald-400" : "text-rose-400"
+            }`}
         >
           {isUp ? "▲" : "▼"} {change}
         </div>
@@ -88,7 +88,7 @@ const Stat = ({ num, label, delay }) => {
 
         setDisplayed(
           (Number.isInteger(target) ? Math.round(value) : value.toFixed(1)) +
-            suffix
+          suffix
         );
 
         if (progress < 1) requestAnimationFrame(step);
@@ -280,9 +280,9 @@ const HeroPage = () => {
 
           <motion.span
             className="block text-metal"
-            // initial={{ opacity: 0, y: 35 }}
-            // animate={{ opacity: 1, y: 0 }}
-            // transition={{ delay: 0.35, duration: 0.7 }}
+          // initial={{ opacity: 0, y: 35 }}
+          // animate={{ opacity: 1, y: 0 }}
+          // transition={{ delay: 0.35, duration: 0.7 }}
           >
             Future of Finance
           </motion.span>
@@ -314,13 +314,13 @@ const HeroPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.75, duration: 0.6 }}
         >
-          <button className="btn-glow relative overflow-hidden px-9 py-4 rounded-full font-bold text-white text-base cursor-pointer">
+          <ButtonComponent variant="neon">
             Start Trading Free →
-          </button>
+          </ButtonComponent>
 
-          <button className="btn-outline px-9 py-4 rounded-full font-semibold text-base cursor-pointer text-slate-300">
+          <ButtonComponent variant="outline">
             View Live Markets
-          </button>
+          </ButtonComponent>
         </motion.div>
 
         <motion.div

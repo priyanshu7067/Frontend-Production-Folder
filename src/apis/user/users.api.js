@@ -50,3 +50,90 @@ export const getKyc = async (payload) => {
     return error.response.data;
   }
 }
+
+export const buySellAiTradingBot = async (payload) => {
+  try {
+    const response = await Axios.put("/user/buy-bot", payload);
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
+export const allincomeCards = async () => {
+  try {
+    const response = await Axios.get("/user/all-income-cards");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
+// =================histories==============
+export const getLevelncomeHistory = async () => {
+  try {
+    const response = await Axios.get("/user/level-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
+export const getTradIngHistory = async () => {
+  try {
+    const response = await Axios.get("/user/trade-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
+export const getRankRoyalityHistory = async () => {
+  try {
+    const response = await Axios.get("/user/rank-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
+export const getPromotionHistory = async () => {
+  try {
+    const response = await Axios.get("/user/trade-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
+export const getReferralHistory = async () => {
+  try {
+    const response = await Axios.get("/user/trade-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
+
+// ===================teams-------------------
+
+export const getMyTeams = async () => {
+  try {
+    const response = await Axios.get("/user/teams");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
+
+export const getMyDirectTeams = async () => {
+  try {
+    const response = await Axios.get("/user/get-partners");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}

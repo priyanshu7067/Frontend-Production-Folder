@@ -19,6 +19,7 @@ export const UserRoutes = {
 
     MY_TEAMS: "my-teams",
     DIRECT_TEAMS: "direct-team",
+    INCOME_CARDS: "income-cards",
 }
 
 export const AdminRoutes = {
