@@ -31,6 +31,17 @@ export const getProfile = async (role) => {
   }
 };
 
+export const getUserInfo = async (Wallet) => {
+  try {
+    const response = await Axios.get(`/user/get-user-info/${Wallet}`);
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+
+    return error.response.data;
+  }
+};
+
 // ===================kyc======================?
 export const addKyc = async (payload) => {
   try {
@@ -50,6 +61,15 @@ export const getKyc = async (payload) => {
     return error.response.data;
   }
 }
+export const topupApi = async (payload) => {
+  try {
+    const res = await Axios.post("/user/investment", payload);
+    return res.data;
+  } catch (error) {
+    console.error(error, "error in topup api");
+    return error.response.data;
+  }
+};
 
 export const buySellAiTradingBot = async (payload) => {
   try {
@@ -120,7 +140,7 @@ export const getReferralHistory = async () => {
 
 export const getMyTeams = async () => {
   try {
-    const response = await Axios.get("/user/teams");
+    const response = await Axios.get("/user/get-myteams");
     return response.data;
   } catch (error) {
     console.log(error, "error in apis");

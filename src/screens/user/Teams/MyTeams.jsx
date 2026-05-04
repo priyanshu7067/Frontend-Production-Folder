@@ -1,94 +1,74 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import TableComponent from "../../../components/ui/TableComponent";
+import { getMyTeams } from "../../../apis/user/users.api";
+import { toast } from "react-toastify";
 
 const MyTeams = () => {
+  const [levels, setLevels] = useState([]);
+  const [openLevel, setOpenLevel] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // 🔥 COLUMNS
-  const columns = useMemo(() => [
+  // 🔥 FETCH API
+  const fetchTeams = async () => {
+    try {
+      setLoading(true);
+
+      const res = await getMyTeams();
+
+      if (res?.success) {
+        setLevels(res?.data || []);
+      } else {
+        toast.error(res?.message || "Failed to fetch teams");
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTeams();
+  }, []);
+
+  // 🔥 USER TABLE (inner table)
+  const userColumns = [
     {
-      header: "Level",
-      accessor: "level",
-      Cell: ({ value }) => (
-        <span className="text-xs font-medium text-purple-400">
-          {value}
-        </span>
-      ),
-    },
-    {
-      header: "Members",
-      accessor: "members",
-      Cell: ({ value }) => (
-        <span className="text-white text-sm font-medium">
-          {value}
-        </span>
-      ),
-    },
-    {
-      header: "Active Users",
-      accessor: "active",
-      Cell: ({ value }) => (
-        <span className="text-green-400 text-sm font-medium">
-          {value}
-        </span>
-      ),
-    },
-    {
-      header: "Total Business",
-      accessor: "business",
-      Cell: ({ value }) => (
-        <span className="text-blue-400 text-xs font-semibold">
-          ₹{value.toLocaleString()}
-        </span>
+      header: "User Wallet",
+      render: (row) => (
+        <div className="flex flex-col">
+          <span className="text-white font-medium">
+            {row?.name}
+          </span>
+          <span className="text-xs text-gray-400">
+            {row?.userId}
+          </span>
+        </div>
       ),
     },
     {
       header: "Status",
-      accessor: "status",
-      Cell: ({ value }) => (
+      render: (row) => (
         <span
           className={`text-[10px] px-2 py-0.5 rounded-full ${
-            value === "Growing"
+            row?.isActive
               ? "bg-green-500/20 text-green-400"
-              : "bg-yellow-500/20 text-yellow-400"
+              : "bg-red-500/20 text-red-400"
           }`}
         >
-          {value}
+          {row?.isActive ? "Active" : "Inactive"}
         </span>
       ),
     },
-  ], []);
-
-  // 🔥 SAMPLE DATA
-  const data = useMemo(() => [
     {
-      level: "Level 1",
-      members: 12,
-      active: 9,
-      business: 12500,
-      status: "Growing",
+      header: "Investment",
+      render: (row) => (
+        <span className="text-blue-400 text-xs font-semibold">
+          ₹{Number(row?.totalInvestment || 0).toLocaleString("en-IN")}
+        </span>
+      ),
     },
-    {
-      level: "Level 2",
-      members: 25,
-      active: 18,
-      business: 22000,
-      status: "Growing",
-    },
-    {
-      level: "Level 3",
-      members: 40,
-      active: 30,
-      business: 41000,
-      status: "Stable",
-    },
-    {
-      level: "Level 4",
-      members: 60,
-      active: 45,
-      business: 60000,
-      status: "Growing",
-    },
-  ], []);
+  ];
 
   return (
     <div className="dashboard-bg min-h-full p-4 md:p-6 text-white space-y-4">
@@ -103,16 +83,73 @@ const MyTeams = () => {
         </p>
       </div>
 
-      {/* 🔥 TABLE */}
-      <div className="glow-card p-3">
-        <TableComponent
-          columns={columns}
-          data={data}
-          rowsPerPage={5}
-          searchable={false}
-          emptyMessage="No team data available"
-        />
-      </div>
+      {/* 🔥 LEVEL CARDS */}
+      {levels.map((levelData) => (
+        <div key={levelData?.level} className="glow-card overflow-hidden">
+
+          {/* 🔥 TOP SUMMARY */}
+          <div
+            onClick={() =>
+              setOpenLevel(
+                openLevel === levelData?.level
+                  ? null
+                  : levelData?.level
+              )
+            }
+            className="
+              p-4 cursor-pointer flex justify-between items-center
+              hover:bg-white/5 transition
+            "
+          >
+            {/* LEFT */}
+            <div>
+              <h3 className="text-sm font-semibold text-purple-400">
+                Level {levelData?.level}
+              </h3>
+              <p className="text-xs text-gray-400">
+                {levelData?.count} Members
+              </p>
+            </div>
+
+            {/* RIGHT STATS */}
+            <div className="flex gap-6 text-right">
+
+              <div>
+                <p className="text-[10px] text-gray-400">Active</p>
+                <p className="text-green-400 text-sm font-semibold">
+                  {levelData?.activeCount || 0}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[10px] text-gray-400">Business</p>
+                <p className="text-blue-400 text-sm font-semibold">
+                  ₹{Number(levelData?.business || 0).toLocaleString("en-IN")}
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          {/* 🔥 EXPAND TABLE */}
+          {openLevel === levelData?.level && (
+            <div className="p-3 border-t border-white/10">
+              <TableComponent
+                columns={userColumns}
+                data={levelData?.users || []}
+                emptyMessage="No users in this level"
+              />
+            </div>
+          )}
+        </div>
+      ))}
+
+      {/* 🔥 EMPTY */}
+      {!loading && levels.length === 0 && (
+        <div className="text-center text-gray-400 text-sm">
+          No team data available
+        </div>
+      )}
 
     </div>
   );

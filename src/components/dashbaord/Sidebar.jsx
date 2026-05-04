@@ -21,6 +21,7 @@ import {
   ChartCandlestick,
   LogOut,
   HistoryIcon,
+  BanknoteArrowUp,
 } from "lucide-react";
 
 import { sidebarMenu } from "../../constants/sidebarMenu";
@@ -44,7 +45,8 @@ const iconMap = {
   profile: <User size={18} />,
   bot: <Bot size={18} />,
   live: <ChartCandlestick size={18} />,
-  history: <HistoryIcon size={18} />
+  history: <HistoryIcon size={18} />,
+  income: <BanknoteArrowUp size={18} />,
 };
 
 const Sidebar = ({ open, setOpen }) => {

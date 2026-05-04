@@ -18,28 +18,31 @@ const AllIncomeCards = () => {
             title: "Referral Income",
             amount: 32000,
             icon: <TrendingUp size={16} className="text-white" />,
-            change: 8.2,
+            change: 0,
         },
         {
             title: "Promotion Income",
-            amount: -12000,
+            amount: 2000,
             icon: <BookmarkMinusIcon size={16} className="text-white" />,
-            change: -5.4,
+            change: 0,
         },
         {
             title: "Rank Royalty Bonus",
             amount: 5200,
             icon: <Gift size={16} className="text-white" />,
+            change: 0,
         },
         {
             title: "Total Trade Income",
             amount: 5200,
             icon: <TrendingUp size={16} className="text-white" />,
+            change: 0,
         },
         {
             title: "MY Direct Team",
             amount: 5200,
             icon: <Users size={16} className="text-white" />,
+            change: 0,
         },
     ]
     return (

@@ -1,132 +1,191 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "../../components/ui/InputField";
 import ButtonComponent from "../../components/ui/ButtonComponent";
-import { Activity, Shield, Sparkles } from "lucide-react";
 import { AuthRoutes } from "../../constants/routes";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { getUserInfo } from "../../apis/user/users.api";
+import { Link, useLocation } from "react-router-dom";
 import WalletModal from "../../components/ui/WalletModal";
 
 const RegisterPage = () => {
   const [form, setForm] = useState({
     sponsor: "",
   });
+  const [userInfo, setUserInfo] = useState(null);
+
   const [openWalletModal, setOpenWalletModal] = useState(false);
+  const [isReferral, setIsReferral] = useState(false);
+
+  const location = useLocation();
+
+  const fetchSponsorInfo = async (id) => {
+    try {
+      setUserInfo(null);
+
+      const res = await getUserInfo(id);
+
+      // adjust based on your API
+      const data = res?.data;
+
+      setUserInfo(data);
+    } catch (err) {
+      console.error("Sponsor fetch error:", err);
+      setUserInfo("error");
+    }
+  };
+  // 🔥 REFERRAL AUTO FILL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const ref = params.get("ref");
+
+    if (ref) {
+      setForm((prev) => ({
+        ...prev,
+        sponsor: ref,
+      }));
+
+      setIsReferral(true);
+
+      // 🔥 CALL API
+      fetchSponsorInfo(ref);
+    }
+  }, [location.search]);
+
 
   const handleConnectClick = () => {
-    // if (!form.sponsor.trim()) {
-    //   toast.error("Sponsor ID is required");
-    //   return;
-    // }
-
     setOpenWalletModal(true);
   };
 
   return (
     <div className="min-h-screen dashboard-bg flex items-center justify-center px-4">
       <div className="w-full max-w-6xl flex justify-center items-center">
-        {/* 🔥 LEFT SIDE */}
-        {/* <div className="space-y-6 hidden md:block">
 
-                    <h1 className="text-4xl font-bold leading-tight text-metal text-glow">
-                        AI Powered <br /> Smart Platform
-                    </h1>
+        {/* 🔥 FORM CARD */}
+        <div className="glow-card p-6 md:p-8 w-full max-w-md mx-auto relative overflow-hidden">
 
-                    <p className="text-gray-400 text-sm">
-                        Intelligent system designed to analyze and process your data in real-time.
-                    </p>
-
-                    <div className="space-y-4 mt-6">
-
-                        <div className="flex items-start gap-3 p-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur">
-                            <Activity className="text-[var(--accent-primary)]" size={20} />
-                            <div>
-                                <p className="text-sm font-semibold">Advanced Analytics</p>
-                                <p className="text-xs text-gray-400">
-                                    Real-time intelligent processing
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex items-start gap-3 p-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur">
-                            <Sparkles className="text-[var(--accent-secondary)]" size={20} />
-                            <div>
-                                <p className="text-sm font-semibold">AI Automation</p>
-                                <p className="text-xs text-gray-400">
-                                    24/7 smart data analysis
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex items-start gap-3 p-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur">
-                            <Shield className="text-[var(--accent-primary)]" size={20} />
-                            <div>
-                                <p className="text-sm font-semibold">Secure Access</p>
-                                <p className="text-xs text-gray-400">
-                                    Encrypted & protected system
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div> */}
-
-        {/* 🔥 RIGHT SIDE FORM */}
-        <div className="glow-card p-6 md:p-8 w-full max-w-md mx-auto">
-          {/* subtle gradient */}
+          {/* background gradient */}
           <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-[#b76e79] to-[#7f9ca8]" />
 
           <div className="relative z-10 space-y-6">
-            {/* 🔥 HEADER */}
+
+            {/* HEADER */}
             <div className="text-center">
               <h2 className="text-xl font-semibold text-white">
                 Create Account
               </h2>
-              <p className="text-xs text-gray-400">Start your AI journey</p>
+              <p className="text-xs text-gray-400">
+                Start your AI journey
+              </p>
             </div>
-
-            {/* 🔥 STEP BAR */}
-            {/* <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
-                            <div className="h-full w-[25%] bg-gradient-to-r from-[#b76e79] to-[#7f9ca8]" />
-                        </div> */}
 
             {/* 🔥 FORM */}
-            <div className="space-y-4 grid grid-cols-1 gap-3">
-              <InputField
-                label="Sponsor ID"
-                value={form.sponsor}
-                onChange={(e) => setForm({ ...form, sponsor: e.target.value })}
-              />
+            <div className="space-y-4">
 
-              {/* <InputField
-                                label="Email"
-                                value={form.email}
-                                onChange={(e) =>
-                                    setForm({ ...form, email: e.target.value })
-                                }
-                            />
+              {/* 🔥 SPONSOR FIELD */}
+              <div className="space-y-2">
 
-                            <InputField
-                                label="Password"
-                                type="password"
-                                value={form.password}
-                                onChange={(e) =>
-                                    setForm({ ...form, password: e.target.value })
-                                }
-                            />
+                <div className="relative">
+                  <InputField
+                    label="Sponsor wallet address"
+                    value={form.sponsor}
+                    onChange={(e) =>
+                      setForm({ ...form, sponsor: e.target.value })
+                    }
+                    disabled={isReferral}
+                  />
 
-                            <InputField
-                                label="Confirm Password"
-                                type="password"
-                                value={form.confirmPassword}
-                                onChange={(e) =>
-                                    setForm({ ...form, confirmPassword: e.target.value })
-                                }
-                            /> */}
+                  {/* 🔒 LOCK OVERLAY */}
+                  {isReferral && (
+                    <div className="absolute inset-0 rounded-lg bg-black/20 cursor-not-allowed" />
+                  )}
+                </div>
+
+                {/* 🔥 REFERRAL TAG UI */}
+                {isReferral && (
+                  <div className="
+                    relative overflow-hidden
+                    flex items-center justify-between
+                    text-[11px] px-3 py-2
+                    rounded-lg
+                    bg-gradient-to-r from-green-500/10 to-emerald-500/10
+                    border border-green-500/20
+                    text-green-400
+                  ">
+                    <span className="flex items-center gap-1">
+                      🔗 Referral Applied
+                    </span>
+
+                    <span className="text-[10px] bg-green-500/20 px-2 py-0.5 rounded">
+                      LOCKED
+                    </span>
+
+                    {/* glow animation */}
+                    <div className="absolute inset-0 opacity-30 bg-gradient-to-r from-transparent via-green-400/30 to-transparent animate-pulse" />
+                  </div>
+                )}
+
+                {/* 🔥 SPONSOR INFO UI */}
+
+                {form.sponsor && (
+                  <div className="space-y-2">
+
+                    {/* ⏳ LOADING */}
+                    {userInfo === null && (
+                      <div className="text-xs text-gray-400 animate-pulse">
+                        Checking sponsor...
+                      </div>
+                    )}
+
+                    {/* ❌ ERROR */}
+                    {userInfo === "error" && (
+                      <div className="text-xs text-red-400 bg-red-500/10 p-2 rounded">
+                        Invalid Sponsor ID ❌
+                      </div>
+                    )}
+
+                    {/* ✅ SUCCESS */}
+                    {userInfo && userInfo !== "error" && (
+                      <div className="
+        relative overflow-hidden
+        p-3 rounded-xl
+        bg-gradient-to-r from-blue-500/10 to-purple-500/10
+        border border-blue-500/20
+        text-xs
+      ">
+
+                    
+                          <div className="flex items-center gap-2">
+
+                            {/* 🟢 status dot */}
+                            <span className="relative flex h-2 w-2">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+
+                            {/* 🔥 badge */}
+                            <span className="
+    text-[11px] font-semibold
+    px-2 py-0.5 rounded-full
+    bg-green-500/10 text-green-400
+    border border-green-500/20
+    backdrop-blur
+  ">
+                              Verified User
+                            </span>
+                        </div>
+
+                        {/* glow line */}
+                        <div className="absolute inset-0 opacity-20 bg-gradient-to-r from-transparent via-blue-400/30 to-transparent animate-pulse" />
+                      </div>
+                    )}
+
+                  </div>
+                )}
+
+              </div>
+
             </div>
 
-            {/* 🔥 BUTTON */}
+            {/* BUTTON */}
             <ButtonComponent
               variant="neon"
               fullWidth
@@ -135,7 +194,7 @@ const RegisterPage = () => {
               Connect Wallet →
             </ButtonComponent>
 
-            {/* 🔥 FOOTER */}
+            {/* FOOTER */}
             <p className="text-center text-sm text-gray-400">
               Already have an account?{" "}
               <Link to={AuthRoutes.LOGIN}>
@@ -144,14 +203,17 @@ const RegisterPage = () => {
                 </span>
               </Link>
             </p>
+
           </div>
         </div>
       </div>
+
+      {/* 🔥 WALLET MODAL */}
       <WalletModal
         open={openWalletModal}
         onClose={() => setOpenWalletModal(false)}
-        sponsor={form.sponsor} // ✅ IMPORTANT
-        type="register" // ✅ differentiate login/register
+        sponsor={form.sponsor}
+        type="register"
       />
     </div>
   );

@@ -24,8 +24,9 @@ const DirectTeam = () => {
         userId: item.userId || item._id,
         joinDate: new Date(item.createdAt).toLocaleDateString(),
         status: item.isActive ? "Active" : "Inactive",
-        business: item.business || 0,
+        totalInvestment: item.totalInvestment || 0,
       }));
+      console.log("formatted", formatted);
 
       setData(formatted);
     } catch (err) {
@@ -45,31 +46,39 @@ const DirectTeam = () => {
     () => [
       { header: "User", accessor: "user" },
       { header: "User ID", accessor: "userId" },
+      {
+        header: "Total Investment",
+        accessor: "totalInvestment",
+        Cell: ({ value }) => (
+          <span className="text-blue-400 text-xs font-semibold">
+            ₹{Number(value || 0).toLocaleString("en-IN")}
+          </span>
+        ),
+      },
       { header: "Join Date", accessor: "joinDate" },
       {
         header: "Status",
         accessor: "status",
         Cell: ({ value }) => (
           <span
-            className={`text-[10px] px-2 py-0.5 rounded-full ${
-              value === "Active"
-                ? "bg-green-500/20 text-green-400"
-                : "bg-red-500/20 text-red-400"
-            }`}
+            className={`text-[10px] px-2 py-0.5 rounded-full ${value === "Active"
+              ? "bg-green-500/20 text-green-400"
+              : "bg-red-500/20 text-red-400"
+              }`}
           >
             {value}
           </span>
         ),
       },
-      {
-        header: "Business",
-        accessor: "business",
-        Cell: ({ value }) => (
-          <span className="text-blue-400 text-xs font-medium">
-            ₹{value.toLocaleString()}
-          </span>
-        ),
-      },
+      // {
+      //   header: "Business",
+      //   accessor: "business",
+      //   Cell: ({ value }) => (
+      //     <span className="text-blue-400 text-xs font-medium">
+      //       ₹{value.toLocaleString()}
+      //     </span>
+      //   ),
+      // },
     ],
     []
   );
