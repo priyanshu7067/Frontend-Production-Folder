@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import TransactionTable from "./TransactionTable";
 import { buySellAiTradingBot } from "../../apis/user/users.api";
 import { useAuth } from "../../context/AuthContext";
-import toast from "react-toastify"
+import { toast } from "react-toastify";
 const COINS = [
     { pair: "BTC/USDT", tvSymbol: "BINANCE:BTCUSDT", price: 63420.5, change: 2.34, vol: "1.2B", icon: "₿" },
     { pair: "ETH/USDT", tvSymbol: "BINANCE:ETHUSDT", price: 2305.04, change: 0.4, vol: "480M", icon: "Ξ" },
@@ -161,7 +161,9 @@ export default function TradingBot() {
 
     const [isProcessing, setIsProcessing] = useState(false);
     const [timer, setTimer] = useState(0);
-    const { user } = useAuth()
+    const { user, loading ,showLoader,hideLoader} = useAuth()
+    // console.log(user);
+    
 
     // Generate order book
     useEffect(() => {
@@ -214,41 +216,67 @@ export default function TradingBot() {
     }, [aiActive]);
 
     const handleOrder = async (side) => {
+        // 🚫 prevent spam click
         if (isProcessing) return;
 
+        if (user?.wallets?.principalWallet < Number(amount)) {
+            return toast.error("Insufficient Balance");
+        }
+
         setIsProcessing(true);
-        setTimer(30);
+        showLoader();
 
         try {
             const payload = {
-                side, // BUY / SELL
-                coin: selectedCoin.pair, // ✅ BTC/USDT etc
-                symbol: selectedCoin.tvSymbol, // optional
-                amount: Number(amount) || 0, // invest amount
-                price: Number(price) || livePrice, // current price
+                side,
+                coin: selectedCoin.pair,
+                symbol: selectedCoin.tvSymbol,
+                amount: Number(amount),
+                price: Number(price) || livePrice,
             };
 
             console.log("Sending Order:", payload);
 
             const res = await buySellAiTradingBot(payload);
-            if (res.success) {
-                toast.success(res?.message);
+
+            // ✅ SUCCESS CASE
+            if (res?.success) {
+                toast.success(res?.message || "Trade successful");
+
+                // 🔥 TIMER only on success
+                setTimer(30);
+
+                const interval = setInterval(() => {
+                    setTimer((t) => {
+                        if (t <= 1) {
+                            clearInterval(interval);
+                            setIsProcessing(false);
+                            return 0;
+                        }
+                        return t - 1;
+                    });
+                }, 1000);
+
+            } else {
+                // ❌ backend error message
+                toast.error(res?.message || "Trade failed");
+                setIsProcessing(false);
             }
 
         } catch (err) {
             console.error("Order Error:", err);
-        }
 
-        const interval = setInterval(() => {
-            setTimer((t) => {
-                if (t <= 1) {
-                    clearInterval(interval);
-                    setIsProcessing(false);
-                    return 0;
-                }
-                return t - 1;
-            });
-        }, 1000);
+            // ❌ network / server error
+            toast.error(
+                err?.response?.data?.message ||
+                err?.message ||
+                "Something went wrong"
+            );
+
+            setIsProcessing(false);
+        } finally {
+            hideLoader(); // 🔥 always stop loader
+        }
     };
 
     const maxAsk = Math.max(...orderBook.asks.map((a) => a.amount), 1);
@@ -424,7 +452,7 @@ export default function TradingBot() {
                             // width: "100%",
                             // height: "100%",
                             // margin: "8px 12px 0",
-                             padding: "4px 6px 0",
+                            padding: "4px 6px 0",
                             flex: 1,
                             // borderRadius: 8,
                             // overflow: "hidden",
