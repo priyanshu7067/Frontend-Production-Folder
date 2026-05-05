@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import TransactionTable from "./TransactionTable";
 import { buySellAiTradingBot } from "../../apis/user/users.api";
 import { useAuth } from "../../context/AuthContext";
-
+import toast from "react-toastify"
 const COINS = [
     { pair: "BTC/USDT", tvSymbol: "BINANCE:BTCUSDT", price: 63420.5, change: 2.34, vol: "1.2B", icon: "₿" },
     { pair: "ETH/USDT", tvSymbol: "BINANCE:ETHUSDT", price: 2305.04, change: 0.4, vol: "480M", icon: "Ξ" },
@@ -131,8 +131,11 @@ function TradingViewWidget({ symbol }) {
             className="tradingview-widget-container"
             style={{
                 flex: 1,
-                margin: "8px 12px 0",
+                // margin: "8px 12px 0",
+                padding: "8px 12px 0",
                 minHeight: 0,
+                width: "100%",        // ✅ important
+                height: "100%",
                 borderRadius: 8,
                 overflow: "hidden",
                 background: "#0d1421",
@@ -158,7 +161,7 @@ export default function TradingBot() {
 
     const [isProcessing, setIsProcessing] = useState(false);
     const [timer, setTimer] = useState(0);
-     const {user} = useAuth()
+    const { user } = useAuth()
 
     // Generate order book
     useEffect(() => {
@@ -228,7 +231,7 @@ export default function TradingBot() {
             console.log("Sending Order:", payload);
 
             const res = await buySellAiTradingBot(payload);
-            if(res.success) {
+            if (res.success) {
                 toast.success(res?.message);
             }
 
@@ -328,10 +331,10 @@ export default function TradingBot() {
                                             <div style={{ fontSize: 11, fontWeight: 700, color: "#e2e8f0", fontFamily: "'Rajdhani',sans-serif", letterSpacing: 0.5 }}>
                                                 {coin.pair.split("/")[0]}
                                             </div>
-                                            <div style={{ fontSize: 9, color: "#4b5563" }}>/{coin.pair.split("/")[1]}</div>
+                                            <div style={{ fontSize: 9, color: "#fcfcfc" }}>/{coin.pair.split("/")[1]}</div>
                                         </div>
                                     </div>
-                                    <div style={{ fontSize: 10, color: "#94a3b8", marginTop: 2, fontFamily: "'Rajdhani',sans-serif" }}>
+                                    <div style={{ fontSize: 10, color: "#fcfcfc", marginTop: 2, fontFamily: "'Rajdhani',sans-serif" }}>
                                         ${coin.price < 1 ? coin.price.toFixed(4) : coin.price.toLocaleString()}
                                     </div>
                                 </div>
@@ -416,14 +419,16 @@ export default function TradingBot() {
                         </div>
                     )}
 
-                    <div className="w-full h-[250px] sm:h-[400px] xl:h-[500px] min-h-[250px]">
+                    <div className="w-full h-[250px] sm:h-[400px] xl:h-[500px] min-h-[250px] px-3 mt-2">
                         <TradingViewWidget symbol={selectedCoin.tvSymbol} style={{
-                            width: "100%",
-                            height: "100%",
-                            margin: "8px 12px 0",
-                            borderRadius: 8,
-                            overflow: "hidden",
-                            background: "#0d1421",
+                            // width: "100%",
+                            // height: "100%",
+                            // margin: "8px 12px 0",
+                             padding: "4px 6px 0",
+                            flex: 1,
+                            // borderRadius: 8,
+                            // overflow: "hidden",
+                            // background: "#0d1421",
                         }} />
                     </div>
 

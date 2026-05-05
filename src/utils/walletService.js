@@ -91,7 +91,7 @@ if (chainId !== "0x38") {
   const amountInWei = ethers.parseUnits(amount.toString(), decimals);
 
   // 🔍 Check balance
-//   const balance = await contract.balanceOf(address);
+  const balance = await contract.balanceOf(address);
 
 //   if (balance < amountInWei) {
 //     throw new Error("Insufficient USDT balance");
@@ -104,14 +104,14 @@ if (chainId !== "0x38") {
 // }
 
   // 💸 SEND USDT
-  // const tx = await contract.transfer(receiver, amountInWei);
+  const tx = await contract.transfer(receiver, amountInWei);
 
-  // await tx.wait();
+  await tx.wait();
 
   return {
     walletAddress: address,
-    // transactionHash: tx.hash,
-    transactionHash: "8973489739hjkdsahfiu89389reh",
+    transactionHash: tx.hash,
+    // transactionHash: "8973489739hjkdsahfiu89389reh",
     amount,
   };
 };
