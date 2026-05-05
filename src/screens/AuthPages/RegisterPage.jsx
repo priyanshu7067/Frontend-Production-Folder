@@ -5,6 +5,7 @@ import { AuthRoutes } from "../../constants/routes";
 import { getUserInfo } from "../../apis/user/users.api";
 import { Link, useLocation } from "react-router-dom";
 import WalletModal from "../../components/ui/WalletModal";
+import { useAuth } from "../../context/AuthContext";
 
 const RegisterPage = () => {
   const [form, setForm] = useState({
@@ -16,8 +17,10 @@ const RegisterPage = () => {
   const [isReferral, setIsReferral] = useState(false);
 
   const location = useLocation();
+  const {showLoader, hideLoader} = useAuth();
 
   const fetchSponsorInfo = async (id) => {
+    showLoader();
     try {
       setUserInfo(null);
 
@@ -30,6 +33,8 @@ const RegisterPage = () => {
     } catch (err) {
       console.error("Sponsor fetch error:", err);
       setUserInfo("error");
+    } finally {
+      hideLoader();
     }
   };
   // 🔥 REFERRAL AUTO FILL

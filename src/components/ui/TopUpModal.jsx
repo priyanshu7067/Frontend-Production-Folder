@@ -11,7 +11,7 @@ const TopUpModal = ({ open, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
   const [openWalletModal, setOpenWalletModal] = useState(false);
-  const { refreshUser } = useAuth();
+  const { refreshUser, showLoader, hideLoader } = useAuth();
 
   if (!open) return null;
 
@@ -34,6 +34,7 @@ const TopUpModal = ({ open, onClose }) => {
 
   // 🔥 HANDLE PAYMENT
   const handleTopUp = async () => {
+    showLoader();
     try {
       if (!amount || Number(amount) < 50) {
         toast.error("Minimum 50 USDT required");
@@ -66,6 +67,7 @@ const TopUpModal = ({ open, onClose }) => {
       toast.error(err.message);
     } finally {
       setLoading(false);
+      hideLoader();
     }
   };
 

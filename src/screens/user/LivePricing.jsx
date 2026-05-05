@@ -8,7 +8,7 @@ const LivePricing = () => {
   const fetchCoins = async () => {
     try {
       const res = await fetch(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=8&page=1&price_change_percentage=24h"
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=8&page=1&price_change_percentage=24h",
       );
       const data = await res.json();
       setCoins(data);
@@ -30,10 +30,8 @@ const LivePricing = () => {
 
   return (
     <div className="dashboard-bg min-h-screen p-4 md:p-6 space-y-6">
-
       {/* 🔥 LIVE CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-
         {loading
           ? [...Array(4)].map((_, i) => (
               <div key={i} className="glow-card p-4 animate-pulse h-[120px]" />
@@ -64,9 +62,7 @@ const LivePricing = () => {
 
                   <p
                     className={`text-xs mt-1 font-semibold ${
-                      isUp
-                        ? "text-[var(--primary)]"
-                        : "text-red-400"
+                      isUp ? "text-[var(--primary)]" : "text-red-400"
                     }`}
                   >
                     {isUp ? "+" : ""}
@@ -81,7 +77,6 @@ const LivePricing = () => {
 
       {/* 🔥 LIVE TABLE */}
       <CryptoScreenTable />
-
     </div>
   );
 };

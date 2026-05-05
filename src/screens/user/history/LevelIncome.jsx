@@ -2,13 +2,17 @@ import React, { useEffect, useMemo, useState } from "react";
 import TableComponent from "../../../components/ui/TableComponent";
 import { getLevelncomeHistory } from "../../../apis/user/users.api";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/AuthContext";
 
 const LevelIncome = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const { showLoader, hideLoader } = useAuth();
+
   // 🔥 FETCH API
   const fetchLevelIncome = async () => {
+    showLoader();
     try {
       setLoading(true);
 
@@ -26,6 +30,7 @@ const LevelIncome = () => {
       );
     } finally {
       setLoading(false);
+      hideLoader();
     }
   };
 

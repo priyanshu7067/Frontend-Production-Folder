@@ -29,6 +29,7 @@ const ReusableImageUpload = ({
   const { showLoader, hideLoader } = useAuth();
 
   const uploadMedia = async (file) => {
+    showLoader();
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -53,6 +54,8 @@ const ReusableImageUpload = ({
     } catch (error) {
       toast.error("Upload error");
       throw error;
+    } finally {
+      hideLoader();
     }
   };
 

@@ -43,6 +43,7 @@ export default function KycPage() {
   // ================= FETCH KYC =================
 
   const fetchKyc = async () => {
+    showLoader();
     try {
       const res = await getKyc();
       if (res?.success) {
@@ -74,6 +75,8 @@ export default function KycPage() {
           error?.message ||
           "Something went wrong",
       );
+    } finally {
+      hideLoader();
     }
   };
 

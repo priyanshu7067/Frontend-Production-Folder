@@ -2,13 +2,16 @@ import React, { useEffect, useMemo, useState } from "react";
 import { getTransactionHistory } from "../../apis/user/users.api";
 import TableComponent from "../../components/ui/TableComponent";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/AuthContext";
 
 const TransactionTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const {showLoader, hideLoader} = useAuth();
 
     // 🔥 FETCH API
     const fetchTransactions = async () => {
+        showLoader();
         try {
             setLoading(true);
 
@@ -24,6 +27,7 @@ const TransactionTable = () => {
             toast.error("Something went wrong");
         } finally {
             setLoading(false);
+            hideLoader();
         }
     };
 

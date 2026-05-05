@@ -1,14 +1,17 @@
 import React, { useMemo, useEffect, useState } from "react";
 import TableComponent from "../../../components/ui/TableComponent";
 import { getMyDirectTeams } from "../../../apis/user/users.api";
+import { useAuth } from "../../../context/AuthContext";
 
 const DirectTeam = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { showLoader, hideLoader } = useAuth();
 
   // ✅ API CALL
   const fetchTeams = async () => {
+    showLoader();
     try {
       setLoading(true);
       setError("");
@@ -34,6 +37,7 @@ const DirectTeam = () => {
       setError("Failed to load team data");
     } finally {
       setLoading(false);
+      hideLoader();
     }
   };
 

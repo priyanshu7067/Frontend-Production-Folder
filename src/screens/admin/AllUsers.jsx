@@ -89,6 +89,7 @@ const AllUsers = () => {
         updatedData[key] = formData[key];
       }
     });
+    showLoader();
     try {
       const res = await editUserApi(selectedUser._id, updatedData);
       if (res?.success) {
@@ -100,6 +101,8 @@ const AllUsers = () => {
     } catch (error) {
       console.error(error);
       toast.error(error?.message || "Something went wrong");
+    } finally {
+      hideLoader();
     }
 
     setIsModalOpen(false);

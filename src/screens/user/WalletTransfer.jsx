@@ -6,7 +6,7 @@ import ButtonComponent from "../../components/ui/ButtonComponent";
 import { useAuth } from "../../context/AuthContext";
 
 const WalletTransfer = () => {
-  const { user, refreshUser } = useAuth();
+  const { user, refreshUser, showLoader, hideLoader } = useAuth();
 
   const principal = user?.wallets?.principalWallet || 0;
   const earnings = user?.wallets?.earningsWallet || 0;
@@ -45,6 +45,8 @@ const WalletTransfer = () => {
   const handleTransfer = async () => {
     if (!validate()) return;
 
+    showLoader();
+
     try {
       setLoading(true);
 
@@ -63,6 +65,7 @@ const WalletTransfer = () => {
       toast.error(err.message);
     } finally {
       setLoading(false);
+      hideLoader();
     }
   };
 

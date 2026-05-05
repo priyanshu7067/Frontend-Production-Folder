@@ -10,7 +10,7 @@ import { AdminRoutes } from "../../constants/routes";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const {login} = useAuth();
+  const {login, showLoader, hideLoader} = useAuth();
 
   const [form, setForm] = useState({
     email: "",
@@ -28,6 +28,8 @@ const AdminLogin = () => {
       toast.error("All fields are required");
       return;
     }
+
+    showLoader();
 
     try {
       setLoading(true);
@@ -51,6 +53,7 @@ const AdminLogin = () => {
       toast.error(err?.message || "Something went wrong");
     } finally {
       setLoading(false);
+      hideLoader();
     }
   };
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { verifyKycApi } from "../../apis/admin/admin.api";
+import { useAuth } from "../../context/AuthContext";
 
 const KycDetailsModal = ({
   open,
@@ -11,6 +12,7 @@ const KycDetailsModal = ({
   onlyClose = true,
 }) => {
   const [loading, setLoading] = useState(false);
+  const {showLoader, hideLoader} = useAuth();
 
   if (!open || !data) return null;
 
@@ -30,6 +32,7 @@ const KycDetailsModal = ({
     if (!confirm.isConfirmed) return;
 
     setLoading(true);
+    showLoader();
     try {
       const res = await verifyKycApi(data._id, {
         status: "approved",
@@ -44,6 +47,7 @@ const KycDetailsModal = ({
       toast.error(err?.message || "Failed");
     } finally {
       setLoading(false);
+      hideLoader();
     }
   };
 
@@ -72,6 +76,7 @@ const KycDetailsModal = ({
 
     if (!reason) return;
 
+    showLoader();
     setLoading(true);
     try {
       const res = await verifyKycApi(data._id, {
@@ -88,6 +93,7 @@ const KycDetailsModal = ({
       toast.error(err?.message || "Failed");
     } finally {
       setLoading(false);
+      hideLoader();
     }
   };
 

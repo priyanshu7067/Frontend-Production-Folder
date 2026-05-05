@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const fetchUser = async () => {
+    setLoading(true);
     try {
       const userData = await getProfile(role === "admin" ? "admin" : "user");
       setUser(userData?.data);

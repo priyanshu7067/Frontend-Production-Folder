@@ -2,13 +2,17 @@ import React, { useEffect, useMemo, useState } from "react";
 import TableComponent from "../../../components/ui/TableComponent";
 import { getReferralHistory } from "../../../apis/user/users.api";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/AuthContext";
 
 const RefferalIncome = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const { showLoader, hideLoader } = useAuth();
+
   // 🔥 FETCH API
   const fetchReferral = async () => {
+    showLoader();
     try {
       setLoading(true);
 
@@ -25,6 +29,7 @@ const RefferalIncome = () => {
       );
     } finally {
       setLoading(false);
+      hideLoader();
     }
   };
 

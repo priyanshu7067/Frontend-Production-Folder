@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import TableComponent from "../../../components/ui/TableComponent";
 import { getMyTeams } from "../../../apis/user/users.api";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/AuthContext";
 
 const MyTeams = () => {
   const [levels, setLevels] = useState([]);
   const [openLevel, setOpenLevel] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { showLoader, hideLoader } = useAuth();
 
   // 🔥 FETCH API
   const fetchTeams = async () => {
+    showLoader();
     try {
       setLoading(true);
 
@@ -24,6 +27,7 @@ const MyTeams = () => {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
+      hideLoader();
     }
   };
 
