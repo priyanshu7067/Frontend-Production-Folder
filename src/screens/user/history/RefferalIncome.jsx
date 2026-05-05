@@ -44,7 +44,7 @@ const RefferalIncome = () => {
       render: (row) => (
         <div className="flex flex-col">
           <span className="text-white text-sm font-medium">
-            {row?.fromUser?.userId?.slice(0, 35)}...
+            {row?.fromUser?.userId?.slice(0, 4)}.......{row?.fromUser?.userId?.slice(32, 36)}
           </span>
           {/* <span className="text-xs text-gray-400">
             Sender
@@ -56,7 +56,7 @@ const RefferalIncome = () => {
       header: "To User",
       render: (row) => (
         <span className="text-purple-400 text-xs font-mono">
-          {row?.user?.userId?.slice(0, 35)}...
+          {row?.user?.userId?.slice(0, 4)}.....{row?.user?.userId?.slice(32, 36)}
         </span>
       ),
     },

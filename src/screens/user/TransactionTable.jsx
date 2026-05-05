@@ -46,7 +46,7 @@ const TransactionTable = () => {
             header: "Amount",
             render: (row) => (
                 <span className="text-right text-sm font-semibold text-purple-400">
-                    ₹{Number(row?.amount || 0).toLocaleString("en-IN")}
+                    ${Number(row?.amount || 0).toLocaleString("en-IN")}
                 </span>
             ),
         },

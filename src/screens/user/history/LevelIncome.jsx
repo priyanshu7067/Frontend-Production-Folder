@@ -68,7 +68,7 @@ const LevelIncome = () => {
       header: "Income",
       render: (row) => (
         <span className="text-green-400 font-semibold">
-          ₹{Number(row?.income || 0).toLocaleString("en-IN")}
+          ${Number(row?.income || 0).toLocaleString("en-IN")}
         </span>
       ),
     },
@@ -76,7 +76,7 @@ const LevelIncome = () => {
       header: "Amount",
       render: (row) => (
         <span className="text-blue-400 text-xs">
-          ₹{Number(row?.amount || 0).toLocaleString("en-IN")}
+          ${Number(row?.amount || 0).toLocaleString("en-IN")}
         </span>
       ),
     },

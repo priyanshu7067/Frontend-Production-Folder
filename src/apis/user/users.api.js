@@ -101,7 +101,7 @@ export const getLevelncomeHistory = async () => {
 }
 export const getTradIngHistory = async () => {
   try {
-    const response = await Axios.get("/user/trade-history");
+    const response = await Axios.get("/user/get-roi-income-history");
     return response.data;
   } catch (error) {
     console.log(error, "error in apis");

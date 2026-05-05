@@ -428,3 +428,14 @@ body {
   z-index: 1500 !important;
 }
 
+
+
+/* 🔥 Hide scrollbar completely */
+.s::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

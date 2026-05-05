@@ -77,7 +77,7 @@ const Sidebar = ({ open, setOpen }) => {
       {/* 🔥 FULL HEIGHT FLEX */}
       <Box className="flex flex-col h-full">
         {/* 🔥 TOP */}
-        <div className="px-4 py-3 flex items-center justify-center " >
+        <div className="px-4 py-3 flex items-center justify-center border-r border-[#076b7c]" >
           <img
             src={MainContent.logo}
             alt="logo"
@@ -86,7 +86,7 @@ const Sidebar = ({ open, setOpen }) => {
         </div>
 
         {/* 🔥 MENU */}
-        <List className="flex-1">
+        <List className="flex-1 overflow-y-auto no-scrollbar  border-r  border-[#076b7c]">
           {menu.map((item, i) => {
             const isChild = Array.isArray(item.children);
              const isOpen = openMenu === item.name;
@@ -191,7 +191,7 @@ const Sidebar = ({ open, setOpen }) => {
         <Divider sx={{ borderColor: "rgba(255,255,255,0.08)" }} />
 
         {/* 🔥 LOGOUT */}
-        <Box className="p-2">
+        <Box className="p-2 border-r border-[#076b7c]">
           <Tooltip title={!open ? "Logout" : ""} placement="right">
             <ListItemButton
               onClick={() => logout()}

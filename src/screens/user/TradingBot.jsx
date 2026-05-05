@@ -161,9 +161,9 @@ export default function TradingBot() {
 
     const [isProcessing, setIsProcessing] = useState(false);
     const [timer, setTimer] = useState(0);
-    const { user, loading ,showLoader,hideLoader} = useAuth()
+    const { user, loading, showLoader, hideLoader } = useAuth()
     // console.log(user);
-    
+
 
     // Generate order book
     useEffect(() => {
@@ -216,7 +216,6 @@ export default function TradingBot() {
     }, [aiActive]);
 
     const handleOrder = async (side) => {
-        // 🚫 prevent spam click
         if (isProcessing) return;
 
         if (user?.wallets?.principalWallet < Number(amount)) {
@@ -224,7 +223,7 @@ export default function TradingBot() {
         }
 
         setIsProcessing(true);
-        showLoader();
+        showLoader(); // 🔥 API loader
 
         try {
             const payload = {
@@ -235,15 +234,14 @@ export default function TradingBot() {
                 price: Number(price) || livePrice,
             };
 
-            console.log("Sending Order:", payload);
-
             const res = await buySellAiTradingBot(payload);
 
-            // ✅ SUCCESS CASE
             if (res?.success) {
                 toast.success(res?.message || "Trade successful");
 
-                // 🔥 TIMER only on success
+                hideLoader(); // ✅ API done → hide loader
+
+                // 🔥 START TIMER + LIGHT LOADER
                 setTimer(30);
 
                 const interval = setInterval(() => {
@@ -258,15 +256,14 @@ export default function TradingBot() {
                 }, 1000);
 
             } else {
-                // ❌ backend error message
                 toast.error(res?.message || "Trade failed");
                 setIsProcessing(false);
+                hideLoader();
             }
 
         } catch (err) {
             console.error("Order Error:", err);
 
-            // ❌ network / server error
             toast.error(
                 err?.response?.data?.message ||
                 err?.message ||
@@ -274,8 +271,7 @@ export default function TradingBot() {
             );
 
             setIsProcessing(false);
-        } finally {
-            hideLoader(); // 🔥 always stop loader
+            hideLoader();
         }
     };
 
