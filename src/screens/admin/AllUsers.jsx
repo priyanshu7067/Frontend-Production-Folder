@@ -3,11 +3,16 @@ import { toast } from "react-toastify";
 import { editUserApi, getAllUsers, toggleUserStatus } from "../../apis/admin/admin.api";
 import { useAuth } from "../../context/AuthContext";
 import TableComponent from "../../components/ui/TableComponent";
+import { userLogin } from "../../apis/user/users.api";
+import { setRole } from "../../utils/authStorage";
+import { useNavigate } from "react-router-dom";
+import { UserRoutes } from "../../constants/routes";
 
 const AllUsers = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { showLoader, hideLoader } = useAuth();
+  const { showLoader, hideLoader, login } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [formData, setFormData] = useState({});
@@ -108,6 +113,27 @@ const AllUsers = () => {
     setIsModalOpen(false);
   };
 
+  const handleUserAccess = async(walletAddress) => {
+    showLoader();
+    try {
+      const res = await userLogin({walletAddress});
+      if (res?.success) {
+        toast.success(res.message);
+        login(res?.data?.token, res?.data?.user);
+        setRole(res?.data?.role);
+        sessionStorage.setItem("isImpersonating", true);
+        navigate(UserRoutes?.DASHBOARD);
+      } else {
+        toast.error(res?.message || "Failed to update user");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.message || "Something went wrong");
+    } finally {
+      hideLoader();
+    }
+  }
+
   const columns = [
     { header: "S.No", render: (_, i) => i + 1 },
     // { header: "Name", accessor: "name" },
@@ -153,6 +179,13 @@ const AllUsers = () => {
               } text-white disabled:opacity-50 cursor-pointer`}
           >
             {loading ? "..." : row?.isBlock ? "Blocked" : "Block"}
+          </button>
+          <button
+            onClick={() => handleUserAccess(row?.userId)}
+            disabled={loading}
+            className="px-3 py-1 text-xs rounded cursor-pointer bg-green-600 hover:bg-green-700 text-white disabled:opacity-50"
+          >
+            Access User
           </button>
         </div>
       ),

@@ -40,6 +40,8 @@ const AdminLogin = () => {
         toast.success(res?.message || "Admin login successful 🚀");
         login(res?.token, res?.data);
         setRole(res?.data?.role);
+        sessionStorage.setItem("adminToken", res?.token);
+        sessionStorage.setItem("adminRole", res?.data?.role);
         setTimeout(() => {
           navigate(AdminRoutes.DASHBOARD);
         }, 1200);
