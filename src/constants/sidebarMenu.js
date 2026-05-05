@@ -91,5 +91,23 @@ export const sidebarMenu = {
         },
       ],
     },
+    {
+      name: "Income History",
+      icon: "income",
+      children: [
+        {
+          name: "Investment History",
+          path: AdminRoutes.INVESTMENT_HISTORY,
+        },
+        {
+          name: "Direct Income",
+          path: AdminRoutes.DIRECT_INCOME,
+        },
+        {
+          name: "Level Income",
+          path: AdminRoutes.LEVEL_INCOME,
+        },
+      ],
+    },
   ],
 };
