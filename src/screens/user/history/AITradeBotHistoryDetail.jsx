@@ -107,7 +107,7 @@ const ROIRing = ({ roi }) => {
                 style={{ transform: "rotate(-90deg)", transformOrigin: "38px 38px", transition: "stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1)" }}
             />
             <text x={cx} y={cy + 1} textAnchor="middle" dominantBaseline="middle" fill={isPos ? "#00e676" : "#ff1744"} fontSize="9" fontFamily="'JetBrains Mono', monospace" fontWeight="700">
-                {isPos ? "+" : ""}{roi.toFixed(1)}%
+                {isPos ? "+" : ""}{roi.toFixed(2)}%
             </text>
             <text x={cx} y={cy + 13} textAnchor="middle" dominantBaseline="middle" fill="rgba(255,255,255,0.4)" fontSize="7" fontFamily="monospace">
                 ROI
@@ -639,7 +639,7 @@ const AITradeBotHistoryDetail = () => {
                             <div className="trd-summary-left">
                                 <div className="trd-summary-label">Total Return</div>
                                 <div className="trd-summary-value">
-                                    $<AnimatedNumber value={returnAmount} decimals={1} />
+                                    $<AnimatedNumber value={returnAmount} decimals={2} />
                                 </div>
                             </div>
                             <div className={`trd-profit-chip ${isProfit ? "pos" : "neg"}`}>
@@ -656,9 +656,14 @@ const AITradeBotHistoryDetail = () => {
                             </div>
                             <div className="trd-stat-box">
                                 <div className="lbl">Income</div>
-                                <div className="val" style={{ color: "#00e676" }}>
-                                    $<AnimatedNumber value={returnAmount} decimals={1} />
+                                <div
+                                    className="val"
+                                    style={{ color: returnAmount >= 0 ? "#00e676" : "#ff1744" }}
+                                >
+                                    {returnAmount >= 0 ? "+" : "-"}$
+                                    <AnimatedNumber value={Math.abs(returnAmount)} decimals={2} />
                                 </div>
+
                             </div>
                             <div className="trd-stat-box">
                                 <div className="lbl">Pairs</div>
@@ -677,17 +682,17 @@ const AITradeBotHistoryDetail = () => {
                             <div className="trd-roi-breakdown">
                                 <div className="trd-roi-row-item">
                                     <span className="k">Capital In</span>
-                                    <span className="v">${investAmount.toFixed(1)}</span>
+                                    <span className="v">${investAmount.toFixed(2)}</span>
                                 </div>
                                 <div className="trd-roi-row-item">
                                     <span className="k">Capital Out</span>
                                     <span className={`v ${isProfit ? "green" : "red"}`}>
-                                        {isProfit ? "+" : ""}${totolNetPL.toFixed(1)}
+                                        {isProfit ? "+" : ""}${totolNetPL.toFixed(2)}
                                     </span>
                                 </div>
                                 <div className="trd-roi-row-item">
                                     <span className="k">Net P&L</span>
-                                    <span className={`v ${isProfit ? "green" : "red"}`}>${returnAmount.toFixed(1)}</span>
+                                    <span className={`v ${isProfit ? "green" : "red"}`}>${returnAmount.toFixed(2)}</span>
 
                                 </div>
                             </div>

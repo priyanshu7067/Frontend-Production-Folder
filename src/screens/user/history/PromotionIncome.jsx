@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import TableComponent from "../../../components/ui/TableComponent";
-
+import { getPromotionHistory } from "../../../apis/user/users.api";
 const PromotionIncome = () => {
   // 🔥 COLUMNS
   const columns = useMemo(

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import TableComponent from "../../../components/ui/TableComponent";
-
+import { getRankRoyalityHistory } from "../../../apis/user/users.api";
 const Rank_RoyalityBonus = () => {
   // 🔥 COLUMNS
   const columns = useMemo(

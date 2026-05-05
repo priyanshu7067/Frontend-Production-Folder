@@ -1,58 +1,81 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { MainContent } from "../constants/mainContent";
-
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import XIcon from '@mui/icons-material/X';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 const Footer = () => {
   return (
-    <footer className="bg-black text-gray-300 mt-20">
-      <div className="max-w-7xl mx-auto px-4 py-12 grid md:grid-cols-4 gap-8">
+    <footer className="bg-black text-gray-300 mt-20 border-t border-gray-800">
 
-        {/* Brand */}
+      {/* 🔥 MAIN GRID */}
+      <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+
+        {/* 🔥 BRAND */}
         <div>
-          <h2 className="text-xl font-bold text-white mb-3">
-          <img src={MainContent.logo} alt="" className="w-20" />
-          </h2>
-          <p className="text-sm">
+          <img src={MainContent.logo} alt="logo" className="w-20 mb-3" />
+          <p className="text-sm text-gray-400">
             Build your future with smart shopping & earning platform.
           </p>
         </div>
 
-        {/* Links */}
+        {/* 🔥 COMPANY */}
         <div>
-          <h3 className="text-white font-semibold mb-3">Company</h3>
+          <h3 className="text-white font-semibold mb-3 text-sm">Company</h3>
           <ul className="space-y-2 text-sm">
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
-            <li><Link to="/careers">Careers</Link></li>
+            <li><a href="#about" className="hover:text-white transition">About</a></li>
+            <li><a href="#contact" className="hover:text-white transition">Contact</a></li>
+            <li><a href="#solution" className="hover:text-white transition">Solution</a></li>
           </ul>
         </div>
 
-        {/* Help */}
+        {/* 🔥 SUPPORT */}
         <div>
-          <h3 className="text-white font-semibold mb-3">Support</h3>
+          <h3 className="text-white font-semibold mb-3 text-sm">Support</h3>
           <ul className="space-y-2 text-sm">
-            <li><Link to="/faq">FAQ</Link></li>
-            <li><Link to="/policy">Privacy Policy</Link></li>
-            <li><Link to="/terms">Terms</Link></li>
+            <li><a href="#faq" className="hover:text-white transition">FAQ</a></li>
+            <li><a href="#policy" className="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="#terms" className="hover:text-white transition">Terms</a></li>
           </ul>
         </div>
 
-        {/* Social */}
+        {/* 🔥 SOCIAL */}
         <div>
-          <h3 className="text-white font-semibold mb-3">Follow Us</h3>
-          <div className="flex gap-4">
-            {/* <Facebook className="hover:text-white cursor-pointer" />
-            <Instagram className="hover:text-white cursor-pointer" />
-            <Twitter className="hover:text-white cursor-pointer" /> */}
+          <h3 className="text-white font-semibold mb-3 text-sm">Follow Us</h3>
+
+          <div className="flex gap-3 flex-wrap">
+
+            <a href="#" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition">
+              <FacebookIcon size={18} />
+            </a>
+
+            <a href="#" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition">
+              <InstagramIcon size={18} />
+            </a>
+
+            <a href="#" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition">
+              <XIcon size={18} />
+            </a>
+
+            <a href="#" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition">
+              <LinkedInIcon size={18} />
+            </a>
+
+            <a href="#" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition">
+              <YouTubeIcon size={18} />
+            </a>
+
           </div>
         </div>
 
       </div>
 
-      {/* Bottom */}
-      <div className="border-t border-gray-800 text-center py-4 text-sm">
-        © {new Date().getFullYear()} new. All rights reserved.
+      {/* 🔥 BOTTOM */}
+      <div className="border-t border-gray-800 text-center py-4 text-xs text-gray-500">
+        © {new Date().getFullYear()} YourBrand. All rights reserved.
       </div>
+
     </footer>
   );
 };

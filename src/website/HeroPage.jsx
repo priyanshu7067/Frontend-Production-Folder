@@ -226,7 +226,7 @@ const HeroPage = () => {
           <p className="text-xs text-emerald-400 mt-1">▲ 5.2% today</p>
         </motion.div>
 
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, x: 25 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.35, duration: 0.7 }}
@@ -246,7 +246,7 @@ const HeroPage = () => {
               <p className="text-xs text-slate-400">≈ $32,400</p>
             </div>
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
 
       {/* Main Content */}

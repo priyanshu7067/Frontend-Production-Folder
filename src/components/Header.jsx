@@ -74,11 +74,11 @@ const Header = ({ onLoginClick }) => {
           <Link
             to={AuthRoutes.REGISTER}
             className="px-5 py-2 text-sm font-semibold rounded-full 
-            text-white
-            bg-[linear-gradient(135deg,#b76e79,#7f9ca8,#4f6d7a)]
-            hover:opacity-90
-            shadow-[0_0_20px_rgba(127,156,168,0.5)]
-            transition-all duration-300"
+  text-white
+  bg-[linear-gradient(135deg,#13a8c2,#0f7c91,#0a5f6f)]
+  hover:opacity-90
+  shadow-[0_0_20px_rgba(19,168,194,0.5)]
+  transition-all duration-300"
           >
             Get Started
           </Link>

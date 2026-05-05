@@ -76,8 +76,8 @@ body {
 }
 .text-glow {
   text-shadow:
-    0 0 10px rgba(183, 110, 121, 0.4),
-    0 0 20px rgba(127, 156, 168, 0.4);
+    0 0 10px rgba(6, 111, 137, 0.4),
+    0 0 20px rgba(4, 114, 139, 0.4);
 }
 
 /* 🧊 Glass Effect */

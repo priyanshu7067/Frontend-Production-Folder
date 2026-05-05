@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getToken } from "../utils/authStorage";
+import ButtonComponent from "../components/ui/ButtonComponent";
+import Auth from "../navigations/Auth";
+import { AuthRoutes } from "../constants/routes";
 
 const ContactSection = () => {
   const navigate = useNavigate();
@@ -24,7 +27,7 @@ const ContactSection = () => {
     // 🔐 AUTH CHECK
     if (!token) {
       toast.info("Please login first to contact us");
-      navigate("/login");
+      navigate(AuthRoutes.REGISTER);
       return;
     }
 
@@ -119,19 +122,11 @@ const ContactSection = () => {
           />
 
           {/* BUTTON */}
-          <button
-            type="submit"
-            className="
-              w-full py-3 rounded-lg font-semibold
-              bg-gradient-to-r from-[#06b6d4] to-[#22d3ee]
-              text-black
-              shadow-[0_0_18px_rgba(34,211,238,0.5)]
-              hover:shadow-[0_0_25px_rgba(34,211,238,0.8)]
-              transition-all duration-300
-            "
-          >
+         <div className="flex justify-center">
+           <ButtonComponent variant="neon" type="submit" >
             Send Message
-          </button>
+          </ButtonComponent>
+         </div>
         </form>
       </div>
     </section>
