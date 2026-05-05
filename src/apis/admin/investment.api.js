@@ -2,7 +2,7 @@ import { Axios } from "../../constants/mainContent";
 
 export const getAllInvestmentHistory = async () => {
   try {
-    const response = await Axios.get("/admin/get-all-investment-history");
+    const response = await Axios.get("/admin/get-investment-history");
     return response.data;
   } catch (error) {
     console.log(error, "error in investment history api");

@@ -3,6 +3,7 @@ import TableComponent from "../../../components/ui/TableComponent";
 import { getAllInvestmentHistory } from "../../../apis/admin/investment.api";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../context/AuthContext";
+import { maskWalletAddress } from "../../../utils/helper";
 
 const AdminInvestmentHistory = () => {
   const [data, setData] = useState([]);
@@ -15,9 +16,10 @@ const AdminInvestmentHistory = () => {
       setLoading(true);
 
       const res = await getAllInvestmentHistory();
+      console.log("Investment History:", res);
 
       if (res?.success) {
-        setData(res?.data || []);
+        setData(res?.data?.investments || res?.data || []);
       } else {
         toast.error(res?.message || "Failed to fetch");
       }
@@ -40,26 +42,18 @@ const AdminInvestmentHistory = () => {
         render: (_, i) => i + 1,
       },
       {
-        header: "User",
+        header: "User Wallet",
         render: (row) => (
-          <span className="text-gray-300 text-sm">
-            {row?.userId?.name || row?.user?.name || "N/A"}
-          </span>
-        ),
-      },
-      {
-        header: "Email",
-        render: (row) => (
-          <span className="text-gray-400 text-xs">
-            {row?.userId?.email || row?.user?.email || "N/A"}
+          <span className="text-gray-300 text-sm font-mono">
+            {maskWalletAddress(row?.user?.userId) || "N/A"}
           </span>
         ),
       },
       {
         header: "Transaction Hash",
         render: (row) => (
-          <span className="text-gray-300 text-xs font-mono">
-            {row?.transactionHash || "N/A"}
+          <span className="text-gray-400 text-xs font-mono">
+            {row?.transactionHash?.slice(0, 12)}...{row?.transactionHash?.slice(-8) || "N/A"}
           </span>
         ),
       },
@@ -67,7 +61,7 @@ const AdminInvestmentHistory = () => {
         header: "Investment",
         render: (row) => (
           <span className="text-blue-400 text-sm font-semibold">
-            ₹{Number(row?.investment || 0).toLocaleString("en-IN")}
+            ${Number(row?.investment || 0).toLocaleString("en-IN")}
           </span>
         ),
       },
@@ -75,7 +69,15 @@ const AdminInvestmentHistory = () => {
         header: "Return",
         render: (row) => (
           <span className="text-green-400 text-sm font-semibold">
-            ₹{Number(row?.returnInvestment || 0).toLocaleString("en-IN")}
+            ${Number(row?.returnInvestment || 0).toLocaleString("en-IN")}
+          </span>
+        ),
+      },
+      {
+        header: "Days",
+        render: (row) => (
+          <span className="text-yellow-400 text-sm">
+            {row?.days || 0}
           </span>
         ),
       },
