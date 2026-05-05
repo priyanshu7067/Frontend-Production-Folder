@@ -116,7 +116,7 @@ export default function UseCases() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#0a0c10] py-24 text-white">
+    <section className="relative overflow-hidden bg-[var(--bg-main)] py-24 text-white">
       {/* Background Grids */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(127,156,168,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(127,156,168,0.1)_1px,transparent_1px)] bg-[size:50px_50px]" />

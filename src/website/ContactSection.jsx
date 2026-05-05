@@ -45,7 +45,7 @@ const ContactSection = () => {
   return (
     <section
       id="contact"
-      className="relative py-20 px-6 bg-gradient-dark overflow-hidden"
+      className="relative py-10 px-6 bg-[var(--bg-main)] overflow-hidden"
     >
       {/* 🔥 Background Glow */}
       <div className="absolute inset-0 pointer-events-none opacity-30">
@@ -68,7 +68,7 @@ const ContactSection = () => {
         {/* FORM */}
         <form
           onSubmit={handleSubmit}
-          className="glass p-6 md:p-8 rounded-2xl space-y-5"
+          className="glass p-2 md:p-8 rounded-2xl space-y-5"
         >
           {/* NAME */}
           <input

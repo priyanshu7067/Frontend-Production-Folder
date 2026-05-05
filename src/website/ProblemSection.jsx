@@ -24,7 +24,7 @@ const opportunityCards = [
 
 export default function ProblemSection() {
   return (
-    <section className="relative overflow-hidden bg-[#0a0c10] py-24 text-white" id="solution">
+    <section className="relative overflow-hidden bg-[var(--bg-main)] py-24 text-white" id="solution">
 
       {/* Background Tech Grid */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
@@ -86,7 +86,7 @@ export default function ProblemSection() {
 
         {/* 🔥 Unified CTA Platform Section */}
         <div className="mt-28 flex justify-center">
-          <div className="relative w-full max-w-5xl overflow-hidden rounded-[40px] border border-white/10 bg-[#11141a]/50 px-6 py-12 text-center backdrop-blur-2xl md:px-20 md:py-20">
+          <div className="relative w-full max-w-5xl overflow-hidden rounded-[40px] border border-white/10 bg-[#11141a]/50 px-6 py-12 text-center backdrop-blur-2xl md:px-20 md:py-10">
 
             {/* Background Accent for CTA */}
             <div className="absolute left-1/2 top-1/2 -z-10 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/10 blur-[100px]" />

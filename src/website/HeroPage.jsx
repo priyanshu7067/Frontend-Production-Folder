@@ -155,7 +155,7 @@ const HeroPage = () => {
       price: "$67,420",
       change: "2.41%",
       isUp: true,
-      bars: [28, 48, 34, 72, 60, 88, 68, 96],
+      bars: [28, 48, 34, 72, 60, 88, 68, 96,77,55,33,88,44,3,33,55,22,99,44,88,99],
       delay: 0.9,
     },
     {
@@ -166,7 +166,7 @@ const HeroPage = () => {
       price: "$3,512",
       change: "0.87%",
       isUp: false,
-      bars: [70, 48, 62, 34, 78, 55, 28, 42],
+      bars: [70, 48, 62, 34, 78, 55, 28, 42,55,77,88,99,44,3,33,55,22,99,44,88,99],
       delay: 1.05,
     },
   ];
@@ -257,8 +257,8 @@ const HeroPage = () => {
           transition={{ duration: 0.6 }}
           className="inline-flex items-center gap-2 rounded-full px-5 py-2 mb-8 glass badge-glow"
         >
-          <span className="badge-dot w-2.5 h-2.5 rounded-full bg-[#b76e79]" />
-          <span className="text-[11px] md:text-xs font-semibold uppercase tracking-[0.24em] text-[#d3a6a6]">
+          <span className="badge-dot w-2.5 h-2.5 rounded-full bg-[#04d3f3]" />
+          <span className="text-[11px] md:text-xs font-semibold uppercase tracking-[0.24em] text-[#ebeff08e]">
             Live Trading • $2.84T Market Cap
           </span>
         </motion.div>
@@ -373,7 +373,7 @@ const HeroPage = () => {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-px z-30 bg-gradient-to-r from-transparent via-[#b76e79] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px z-30 bg-gradient-to-r from-transparent via-[#35d1ec83] to-transparent" />
     </section>
   );
 };

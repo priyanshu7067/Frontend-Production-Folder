@@ -59,7 +59,7 @@ const Header = ({ onLoginClick }) => {
         <div className="flex items-center gap-3">
           <button
             onClick={onLoginClick}
-            className="hidden md:block px-4 py-1.5 text-sm rounded-full 
+            className="px-4 py-1.5 text-sm rounded-full 
   border border-white/10 text-white/70 
   hover:bg-white/10 transition"
           >

@@ -4,12 +4,13 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className="relative py-20 px-6 bg-gradient-dark overflow-hidden"
+      className="relative py-10 px-6 bg-[var(--bg-main)] overflow-hidden"
     >
       {/* 🔥 Background Glow */}
       <div className="absolute inset-0 opacity-30 pointer-events-none">
-        <div className="absolute w-[400px] h-[400px] bg-[#22d3ee]/20 blur-[120px] top-[-100px] left-[-100px]" />
-        <div className="absolute w-[400px] h-[400px] bg-[#06b6d4]/20 blur-[120px] bottom-[-100px] right-[-100px]" />
+        <div className="absolute w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-[#22d3ee]/20 blur-[120px] top-[-80px] left-[-80px]" />
+
+        <div className="absolute w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-[#06b6d4]/20 blur-[120px] bottom-[-80px] right-[-80px]" />
       </div>
 
       <div className="relative max-w-7xl mx-auto">
@@ -26,7 +27,7 @@ const AboutSection = () => {
 
         {/* 🔥 CONTENT GRID */}
         <div className="grid md:grid-cols-2 gap-10 items-center">
-          
+
           {/* LEFT SIDE */}
           <div className="space-y-6">
             <div className="card">
