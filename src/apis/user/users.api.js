@@ -108,6 +108,15 @@ export const getTradIngHistory = async () => {
     return error.response.data;
   }
 }
+export const getTradIngHistoryDetailsById = async (id) => {
+  try {
+    const response = await Axios.get(`/user/roi-coin-distribution/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
 export const getRankRoyalityHistory = async () => {
   try {
     const response = await Axios.get("/user/rank-history");

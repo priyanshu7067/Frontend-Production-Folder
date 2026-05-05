@@ -4,12 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
 import UserDashBoard from "../screens/user/UserDashBoard";
 import DashboardLayout from "../layout/DashboardLayout";
-// import ProfilePage from '../screens/user/ProfilePage'
 import AdminDashboard from "../screens/admin/AdminDashboard";
 import HomeSection from "../website/HomeSection";
-import LoginPage from "../screens/AuthPages/LoginPage";
-import AdminLogin from "../screens/AuthPages/AdminLogin";
-import RegisterPage from "../screens/AuthPages/RegisterPage";
 import KycPage from "../screens/user/KycPage";
 import LivePricing from "../screens/user/LivePricing";
 import TradingBot from "../screens/user/TradingBot";
@@ -30,6 +26,10 @@ import AllIncomeCards from "../screens/user/AllIncomeCards";
 import InvestmentHistory from "../screens/user/history/InvestmentHistory";
 import WithdrawalPage from "../screens/user/WithdrawalPage";
 import WalletTransfer from "../screens/user/WalletTransfer";
+import AITradeBotHistoryDetail from "../screens/user/history/AITradeBotHistoryDetail";
+import AdminInvestmentHistory from "../screens/admin/incomeHistory/AdminInvestmentHistory";
+import AdminDirectIncome from "../screens/admin/incomeHistory/AdminDirectIncome";
+import AdminLevelIncome from "../screens/admin/incomeHistory/AdminLevelIncome";
 const Authenticated = () => {
   const { user } = useAuth();
   return (
@@ -58,6 +58,18 @@ const Authenticated = () => {
             <Route
               path={AdminRoutes.ALL_USERS}
               element={<AllUsers />}
+            />
+            <Route
+              path={AdminRoutes.INVESTMENT_HISTORY}
+              element={<AdminInvestmentHistory />}
+            />
+            <Route
+              path={AdminRoutes.DIRECT_INCOME}
+              element={<AdminDirectIncome />}
+            />
+            <Route
+              path={AdminRoutes.LEVEL_INCOME}
+              element={<AdminLevelIncome />}
             />
             {/* <Route path="users" element={<Users />} /> */}
           </Route>
@@ -88,6 +100,10 @@ const Authenticated = () => {
             <Route
               path={UserRoutes.INVESTMENT_HISTORY}
               element={<InvestmentHistory />}
+            />
+            <Route
+              path={UserRoutes.AITRADE_BOT_HISTORY_DETAIL}
+              element={<AITradeBotHistoryDetail />}
             />
             <Route path={UserRoutes.MY_TEAMS} element={<MyTeams />} />
             <Route path={UserRoutes.DIRECT_TEAMS} element={<DirectTeam />} />

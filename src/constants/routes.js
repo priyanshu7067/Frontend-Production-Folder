@@ -17,6 +17,7 @@ export const UserRoutes = {
     TRADE_HISTORY: "trade-history",
     RANK_ROYALITY_HISTORY: "rank-royality-bonus-history",
     INVESTMENT_HISTORY: "investment-history",
+    AITRADE_BOT_HISTORY_DETAIL: "aitrade-bot-history-detail",
 
     MY_TEAMS: "my-teams",
     DIRECT_TEAMS: "direct-team",
@@ -32,4 +33,7 @@ export const AdminRoutes = {
     USER_KYC_REQUESTS: "user-kyc-requests",
     USER_REJECTED_KYC: "user-rejected-kyc",
     USER_APPROVED_KYC: "user-approved-kyc",
+    INVESTMENT_HISTORY: "investment-history",
+    DIRECT_INCOME: "direct-income",
+    LEVEL_INCOME: "level-income",
 }

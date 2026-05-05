@@ -3,11 +3,22 @@ import TableComponent from "../../../components/ui/TableComponent";
 import { getTradIngHistory } from "../../../apis/user/users.api";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import Authenticated from "../../../navigations/Authenticated";
+import { User } from "lucide-react";
+import { UserRoutes } from "../../../constants/routes";
 
 const TradeHistory = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { showLoader, hideLoader } = useAuth();
+  const navigate = useNavigate();
+
+  const handleView = (id) => {
+    navigate("/dashboard/aitrade-bot-history-detail", {
+      state: { id },
+    });
+  };
 
   // 🔥 FETCH API (same pattern)
   const fetchHistory = async () => {
@@ -44,10 +55,10 @@ const TradeHistory = () => {
         render: (_, i) => i + 1,
       },
       {
-        header: "Pair",
+        header: "Trade #",
         render: (row) => (
           <span className="text-blue-400 text-xs font-semibold">
-            {row?.pair}
+            {row?.tradeNumber}
           </span>
         ),
       },
@@ -55,13 +66,12 @@ const TradeHistory = () => {
         header: "Type",
         render: (row) => (
           <span
-            className={`text-[10px] px-2 py-0.5 rounded-full ${
-              row?.type === "BUY"
-                ? "bg-green-500/20 text-green-400"
-                : "bg-red-500/20 text-red-400"
-            }`}
+            className={`text-[10px] px-2 py-0.5 rounded-full ${row?.tradeType === "profit"
+              ? "bg-green-500/20 text-green-400"
+              : "bg-red-500/20 text-red-400"
+              }`}
           >
-            {row?.type}
+            {row?.tradeType?.toUpperCase()}
           </span>
         ),
       },
@@ -69,53 +79,49 @@ const TradeHistory = () => {
         header: "Amount",
         render: (row) => (
           <span className="text-gray-300 text-xs">
-            {row?.amount}
+            ${Number(row?.amount || 0).toLocaleString("en-IN")}
           </span>
         ),
       },
-      {
-        header: "Price",
-        render: (row) => (
-          <span className="text-gray-300 text-xs">
-            ${Number(row?.price || 0).toLocaleString("en-IN")}
-          </span>
-        ),
-      },
+      // {
+      //   header: "Percentage %",
+      //   render: (row) => (
+      //     <span className="text-yellow-400 text-xs font-semibold">
+      //       {Number(row?.percentage || 0).toFixed(2)}%
+      //     </span>
+      //   ),
+      // },
       {
         header: "P/L",
         render: (row) => (
           <span
-            className={`text-xs font-semibold ${
-              Number(row?.pl) >= 0
-                ? "text-green-400"
-                : "text-red-400"
-            }`}
+            className={`text-xs font-semibold ${Number(row?.income) >= 0
+              ? "text-green-400"
+              : "text-red-400"
+              }`}
           >
-            {Number(row?.pl) >= 0 ? "+" : ""}$
-            {Number(row?.pl || 0)}
+            {Number(row?.income) >= 0 ? "+" : ""}
+            ${Number(row?.income || 0)}
           </span>
         ),
       },
       {
-        header: "Status",
+        header: "Action",
         render: (row) => (
-          <span
-            className={`text-[10px] px-2 py-0.5 rounded-full ${
-              row?.status === "Completed"
-                ? "bg-green-500/20 text-green-400"
-                : "bg-yellow-500/20 text-yellow-400"
-            }`}
+          <button
+            onClick={() => handleView(row?._id)}
+            className="text-[10px] px-3 py-1 rounded-md bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition"
           >
-            {row?.status}
-          </span>
+            View Details
+          </button>
         ),
       },
       {
         header: "Date",
         render: (row) => (
           <span className="text-gray-400 text-xs">
-            {row?.date
-              ? new Date(row.date).toLocaleDateString("en-IN")
+            {row?.tradeDate
+              ? new Date(row.tradeDate).toLocaleDateString("en-IN")
               : "N/A"}
           </span>
         ),
@@ -126,7 +132,7 @@ const TradeHistory = () => {
 
   return (
     <div className="dashboard-bg min-h-full p-4 md:p-6 text-white space-y-4">
-      
+
       {/* 🔥 HEADER */}
       <div>
         <h2 className="text-sm md:text-base font-medium tracking-wide">
