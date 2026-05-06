@@ -107,6 +107,10 @@ export const sidebarMenu = {
           name: "Level Income",
           path: AdminRoutes.LEVEL_INCOME,
         },
+        {
+          name: "Promotion Bonus Income",
+          path: AdminRoutes.PROMOTION_BONUS_INCOME_HISTORY,
+        },
       ],
     },
   ],

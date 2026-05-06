@@ -30,6 +30,7 @@ import AITradeBotHistoryDetail from "../screens/user/history/AITradeBotHistoryDe
 import AdminInvestmentHistory from "../screens/admin/incomeHistory/AdminInvestmentHistory";
 import AdminDirectIncome from "../screens/admin/incomeHistory/AdminDirectIncome";
 import AdminLevelIncome from "../screens/admin/incomeHistory/AdminLevelIncome";
+import AdminPromotionBonusIncome from "../screens/admin/incomeHistory/AdminPromotionBonusIncome";
 const Authenticated = () => {
   const { user } = useAuth();
   return (
@@ -70,6 +71,10 @@ const Authenticated = () => {
             <Route
               path={AdminRoutes.LEVEL_INCOME}
               element={<AdminLevelIncome />}
+            />
+            <Route
+              path={AdminRoutes.PROMOTION_BONUS_INCOME_HISTORY}
+              element={<AdminPromotionBonusIncome />}
             />
             {/* <Route path="users" element={<Users />} /> */}
           </Route>

@@ -29,3 +29,13 @@ export const getAllLevelIncome = async () => {
     return error.response.data;
   }
 };
+
+export const getAllPromotionBonusIncome = async () => {
+  try {
+    const response = await Axios.get("/admin/get-bonus-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in investment history api");
+    return error.response.data;
+  }
+};

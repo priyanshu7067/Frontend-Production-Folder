@@ -36,4 +36,5 @@ export const AdminRoutes = {
     INVESTMENT_HISTORY: "investment-history",
     DIRECT_INCOME: "direct-income",
     LEVEL_INCOME: "level-income",
+    PROMOTION_BONUS_INCOME_HISTORY: "promotion-bonus-income-history",
 }
