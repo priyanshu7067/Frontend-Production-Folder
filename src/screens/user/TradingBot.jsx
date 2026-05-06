@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import TransactionTable from "./TransactionTable";
 import { buySellAiTradingBot } from "../../apis/user/users.api";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
@@ -309,6 +308,47 @@ export default function TradingBot() {
         .scrollbar::-webkit-scrollbar { width:4px; }
         .scrollbar::-webkit-scrollbar-track { background:transparent; }
         .scrollbar::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); border-radius:4px; }
+
+        @keyframes orbitRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitReverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes corePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+}
+
+@keyframes scanMove {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
+}
       `}</style>
 
             <div className="flex flex-col xl:flex-row w-full h-full bg-[#060b14] text-white overflow-hidden">
@@ -611,18 +651,143 @@ h-[300px] sm:h-[400px] xl:min-h-[550px]
                         </div>
                     </div>
                     {isProcessing && (
-                        <h2
+                        <div
                             style={{
-                                fontSize: 11,
-                                color: "#0ea5e9",
-                                marginTop: 8,
-                                letterSpacing: 1,
-                                textAlign: "center",
+                                marginTop: 10,
+                                padding: "16px 12px",
+                                borderRadius: 14,
+
+                                background: `
+        radial-gradient(circle at center,
+        rgba(14,165,233,0.12) 0%,
+        rgba(6,11,20,0.95) 70%)
+      `,
+
+                                border: "1px solid rgba(14,165,233,0.15)",
+
+                                position: "relative",
+                                overflow: "hidden",
+
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+
+                                boxShadow: `
+        inset 0 0 25px rgba(0,255,255,0.05),
+        0 0 30px rgba(14,165,233,0.08)
+      `,
                             }}
                         >
-                            🤖 AI trade placed successfully — wait {timer}s for balance update
-                        </h2>
-                    )}                    {/* AI Status Footer */}
+                            {/* 🔥 OUTER ORBIT */}
+                            <div
+                                style={{
+                                    width: 72,
+                                    height: 72,
+                                    borderRadius: "50%",
+                                    border: "2px solid rgba(14,165,233,0.12)",
+                                    borderTop: "2px solid #0ea5e9",
+
+                                    position: "absolute",
+
+                                    animation: "orbitRotate 4s linear infinite",
+
+                                    boxShadow: "0 0 25px rgba(14,165,233,0.25)",
+                                }}
+                            />
+
+                            {/* 🔥 INNER RING */}
+                            <div
+                                style={{
+                                    width: 48,
+                                    height: 48,
+                                    borderRadius: "50%",
+                                    border: "2px dashed rgba(34,211,238,0.4)",
+
+                                    position: "absolute",
+
+                                    animation: "orbitReverse 3s linear infinite",
+                                }}
+                            />
+
+                            {/* ⚡ CENTER CORE */}
+                            <div
+                                style={{
+                                    width: 16,
+                                    height: 16,
+                                    borderRadius: "50%",
+
+                                    background:
+                                        "linear-gradient(135deg,#22d3ee,#0ea5e9,#38bdf8)",
+
+                                    boxShadow: `
+          0 0 10px #0ea5e9,
+          0 0 25px rgba(14,165,233,0.9)
+        `,
+
+                                    animation: "corePulse 1.5s ease-in-out infinite",
+                                }}
+                            />
+
+                            {/* 🔥 SCANNING LINE */}
+                            <div
+                                style={{
+                                    position: "absolute",
+                                    inset: 0,
+
+                                    background:
+                                        "linear-gradient(to bottom, transparent, rgba(14,165,233,0.08), transparent)",
+
+                                    animation: "scanMove 2.5s linear infinite",
+                                }}
+                            />
+
+                            {/* 🧠 TEXT */}
+                            <div
+                                style={{
+                                    marginTop: 90,
+                                    textAlign: "center",
+                                    zIndex: 2,
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        fontSize: 11,
+                                        color: "#38bdf8",
+                                        letterSpacing: 2,
+                                        fontWeight: 700,
+                                        fontFamily: "'Rajdhani', sans-serif",
+                                    }}
+                                >
+                                    AI TRADE EXECUTING
+                                </div>
+
+                                <div
+                                    style={{
+                                        marginTop: 4,
+                                        fontSize: 10,
+                                        color: "#64748b",
+                                        letterSpacing: 1,
+                                    }}
+                                >
+                                    SECURING BLOCKCHAIN POSITION...
+                                </div>
+
+                                <div
+                                    style={{
+                                        marginTop: 10,
+                                        fontSize: 22,
+                                        fontWeight: 700,
+                                        color: "#f8fafc",
+                                        fontFamily: "'Space Mono', monospace",
+                                        textShadow: "0 0 18px rgba(14,165,233,0.45)",
+                                    }}
+                                >
+                                 <span className="text-sm"> wait {timer}s</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}                   {/* AI Status Footer */}
                     <div style={{ padding: "8px 12px", borderTop: "1px solid rgba(255,255,255,0.07)", display: "flex", alignItems: "center", gap: 8, background: aiActive ? "rgba(168,85,247,0.06)" : "transparent" }}>
                         <PulsingDot color={aiActive ? "#a855f7" : "#374151"} />
                         <span style={{ fontSize: 10, color: aiActive ? "#a855f7" : "#4b5563", fontFamily: "'Rajdhani',sans-serif", letterSpacing: 1 }}>
@@ -631,7 +796,7 @@ h-[300px] sm:h-[400px] xl:min-h-[550px]
                     </div>
                 </div>
             </div>
-            {/* <TransactionTable/> */}
+           
         </>
     );
 }

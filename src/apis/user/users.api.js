@@ -119,7 +119,7 @@ export const getTradIngHistoryDetailsById = async (id) => {
 }
 export const getRankRoyalityHistory = async () => {
   try {
-    const response = await Axios.get("/user/rank-history");
+    const response = await Axios.get("/user/get-rank-income-history");
     return response.data;
   } catch (error) {
     console.log(error, "error in apis");
@@ -128,7 +128,7 @@ export const getRankRoyalityHistory = async () => {
 }
 export const getPromotionHistory = async () => {
   try {
-    const response = await Axios.get("/user/trade-history");
+    const response = await Axios.get("/user/get-promotion-income-history");
     return response.data;
   } catch (error) {
     console.log(error, "error in apis");

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ButtonComponent from "../components/ui/ButtonComponent";
+import { AuthRoutes } from "../constants/routes";
+import { Link } from "react-router-dom";
 
 const PriceCard = ({
   icon,
@@ -155,7 +157,7 @@ const HeroPage = () => {
       price: "$67,420",
       change: "2.41%",
       isUp: true,
-      bars: [28, 48, 34, 72, 60, 88, 68, 96,77,55,33,88,44,3,33,55,22,99,44,88,99],
+      bars: [28, 48, 34, 72, 60, 88, 68, 96, 77, 55, 33, 88, 44, 3, 33, 55, 22, 99, 44, 88, 99],
       delay: 0.9,
     },
     {
@@ -166,7 +168,7 @@ const HeroPage = () => {
       price: "$3,512",
       change: "0.87%",
       isUp: false,
-      bars: [70, 48, 62, 34, 78, 55, 28, 42,55,77,88,99,44,3,33,55,22,99,44,88,99],
+      bars: [70, 48, 62, 34, 78, 55, 28, 42, 55, 77, 88, 99, 44, 3, 33, 55, 22, 99, 44, 88, 99],
       delay: 1.05,
     },
   ];
@@ -314,9 +316,11 @@ const HeroPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.75, duration: 0.6 }}
         >
-          <ButtonComponent variant="neon">
-            Start Trading Free →
-          </ButtonComponent>
+          <Link to={AuthRoutes.REGISTER}>
+            <ButtonComponent variant="neon">
+              Start Trading Free →
+            </ButtonComponent>
+          </Link>
 
           <ButtonComponent variant="outline">
             View Live Markets

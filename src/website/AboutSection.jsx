@@ -1,4 +1,6 @@
 import React from "react";
+import { AuthRoutes } from "../constants/routes";
+import { Link } from "react-router-dom";
 
 const AboutSection = () => {
   return (
@@ -93,16 +95,18 @@ const AboutSection = () => {
 
               {/* CTA */}
               <div className="mt-6">
-                <button className="
+                <Link to={AuthRoutes.REGISTER}>
+                  <button className="
                   px-6 py-2 rounded-full text-sm font-semibold
                   bg-gradient-to-r from-[#06b6d4] to-[#22d3ee]
                   text-black
                   shadow-[0_0_18px_rgba(34,211,238,0.5)]
                   hover:shadow-[0_0_25px_rgba(34,211,238,0.8)]
-                  transition-all duration-300
+                  transition-all duration-300 cursor-pointer
                 ">
-                  Start Investing
-                </button>
+                    Start Investing
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

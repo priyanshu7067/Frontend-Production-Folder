@@ -66,9 +66,9 @@ const CryptoScreenTable = ({ tokens = [], loading = false }) => {
 
       {/* TABLE */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left">
+        <table className="w-full  text-left">
 
-          <thead className="bg-[#111418]">
+          <thead className="bg-[#111418] border-l border-r">
             <tr className="text-[10px] uppercase text-gray-100 border-b border-white/5">
               <th className="px-6 py-4">Token</th>
               <th className="px-6 py-4 text-right">Volume</th>
@@ -102,7 +102,7 @@ const CryptoScreenTable = ({ tokens = [], loading = false }) => {
                     {/* TOKEN */}
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <img src={coin.image} className="w-7 h-7" />
+                        <img src={coin?.image} className="w-7 h-7" />
                         <div>
                           <p className="text-sm font-bold text-white uppercase">
                             {coin.symbol}

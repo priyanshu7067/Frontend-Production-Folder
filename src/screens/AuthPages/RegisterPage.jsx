@@ -64,14 +64,19 @@ const RegisterPage = () => {
     <div className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
 
       {/* 🔥 VIDEO BACKGROUND */}
-      <img
+      {/* <img
         src="https://i.pinimg.com/originals/1d/73/5a/1d735ad8eee8350adc96d50e1421ee6d.gif"
         alt="bg"
         className="absolute inset-0 w-full h-full object-cover"
-      />
+      /> */}
+      <video src="https://v.ftcdn.net/05/97/08/74/700_F_597087436_kus14pRP9EBta1Cf3NqJo9htw44ZuSk3_ST.mp4"
+        className="absolute inset-0 w-full h-full object-cover"
+        autoPlay loop muted
+        typeof="mp4"
+      ></video>
 
       {/* 🔥 DARK OVERLAY (IMPORTANT) */}
-      <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/10 backdrop-blur-sm" />
 
       {/* 🔥 CONTENT */}
       <div className="relative z-10 w-full max-w-6xl flex justify-center items-center">
