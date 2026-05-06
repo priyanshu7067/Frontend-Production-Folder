@@ -41,6 +41,10 @@ const LevelIncome = () => {
   // 🔥 CORRECT COLUMNS (render use karo)
   const columns = useMemo(() => [
     {
+      header: "S.No",
+      render: (_, i) => i + 1,
+    },
+    {
       header: "Level",
       render: (row) => (
         <span className="text-purple-400 text-xs font-semibold">

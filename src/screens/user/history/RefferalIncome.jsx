@@ -40,6 +40,10 @@ const RefferalIncome = () => {
   // 🔥 CORRECT COLUMNS (render use karo)
   const columns = useMemo(() => [
     {
+      header: "S.No",
+      render: (_, i) => i + 1,
+    },
+    {
       header: "From User",
       render: (row) => (
         <div className="flex flex-col">
@@ -88,7 +92,7 @@ const RefferalIncome = () => {
       header: "Percentage %",
       render: (row) => (
         <span className="text-teal-400 text-sm font-bold">
-         {row?.percentage || 0}%  
+          {row?.percentage || 0}%
         </span>
       ),
     },

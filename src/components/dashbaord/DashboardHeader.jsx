@@ -4,23 +4,23 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { IconButton, Avatar, Box, Typography, Chip } from "@mui/material";
 import gif from "../../assets/spin.gif";
 import { useAuth } from "../../context/AuthContext";
-
+import ViewSidebarIcon from '@mui/icons-material/ViewSidebar';
 const DashboardHeader = ({ role, setOpen }) => {
   const {user} = useAuth();
   // console.log(user, "gfayuehg")
   return (
-    <header className="h-14 bg-[#020617]/90 backdrop-blur-md border-b border-[#076b7c] flex items-center justify-between px-5">
+    <header className="h-14  bg-[#020617]/90 backdrop-blur-md border-b border-[#076b7c] flex items-center justify-between px-2 md:px-4">
       {/* 🔥 LEFT */}
       <div className="flex items-center gap-3">
         {/* Sidebar Toggle (MUI) */}
         <IconButton
           onClick={() => setOpen((prev) => !prev)}
           sx={{
-            color: "#9CA3AF",
+            color: "#11c4a9",
             "&:hover": { backgroundColor: "rgba(255,255,255,0.08)" },
           }}
         >
-          <MenuOpenIcon fontSize="small" />
+          <ViewSidebarIcon fontSize="medium" />
         </IconButton>
 
         {/* Title */}

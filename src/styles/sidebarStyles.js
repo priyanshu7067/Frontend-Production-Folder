@@ -1,3 +1,5 @@
+import { color } from "framer-motion";
+
 export const drawerStyles = (open) => ({
   width: open ? 240 : 80,
   flexShrink: 0,
@@ -52,18 +54,76 @@ export const listItemStyles = (open, active) => ({
     ? {
       content: '""',
       position: "absolute",
-      left: 0,
-      top: "20%",
-      height: "60%",
-      width: "3px",
-      background: "var(--accent-primary)",
-      borderRadius: "4px",
+      right: "2px",
+      top: "12%",
+      height: "76%",
+      width: "4px",
+      borderRadius: "999px",
+
+      /* 🔥 Gradient Glow Line */
+      background:
+        "linear-gradient(to bottom, transparent, var(--primary), #00f0ff, var(--primary), transparent)",
+
+      /* ✨ Big Right Glow */
+      boxShadow: `
+        0 0 8px var(--primary),
+        0 0 18px var(--primary),
+        6px 0 22px rgba(0,255,255,0.7),
+        10px 0 35px rgba(0,255,255,0.45)
+      `,
+
+      animation: "sidebarGlow 2.2s ease-in-out infinite",
     }
     : {},
 
   "&:hover": {
-    background: "var(--sidebar-hover)",
-    transform: "translateX(4px)",
+    transform: "translateX(4px) scale(1.01)",
+
+    /* 🔥 Premium Teal Gradient Background */
+    background: `
+    linear-gradient(
+      60deg,
+      rgba(0, 255, 200, 0.06) 0%,
+      rgba(0, 240, 255, 0.14) 35%,
+      rgba(0, 180, 255, 0.18) 65%,
+      rgba(0, 255, 200, 0.08) 100%
+    )
+  `,
+
+    /* ✨ Glass Effect */
+    backdropFilter: "blur(10px)",
+
+    /* 🌟 Smooth Glow */
+    boxShadow: `
+  inset 0 0 14px rgba(0, 255, 255, 0.10),
+  inset 0 0 28px rgba(135, 206, 250, 0.08),
+
+  0 0 12px rgba(0, 191, 255, 0.18),
+  0 0 24px rgba(135, 206, 250, 0.14),
+
+  -4px 0 18px rgba(0, 255, 255, 0.22),
+  -10px 0 32px rgba(135, 206, 250, 0.18),
+
+  0 0 42px rgba(0, 180, 185, 0.10)
+`,
+
+    /* 🔥 Better Text Visibility */
+    color: "#ffffff",
+
+    "& .MuiListItemText-primary": {
+      color: "#ffffff",
+      fontWeight: 600,
+      letterSpacing: "0.4px",
+      textShadow: "0 0 10px rgba(0,255,255,0.35)",
+    },
+
+    "& svg": {
+      color: "#7df9ff",
+      filter: "drop-shadow(0 0 8px rgba(0,255,255,0.55))",
+      transform: "scale(1.08)",
+    },
+
+    transition: "all 0.35s ease",
   },
 
   transition: "all 0.25s ease",

@@ -6,6 +6,10 @@ const Rank_RoyalityBonus = () => {
   const columns = useMemo(
     () => [
       {
+        header: "S.No",
+        render: (_, i) => i + 1,
+      },
+      {
         header: "Rank",
         accessor: "rank",
         Cell: ({ value }) => (
@@ -42,11 +46,10 @@ const Rank_RoyalityBonus = () => {
         accessor: "status",
         Cell: ({ value }) => (
           <span
-            className={`text-[10px] px-2 py-0.5 rounded-full ${
-              value === "Active"
+            className={`text-[10px] px-2 py-0.5 rounded-full ${value === "Active"
                 ? "bg-green-500/20 text-green-400"
                 : "bg-gray-500/20 text-gray-400"
-            }`}
+              }`}
           >
             {value}
           </span>

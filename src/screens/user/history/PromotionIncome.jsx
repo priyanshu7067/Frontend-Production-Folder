@@ -6,6 +6,10 @@ const PromotionIncome = () => {
   const columns = useMemo(
     () => [
       {
+        header: "S.No",
+        render: (_, i) => i + 1,
+      },
+      {
         header: "Rank",
         accessor: "rank",
         Cell: ({ value }) => (

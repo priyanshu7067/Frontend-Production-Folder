@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 const ProfilePage = () => {
   const [copied, setCopied] = useState(false);
   const { user } = useAuth();
+  console.log(user);
   const referralLink = `${window.location.origin}/register?ref=${user?.userId}`;
   // console.log(user);
   return (
@@ -123,7 +124,7 @@ const ProfilePage = () => {
           <h3 className="text-sm text-gray-400">Security</h3>
 
           <Row label="2FA" value="Enabled" color="text-green-400" />
-          <Row label="KYC" value="Verified" color="text-green-400" />
+          <Row label="KYC" value={user?.isKycVerified ? "Verified" : "Not Verified"} color="text-green-400" />
           {/* <Row label="Last Login" value="Today" /> */}
         </div>
       </div>
