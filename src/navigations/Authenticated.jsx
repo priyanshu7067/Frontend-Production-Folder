@@ -31,6 +31,8 @@ import AdminInvestmentHistory from "../screens/admin/incomeHistory/AdminInvestme
 import AdminDirectIncome from "../screens/admin/incomeHistory/AdminDirectIncome";
 import AdminLevelIncome from "../screens/admin/incomeHistory/AdminLevelIncome";
 import AdminPromotionBonusIncome from "../screens/admin/incomeHistory/AdminPromotionBonusIncome";
+import AdminRankIncome from "../screens/admin/incomeHistory/AdminRankIncome";
+import AdminWithdrawalHistory from "../screens/admin/withdrawal/AdminWithdrawalHistory";
 import WalletTransferHistory from "../screens/user/history/WalletTransferHistory";
 import WithdrawalHistory from "../screens/user/history/WithdrawalHistory";
 const Authenticated = () => {
@@ -77,6 +79,14 @@ const Authenticated = () => {
             <Route
               path={AdminRoutes.PROMOTION_BONUS_INCOME_HISTORY}
               element={<AdminPromotionBonusIncome />}
+            />
+            <Route
+              path={AdminRoutes.RANK_INCOME_HISTORY}
+              element={<AdminRankIncome />}
+            />
+            <Route
+              path={AdminRoutes.WITHDRAWAL_HISTORY}
+              element={<AdminWithdrawalHistory />}
             />
             {/* <Route path="users" element={<Users />} /> */}
           </Route>

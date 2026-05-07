@@ -108,6 +108,24 @@ export const sidebarMenu = {
       ],
     },
     {
+      name: "Withdrawal History",
+      icon: "income",
+      children: [
+        {
+          name: "Pending Withdrawal",
+          path: AdminRoutes.WITHDRAWAL_HISTORY,
+        },
+        {
+          name: "Approved Withdrawal",
+          path: AdminRoutes.WITHDRAWAL_HISTORY,
+        },
+        {
+          name: "Rejected Withdrawal",
+          path: AdminRoutes.WITHDRAWAL_HISTORY,
+        },
+      ],
+    },
+    {
       name: "Income History",
       icon: "income",
       children: [
@@ -126,6 +144,14 @@ export const sidebarMenu = {
         {
           name: "Promotion Bonus Income",
           path: AdminRoutes.PROMOTION_BONUS_INCOME_HISTORY,
+        },
+        {
+          name: "Rank Income History",
+          path: AdminRoutes.RANK_INCOME_HISTORY,
+        },
+        {
+          name: "Withdrawal History",
+          path: AdminRoutes.WITHDRAWAL_HISTORY,
         },
       ],
     },

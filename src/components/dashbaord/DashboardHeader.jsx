@@ -114,6 +114,7 @@ backdropFilter: "blur(4px)",
               boxShadow: "0 0 14px var(--primary-glow)",
             },
           }}
+          src={user?.kyc?.memberPhoto?.imageUrl}
         >
           U
         </Avatar>

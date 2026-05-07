@@ -39,3 +39,23 @@ export const getAllPromotionBonusIncome = async () => {
     return error.response.data;
   }
 };
+
+export const getRankIncomeHistory = async () => {
+  try {
+    const response = await Axios.get("/admin/get-rank-income-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in investment history api");
+    return error.response.data;
+  }
+};
+
+export const getWithdrawalHistory = async () => {
+  try {
+    const response = await Axios.get("/admin/get-withdrawal-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in investment history api");
+    return error.response.data;
+  }
+};
