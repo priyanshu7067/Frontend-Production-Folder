@@ -21,42 +21,25 @@ const AI_SIGNALS = [
     { type: "BUY", pair: "SOL/USDT", confidence: 91, reason: "Strong support at 175, volume spike detected" },
 ];
 
-
-function Ticker({ price, change }) {
-    const [display, setDisplay] = useState(price);
-    const [flash, setFlash] = useState(null);
-    const prev = useRef(price);
-
-    useEffect(() => {
-        const id = setInterval(() => {
-            const delta = (Math.random() - 0.5) * 2;
-            setDisplay((p) => {
-                const next = +(p + delta).toFixed(2);
-                setFlash(next > prev.current ? "up" : "down");
-                prev.current = next;
-                setTimeout(() => setFlash(null), 400);
-                return next;
-            });
-        }, 1200);
-        return () => clearInterval(id);
-    }, []);
-
+function Ticker({ price }) {
     return (
         <span
             style={{
                 fontSize: 26,
                 fontWeight: 700,
                 fontFamily: "monospace",
-                color: flash === "up" ? "#22c55e" : flash === "down" ? "#ef4444" : "#f1f5f9",
-                transition: "color 0.3s",
+                color: "#f1f5f9",
                 letterSpacing: 1,
             }}
         >
-            ${display.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            $
+            {Number(price || 0).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            })}
         </span>
     );
 }
-
 function PulsingDot({ color }) {
     return (
         <span style={{ position: "relative", display: "inline-block", width: 10, height: 10, marginRight: 6 }}>
@@ -81,7 +64,6 @@ function PulsingDot({ color }) {
         </span>
     );
 }
-
 function TradingViewWidget({ symbol }) {
     const containerRef = useRef(null);
 
@@ -145,7 +127,7 @@ function TradingViewWidget({ symbol }) {
 }
 
 export default function TradingBot() {
-    const [selectedCoin, setSelectedCoin] = useState(COINS[1]);
+    const [selectedCoin, setSelectedCoin] = useState(null);
     const [tab, setTab] = useState("market");
     const [orderType, setOrderType] = useState("limit");
     const [amount, setAmount] = useState("");
@@ -155,15 +137,46 @@ export default function TradingBot() {
     const aiActive = true; // 🔥 ALWAYS ON
     const [aiSignal, setAiSignal] = useState(null);
     const [orderBook, setOrderBook] = useState({ asks: [], bids: [] });
-    const [livePrice, setLivePrice] = useState(2305.04);
+    // const [livePrice, setLivePrice] = useState(2305.04);
+    const livePrice = selectedCoin?.price || 0;
     const [portfolioValue, setPortfolioValue] = useState(12847.32);
 
     const [isProcessing, setIsProcessing] = useState(false);
     const [timer, setTimer] = useState(0);
     const { user, loading, showLoader, hideLoader } = useAuth()
+    const [coins, setCoins] = useState([]);
     // console.log(user);
 
+    const fetchCoins = async () => {
+        try {
+            const res = await fetch(
+                "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=10&page=1"
+            );
 
+            const data = await res.json();
+
+            const formattedCoins = data.map((coin) => ({
+                pair: `${coin.symbol.toUpperCase()}/USDT`,
+                tvSymbol: `BINANCE:${coin.symbol.toUpperCase()}USDT`,
+                price: coin.current_price,
+                change: coin.price_change_percentage_24h,
+                vol: coin.total_volume,
+                image: coin.image,
+                symbol: coin.symbol,
+                name: coin.name,
+            }));
+
+            setCoins(formattedCoins);
+
+            // 🔥 DEFAULT SELECT
+            if (formattedCoins.length > 0 && !selectedCoin?.pair) {
+                setSelectedCoin(formattedCoins[1]);
+            }
+
+        } catch (err) {
+            console.log("CoinGecko Error:", err);
+        }
+    };
     // Generate order book
     useEffect(() => {
         const gen = () => {
@@ -184,11 +197,21 @@ export default function TradingBot() {
     }, [livePrice]);
 
     // Live price
+    // useEffect(() => {
+    //     const id = setInterval(() => {
+    //         setLivePrice((p) => +(p + (Math.random() - 0.5) * 3).toFixed(2));
+    //     }, 800);
+    //     return () => clearInterval(id);
+    // }, []);
+
     useEffect(() => {
-        const id = setInterval(() => {
-            setLivePrice((p) => +(p + (Math.random() - 0.5) * 3).toFixed(2));
-        }, 800);
-        return () => clearInterval(id);
+        fetchCoins();
+
+        const interval = setInterval(() => {
+            fetchCoins();
+        }, 20000);
+
+        return () => clearInterval(interval);
     }, []);
 
     // Live market trades feed
@@ -227,7 +250,7 @@ export default function TradingBot() {
         try {
             const payload = {
                 side,
-                coin: selectedCoin.pair,
+                coin: selectedCoin?.pair,
                 symbol: selectedCoin.tvSymbol,
                 amount: Number(amount),
                 price: Number(price) || livePrice,
@@ -372,7 +395,7 @@ export default function TradingBot() {
                         <span>PAIR</span><span>CHANGE</span>
                     </div>
                     <div className="scrollbar" style={{ overflowY: "auto", flex: 1 }}>
-                        {COINS.map((coin) => (
+                        {coins.map((coin) => (
                             <div
                                 key={coin.pair}
                                 className="coin-row"
@@ -383,14 +406,22 @@ export default function TradingBot() {
                                     gridTemplateColumns: "1fr auto",
                                     alignItems: "center",
                                     borderBottom: "1px solid rgba(255,255,255,0.03)",
-                                    background: selectedCoin.pair === coin.pair ? "rgba(59,130,246,0.1)" : "transparent",
-                                    borderLeft: selectedCoin.pair === coin.pair ? "2px solid #3b82f6" : "2px solid transparent",
+                                    background: selectedCoin?.pair === coin.pair ? "rgba(59,130,246,0.1)" : "transparent",
+                                    borderLeft: selectedCoin?.pair === coin.pair ? "2px solid #3b82f6" : "2px solid transparent",
                                     transition: "all .15s",
                                 }}
                             >
                                 <div>
                                     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                                        <span style={{ fontSize: 14, width: 18 }}>{coin.icon}</span>
+                                        <span style={{ fontSize: 14, width: 18 }}><img
+                                            src={coin?.image}
+                                            alt={coin?.name}
+                                            style={{
+                                                width: 18,
+                                                height: 18,
+                                                borderRadius: "50%",
+                                            }}
+                                        /></span>
                                         <div>
                                             <div style={{ fontSize: 11, fontWeight: 700, color: "#e2e8f0", fontFamily: "'Rajdhani',sans-serif", letterSpacing: 0.5 }}>
                                                 {coin.pair.split("/")[0]}
@@ -425,13 +456,13 @@ export default function TradingBot() {
                     <div className="flex flex-wrap items-center gap-3 p-3 border-b border-white/10 bg-[#0a1120]">                        <div>
                         <div style={{ fontSize: 11, marginLeft: 8, color: "#6b7280", marginBottom: 2, letterSpacing: 1 }}>SELECTED PAIR</div>
                         <div style={{ fontSize: 18, marginLeft: 8, fontWeight: 700, color: "#e2e8f0", fontFamily: "'Rajdhani',sans-serif", letterSpacing: 1 }}>
-                            {selectedCoin.pair}
+                            {selectedCoin?.pair}
                         </div>
                     </div>
                         <div style={{ height: 32, width: "1px", background: "rgba(255,255,255,0.07)" }} />
-                        <Ticker price={livePrice} change={selectedCoin.change} />
-                        <div style={{ fontSize: 12, color: selectedCoin.change >= 0 ? "#22c55e" : "#ef4444", fontFamily: "'Rajdhani',sans-serif", fontWeight: 600 }}>
-                            {selectedCoin.change >= 0 ? "▲" : "▼"} {Math.abs(selectedCoin.change)}%
+                        <Ticker price={livePrice} change={selectedCoin?.change} />
+                        <div style={{ fontSize: 12, color: selectedCoin?.change >= 0 ? "#22c55e" : "#ef4444", fontFamily: "'Rajdhani',sans-serif", fontWeight: 600 }}>
+                            {selectedCoin?.change >= 0 ? "▲" : "▼"} {Math.abs(selectedCoin?.change)}%
                         </div>
                         <div className="flex gap-2 items-center ml-auto w-full sm:w-auto">
                             <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 6, padding: "4px 10px", fontSize: 10, color: "#6b7280" }}>
@@ -453,7 +484,7 @@ export default function TradingBot() {
                     </div>
 
                     {/* AI Signal Banner */}
-                    {aiSignal && (
+                    {/* {aiSignal && (
                         <div style={{
                             margin: "8px 12px 0",
                             padding: "8px 14px",
@@ -481,19 +512,12 @@ export default function TradingBot() {
                                 {aiSignal.confidence}% conf.
                             </span>
                         </div>
-                    )}
+                    )} */}
 
                     <div className="w-full h-[250px] sm:h-[400px] xl:h-[500px] min-h-[250px] px-3 mt-2">
-                        <TradingViewWidget symbol={selectedCoin.tvSymbol} style={{
-                            // width: "100%",
-                            // height: "100%",
-                            // margin: "8px 12px 0",
-                            padding: "4px 6px 0",
-                            flex: 1,
-                            // borderRadius: 8,
-                            // overflow: "hidden",
-                            // background: "#0d1421",
-                        }} />
+                        {selectedCoin && (
+                            <TradingViewWidget symbol={selectedCoin?.tvSymbol} />
+                        )}
                     </div>
 
                     {/* Bottom Stats */}
@@ -593,13 +617,13 @@ h-[300px] sm:h-[400px] xl:min-h-[550px]
 
                     {/* Order Form */}
                     <div style={{ padding: "12px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
-                        <div style={{ display: "flex", gap: 4, marginBottom: 10 }}>
+                        {/* <div style={{ display: "flex", gap: 4, marginBottom: 10 }}>
                             {["limit", "market", "stop"].map((t) => (
                                 <button key={t} className={`tab-btn ${orderType === t ? "active" : ""}`} onClick={() => setOrderType(t)} style={{ flex: 1, textTransform: "uppercase", fontSize: 10 }}>
                                     {t}
                                 </button>
                             ))}
-                        </div>
+                        </div> */}
 
                         {/* <div style={{ marginBottom: 8 }}>
                             <label style={{ fontSize: 10, color: "#4b5563", display: "block", marginBottom: 4, letterSpacing: 1 }}>PRICE (USDT)</label>
@@ -784,7 +808,7 @@ h-[300px] sm:h-[400px] xl:min-h-[550px]
                                         marginBottom: 12,
                                     }}
                                 >
-                                 <span className="text-sm"> wait {timer}s</span>
+                                    <span className="text-sm mb-4"> wait {timer}s</span>
                                 </div>
                             </div>
                         </div>
@@ -797,7 +821,7 @@ h-[300px] sm:h-[400px] xl:min-h-[550px]
                     </div>
                 </div>
             </div>
-           
+
         </>
     );
 }

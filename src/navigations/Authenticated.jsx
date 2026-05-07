@@ -31,6 +31,8 @@ import AdminInvestmentHistory from "../screens/admin/incomeHistory/AdminInvestme
 import AdminDirectIncome from "../screens/admin/incomeHistory/AdminDirectIncome";
 import AdminLevelIncome from "../screens/admin/incomeHistory/AdminLevelIncome";
 import AdminPromotionBonusIncome from "../screens/admin/incomeHistory/AdminPromotionBonusIncome";
+import WalletTransferHistory from "../screens/user/history/WalletTransferHistory";
+import WithdrawalHistory from "../screens/user/history/WithdrawalHistory";
 const Authenticated = () => {
   const { user } = useAuth();
   return (
@@ -115,6 +117,8 @@ const Authenticated = () => {
             <Route path={UserRoutes.INCOME_CARDS} element={<AllIncomeCards />} />
             <Route path={UserRoutes.WITHDRAWAL} element={<WithdrawalPage />} />
             <Route path={UserRoutes.WALLET_FUND_TRANSFER} element={<WalletTransfer />} />
+            <Route path={UserRoutes.WALLET_FUND_TRANSFER_HISTORY} element={<WalletTransferHistory />} />
+            <Route path={UserRoutes.WITHDRAWAL_HISTORY} element={<WithdrawalHistory />} />
           </Route>
         )}
       </Routes>

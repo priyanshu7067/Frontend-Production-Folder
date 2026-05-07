@@ -164,6 +164,26 @@ export const getTransactionHistory = async () => {
   }
 }
 
+export const getWithdrawalHistory = async () => {
+  try {
+    const response = await Axios.get("/user/get-withdrawal-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
+
+export const getWalletTransferHistory = async () => {
+  try {
+    const response = await Axios.get("/user/get-transfer-wallet-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in apis");
+    return error.response.data;
+  }
+}
+
 // ===================teams-------------------
 
 export const getMyTeams = async () => {
@@ -197,9 +217,9 @@ export const sendWithdrawalOtp = async () => {
   }
 };
 
-export const submitWithdrawalApi = async () => {
+export const submitWithdrawalApi = async (payload) => {
   try {
-    const response = await Axios.post(`/user/add-withdraw`);
+    const response = await Axios.post(`/user/add-withdrawal`, payload);
     return response?.data;
   } catch (error) {
     console.error(error, "error in apis");

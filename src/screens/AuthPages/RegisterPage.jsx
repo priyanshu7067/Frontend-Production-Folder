@@ -218,18 +218,20 @@ const RegisterPage = () => {
               </ButtonComponent>
 
               {/* FOOTER */}
-              {/* <p className="text-center text-sm text-gray-400">
+              <p className="text-center text-sm mt-3 text-gray-400">
               Already have an account?{" "}
-              <Link to={AuthRoutes.LOGIN}>
-                <span className="text-[var(--accent-primary)] cursor-pointer">
+              <Link to={AuthRoutes.WEBSITE}>
+                <span className="text-teal-400 font-bold cursor-pointer">
                   Login
                 </span>
               </Link>
-            </p> */}
+            </p>
 
             </div>
           </div>
+          
         </div>
+        
 
         {/* 🔥 WALLET MODAL */}
         <WalletModal

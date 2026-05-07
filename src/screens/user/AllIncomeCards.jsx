@@ -5,7 +5,6 @@ import { UserRoutes } from '../../constants/routes';
 
 const AllIncomeCards = () => {
 
-
     const incomeData = [
         {
             title: "Total Income",

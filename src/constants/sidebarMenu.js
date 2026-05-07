@@ -7,7 +7,19 @@ export const sidebarMenu = {
     { name: "All Incomes", path: UserRoutes.INCOME_CARDS, icon: "income" },
     { name: "Live Pricing", path: UserRoutes.LIVE_PRICING, icon: "live" },
     { name: "AI Trading Bot", path: UserRoutes.TRADING_BOT, icon: "bot" },
-    { name: "Wallet Fund Transfer", path: UserRoutes.WALLET_FUND_TRANSFER, icon: "bot" },
+    { name: "Wallet Fund Transfer", icon: "Wallet" ,
+       children: [
+        {
+          name: "Wallet Fund Transfer",
+          path: UserRoutes.WALLET_FUND_TRANSFER,
+        },
+        {
+          name: "Transfer History",
+          path: UserRoutes.WALLET_FUND_TRANSFER_HISTORY,
+        }
+
+       ]
+    },
     {
       name: "Withdrawal",
       icon: "history",
@@ -15,6 +27,10 @@ export const sidebarMenu = {
         {
           name: "Withdrawal",
           path: UserRoutes.WITHDRAWAL,
+        },
+        {
+          name: "Withdrawal History",
+          path: UserRoutes.WITHDRAWAL_HISTORY,
         }
       ],
     },

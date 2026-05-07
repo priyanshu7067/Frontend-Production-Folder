@@ -9,6 +9,8 @@ import { form } from "framer-motion/client";
 const WithdrawalPage = () => {
   const { user, showLoader, hideLoader } = useAuth();
   const userInfo = user;
+  // console.log(userInfo,'jjj');
+  
 
   const [isOtpDisabled, setIsOtpDisabled] = useState(false);
   const [otpTimer, setOtpTimer] = useState(0);
@@ -201,6 +203,7 @@ const WithdrawalPage = () => {
             <div className="flex gap-2">
               <ReusableInput
                 label="OTP"
+                type="number"
                 name="otp"
                 value={formData.otp}
                 onChange={handleChange}

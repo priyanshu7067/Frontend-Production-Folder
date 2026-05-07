@@ -24,7 +24,9 @@ export const UserRoutes = {
     INCOME_CARDS: "income-cards",
 
     WITHDRAWAL: "withdrawal",
+    WITHDRAWAL_HISTORY: "withdrawal-history",
     WALLET_FUND_TRANSFER: "wallet-fund-transfer",
+    WALLET_FUND_TRANSFER_HISTORY: "wallet-fund-transfer-history",
 }
 
 export const AdminRoutes = {
