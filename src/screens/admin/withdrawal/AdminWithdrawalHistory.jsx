@@ -5,10 +5,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../../context/AuthContext";
 import { maskWalletAddress } from "../../../utils/helper";
 import Swal from "sweetalert2";
-import {
-  approveWithdrawal,
-  rejectWithdrawal,
-} from "../../../apis/admin/admin.api";
+import { approveWithdrawal } from "../../../apis/admin/admin.api";
 import { QRCodeSVG } from "qrcode.react";
 import Decimal from "decimal.js";
 
@@ -47,14 +44,18 @@ const AdminWithdrawalHistory = () => {
   const handleApprove = async (id) => {
     try {
       setLoading(true);
-      const payload = { withdrawalId: id };
+      const payload = { id, status: "approved", remark: "" };
       const res = await approveWithdrawal(payload);
-      await fetchHistory();
-      Swal.fire({
-        icon: "success",
-        title: "Approved",
-        text: res?.message || "Withdrawal approved successfully.",
-      });
+      if(res?.success){
+        await fetchHistory();
+        Swal.fire({
+          icon: "success",
+          title: "Approved",
+          text: res?.message || "Withdrawal approved successfully.",
+        });
+      } else {
+        toast.error(res?.message || "Failed to approve withdrawal");
+      }
     } catch (error) {
       console.error(error);
       Swal.fire({
@@ -69,18 +70,52 @@ const AdminWithdrawalHistory = () => {
 
   // Reject button click handler:
   const handleReject = async (id) => {
+    const { value: remark } = await Swal.fire({
+      title: "Reject Withdrawal",
+      input: "textarea",
+      inputLabel: "Enter rejection remark",
+      inputPlaceholder: "Write reason for rejection...",
+      inputAttributes: {
+        "aria-label": "Type your remark here",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Reject",
+      confirmButtonColor: "#dc2626",
+      cancelButtonText: "Cancel",
+      inputValidator: (value) => {
+        if (!value) {
+          return "Remark is required!";
+        }
+      },
+    });
+
+    if (!remark) return;
+
     try {
       setLoading(true);
-      const payload = { withdrawalId: id };
-      const res = await rejectWithdrawal(payload);
-      await fetchHistory();
+
+      const payload = {
+        id,
+        remark,
+        status: "rejected",
+      };
+
+      const res = await approveWithdrawal(payload);
+
+      if(res?.success){
+        await fetchHistory();
+
       Swal.fire({
         icon: "success",
         title: "Rejected",
         text: res?.message || "Withdrawal rejected successfully.",
       });
+      } else {
+        toast.error(res?.message || "Failed to reject withdrawal");
+      }
     } catch (error) {
       console.error(error);
+
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -169,7 +204,7 @@ const AdminWithdrawalHistory = () => {
           <div className="flex gap-2 flex-wrap">
             <button
               onClick={() => handleApprove(rowData._id)}
-              className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 shadow-md"
+              className="cursor-pointer bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 shadow-md"
               disabled={rowData.status !== "pending"}
             >
               Approve
@@ -177,7 +212,7 @@ const AdminWithdrawalHistory = () => {
 
             <button
               onClick={() => handleReject(rowData._id)}
-              className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 shadow-md"
+              className="cursor-pointer bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 shadow-md"
               disabled={rowData.status !== "pending"}
             >
               Reject
@@ -188,7 +223,7 @@ const AdminWithdrawalHistory = () => {
                 setSelectedRow(rowData);
                 setViewModalVisible(true);
               }}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 shadow-md"
+              className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 shadow-md"
             >
               View
             </button>
@@ -231,7 +266,9 @@ const AdminWithdrawalHistory = () => {
             >
               &times;
             </button>
-            <h2 className="text-xl font-semibold mb-4 text-black">Withdrawal Details</h2>
+            <h2 className="text-xl font-semibold mb-4 text-black">
+              Withdrawal Details
+            </h2>
             <div className="flex justify-center mb-4">
               <QRCodeSVG
                 value={selectedRow?.userWalletAddress || "NA"}
@@ -257,7 +294,9 @@ const AdminWithdrawalHistory = () => {
               </p>
               <p>
                 <strong>Fee Amount:</strong> $
-                {new Decimal (selectedRow?.amount).sub(selectedRow?.netAmountSent).toFixed(2)}
+                {new Decimal(selectedRow?.amount)
+                  .sub(selectedRow?.netAmountSent)
+                  .toFixed(2)}
               </p>
               <p>
                 <strong>Net Amount Sent:</strong> $

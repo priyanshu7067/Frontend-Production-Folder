@@ -3,9 +3,13 @@ import { Outlet } from "react-router-dom";
 import DashboardFooter from "../components/dashbaord/DashboardFooter";
 import DashboardHeader from "../components/dashbaord/DashboardHeader";
 import Sidebar from "../components/dashbaord/Sidebar";
+import { useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 const DashboardLayout = () => {
-  const [open, setOpen] = useState(true);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [open, setOpen] = useState(isMobile ? false : true);
 
   return (
     <div className="flex w-full min-h-screen bg-main overflow-hidden">

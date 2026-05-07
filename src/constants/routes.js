@@ -40,5 +40,7 @@ export const AdminRoutes = {
     LEVEL_INCOME: "level-income",
     PROMOTION_BONUS_INCOME_HISTORY: "promotion-bonus-income-history",
     RANK_INCOME_HISTORY: "rank-income-history",
-    WITHDRAWAL_HISTORY: "withdrawal-history",
+    PENDING_WITHDRAWALS: "pending-withdrawals",
+    APPROVED_WITHDRAWALS: "approved-withdrawals",
+    REJECTED_WITHDRAWALS: "rejected-withdrawals",
 }

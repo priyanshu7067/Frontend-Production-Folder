@@ -87,17 +87,7 @@ export const toggleUserStatus = async (id) => {
 
 export const approveWithdrawal = async (payload) => {
   try {
-    const response = await Axios.post("/admin/approve-withdrawal", payload);
-    return response.data;
-  } catch (error) {
-    console.log(error, "error in login api");
-    return error.response.data;
-  }
-} 
-
-export const rejectWithdrawal = async (payload) => {
-  try {
-    const response = await Axios.post("/admin/reject-withdrawal", payload);
+    const response = await Axios.post("/admin/update-withdrawal-status", payload);
     return response.data;
   } catch (error) {
     console.log(error, "error in login api");

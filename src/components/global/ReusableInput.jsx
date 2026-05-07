@@ -50,18 +50,22 @@ const ReusableInput = ({
         /* ✅ Input text */
         "& .MuiInputBase-input": {
           color: "#ffffff",
+          fontSize: "12px",
         },
 
         /* 🔒 Disabled input text */
         "& .MuiInputBase-input.Mui-disabled": {
-          color: "#64748b", // gray text
-          WebkitTextFillColor: "#64748b", // important for MUI
+          color: "#64748b",
+          WebkitTextFillColor: "#64748b",
+          fontSize: "12px",
         },
 
         /* ✅ Label */
         "& .MuiInputLabel-root": {
           color: "#94a3b8",
+          fontSize: "12px",
         },
+
         "& .MuiInputLabel-root.Mui-focused": {
           color: "#22d3ee",
         },
@@ -69,6 +73,7 @@ const ReusableInput = ({
         /* 🔒 Disabled label */
         "& .MuiInputLabel-root.Mui-disabled": {
           color: "#475569",
+          fontSize: "12px",
         },
 
         /* ✅ Border */
@@ -76,14 +81,15 @@ const ReusableInput = ({
           "& fieldset": {
             borderColor: "rgba(255,255,255,0.2)",
           },
+
           "&:hover fieldset": {
             borderColor: "#22d3ee",
           },
+
           "&.Mui-focused fieldset": {
             borderColor: "#22d3ee",
           },
 
-          /* 🔒 Disabled border */
           "&.Mui-disabled fieldset": {
             borderColor: "rgba(100,116,139,0.3)",
           },
@@ -98,9 +104,19 @@ const ReusableInput = ({
         "& .MuiInputBase-input::placeholder": {
           color: "#64748b",
           opacity: 1,
+          fontSize: "12px",
+        },
+
+        /* ✅ Dropdown text */
+        "& .MuiSelect-select": {
+          fontSize: "12px",
         },
 
         /* 🔒 Disabled icons */
+        "& .MuiSvgIcon-root": {
+          fontSize: "16px",
+        },
+
         "& .MuiSvgIcon-root.Mui-disabled": {
           color: "#64748b",
         },

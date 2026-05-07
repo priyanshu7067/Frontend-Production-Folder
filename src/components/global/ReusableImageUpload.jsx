@@ -181,7 +181,7 @@ const ReusableImageUpload = ({
   return (
     <div className="w-full">
       {/* TITLE */}
-      <label className="block text-sm text-[#94a3b8] mb-2 font-medium">
+      <label className="block text-[12px] sm:text-sm text-[#94a3b8] mb-2 font-medium">
         {title}
       </label>
 
@@ -193,7 +193,7 @@ const ReusableImageUpload = ({
       >
         <span
           className="
-  text-sm px-4 py-2 rounded-lg
+  text-[10px] sm:text-sm px-2 py-1 sm:px-4 sm:py-2 rounded-lg
   bg-gradient-to-r from-[#06b6d4] via-[#22d3ee] to-[#67e8f9]
   text-black font-medium
   shadow-[0_0_12px_rgba(34,211,238,0.5)]

@@ -59,3 +59,23 @@ export const getWithdrawalHistory = async () => {
     return error.response.data;
   }
 };
+
+export const getApprovedWithdrawalHistory = async () => {
+  try {
+    const response = await Axios.get("/admin/get-approved-withdrawal-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in investment history api");
+    return error.response.data;
+  }
+};
+
+export const getRejectedWithdrawalHistory = async () => {
+  try {
+    const response = await Axios.get("/admin/get-rejected-withdrawal-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in investment history api");
+    return error.response.data;
+  }
+};

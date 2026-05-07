@@ -113,15 +113,15 @@ export const sidebarMenu = {
       children: [
         {
           name: "Pending Withdrawal",
-          path: AdminRoutes.WITHDRAWAL_HISTORY,
+          path: AdminRoutes.PENDING_WITHDRAWALS,
         },
         {
           name: "Approved Withdrawal",
-          path: AdminRoutes.WITHDRAWAL_HISTORY,
+          path: AdminRoutes.APPROVED_WITHDRAWALS,
         },
         {
           name: "Rejected Withdrawal",
-          path: AdminRoutes.WITHDRAWAL_HISTORY,
+          path: AdminRoutes.REJECTED_WITHDRAWALS,
         },
       ],
     },
@@ -148,11 +148,7 @@ export const sidebarMenu = {
         {
           name: "Rank Income History",
           path: AdminRoutes.RANK_INCOME_HISTORY,
-        },
-        {
-          name: "Withdrawal History",
-          path: AdminRoutes.WITHDRAWAL_HISTORY,
-        },
+        }
       ],
     },
   ],
