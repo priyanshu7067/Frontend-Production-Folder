@@ -82,13 +82,12 @@ export const sidebarMenu = {
     },
     { name: "Profile", path: UserRoutes.PROFILE, icon: "user" },
     { name: "KYC", path: UserRoutes.KYC_PAGE, icon: "user" },
-
   ],
 
   admin: [
     { name: "Dashboard", path: AdminRoutes.DASHBOARD, icon: "dashboard" },
     { name: "All Users", path: AdminRoutes.ALL_USERS, icon: "users" },
-    { name: "Analytics", path: "/admin/analytics", icon: "chart" },
+    { name: "Block Withdrawal", path: AdminRoutes.BLOCK_USER_WITHDRAWAL, icon: "blockWithdrawal" },
     {
       name: "KYC",
       icon: "user",

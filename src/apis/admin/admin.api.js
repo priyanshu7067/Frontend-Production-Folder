@@ -85,9 +85,29 @@ export const toggleUserStatus = async (id) => {
   }
 }
 
+export const toggleUserWithdrawalStatus = async (id) => {
+  try {
+    const response = await Axios.patch(`/admin/update-withdrawal-status/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in login api");
+    return error.response.data;
+  }
+}
+
 export const approveWithdrawal = async (payload) => {
   try {
     const response = await Axios.post("/admin/update-withdrawal-status", payload);
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in login api");
+    return error.response.data;
+  }
+}
+
+export const getAdminDashboardData = async () => {
+  try {
+    const response = await Axios.get("/admin/dashboard");
     return response.data;
   } catch (error) {
     console.log(error, "error in login api");

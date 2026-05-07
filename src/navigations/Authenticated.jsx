@@ -37,6 +37,7 @@ import WalletTransferHistory from "../screens/user/history/WalletTransferHistory
 import WithdrawalHistory from "../screens/user/history/WithdrawalHistory";
 import AdminApprovedWithdrawalHistory from "../screens/admin/withdrawal/AdminApprovedWithdrawalHistory";
 import AdminRejectedWithdrawalHistory from "../screens/admin/withdrawal/AdminRejectedWithdrawalHistory";
+import BlockWithdrawalPage from "../screens/admin/adminControl/BlockWithdrawalPage";
 const Authenticated = () => {
   const { user } = useAuth();
   return (
@@ -98,6 +99,10 @@ const Authenticated = () => {
               path={AdminRoutes.REJECTED_WITHDRAWALS}
               element={<AdminRejectedWithdrawalHistory />}
             />
+            <Route
+              path={AdminRoutes.BLOCK_USER_WITHDRAWAL}
+              element={<BlockWithdrawalPage />}
+            />
             {/* <Route path="users" element={<Users />} /> */}
           </Route>
         ) : (
@@ -138,7 +143,7 @@ const Authenticated = () => {
             <Route path={UserRoutes.WITHDRAWAL} element={<WithdrawalPage />} />
             <Route path={UserRoutes.WALLET_FUND_TRANSFER} element={<WalletTransfer />} />
             <Route path={UserRoutes.WALLET_FUND_TRANSFER_HISTORY} element={<WalletTransferHistory />} />
-            <Route path={UserRoutes.PENDING_WITHDRAWALS} element={<WithdrawalHistory />} />
+            <Route path={UserRoutes.WITHDRAWAL_HISTORY} element={<WithdrawalHistory />} />
           </Route>
         )}
       </Routes>

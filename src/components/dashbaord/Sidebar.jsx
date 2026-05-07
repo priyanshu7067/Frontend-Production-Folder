@@ -23,6 +23,7 @@ import {
   HistoryIcon,
   BanknoteArrowUp,
   Wallet2Icon,
+  RouteOff,
 } from "lucide-react";
 
 import { sidebarMenu } from "../../constants/sidebarMenu";
@@ -49,6 +50,7 @@ const iconMap = {
   history: <HistoryIcon size={18} />,
   income: <BanknoteArrowUp size={18} />,
   Wallet: <Wallet2Icon size={18} />,
+  blockWithdrawal: <RouteOff size={18} />
 };
 
 const Sidebar = ({ open, setOpen }) => {
