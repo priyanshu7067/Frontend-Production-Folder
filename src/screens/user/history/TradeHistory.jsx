@@ -131,7 +131,7 @@ const TradeHistory = () => {
   );
 
   return (
-    <div className="dashboard-bg min-h-full p-4 md:p-6 text-white space-y-4">
+    <div className="dashboard-bg min-h-full md:p-6 text-white space-y-4">
 
       {/* 🔥 HEADER */}
       <div>

@@ -44,8 +44,8 @@ const MyTeams = () => {
           <span className="text-white font-medium">
             {row?.name}
           </span>
-          <span className="text-xs text-gray-400">
-            {row?.userId}
+          <span className="text-xs text-white">
+            {row?.userId?.slice(0,6)}........{row?.userId?.slice(-4)}
           </span>
         </div>
       ),
@@ -75,7 +75,7 @@ const MyTeams = () => {
   ];
 
   return (
-    <div className="dashboard-bg min-h-full p-4 md:p-6 text-white space-y-4">
+    <div className="dashboard-bg min-h-full md:p-6 text-white space-y-4">
 
       {/* 🔥 HEADER */}
       <div>

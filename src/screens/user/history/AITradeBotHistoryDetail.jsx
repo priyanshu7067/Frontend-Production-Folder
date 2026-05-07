@@ -156,7 +156,7 @@ const styles = `
     z-index: 1;
     max-width: 1280px;
     margin: 0 auto;
-    padding: 16px 14px 80px;
+    padding: 10px 4px 80px;
 }
 
 /* HEADER */

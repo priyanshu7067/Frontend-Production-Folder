@@ -781,6 +781,7 @@ h-[300px] sm:h-[400px] xl:min-h-[550px]
                                         color: "#f8fafc",
                                         fontFamily: "'Space Mono', monospace",
                                         textShadow: "0 0 18px rgba(14,165,233,0.45)",
+                                        marginBottom: 12,
                                     }}
                                 >
                                  <span className="text-sm"> wait {timer}s</span>

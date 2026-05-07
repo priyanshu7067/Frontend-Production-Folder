@@ -17,7 +17,7 @@ const LevelIncome = () => {
       setLoading(true);
 
       const res = await getLevelncomeHistory();
-      console.log("LEVEL INCOME:", res);
+      // console.log("LEVEL INCOME:", res);
 
       if (res?.success) {
         setData(res?.data || []);

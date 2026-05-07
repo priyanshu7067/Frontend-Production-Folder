@@ -57,8 +57,8 @@ const WalletModal = ({ open, onClose, sponsor, type = "login" }) => {
       // ✅ LOGIN
       else {
         res = await userLogin({
-          walletAddress: address?.address,
-          // walletAddress: "0x567ced645a5b17baA7CCdC6e74F419aC2F12caFf",
+          // walletAddress: address?.address,
+          walletAddress: "0x567ced645a5b17baA7CCdC6e74F419aC2F12caFf",
         });
       }
 

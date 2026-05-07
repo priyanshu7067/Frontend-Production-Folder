@@ -31,7 +31,7 @@ export const sidebarMenu = {
           path: UserRoutes.LEVEL_INCOME_HISTORY,
         },
         {
-          name: "Trading History",
+          name: "AI Trading History",
           path: UserRoutes.TRADE_HISTORY,
         },
         {
