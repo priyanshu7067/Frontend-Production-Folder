@@ -90,7 +90,7 @@ const DashboardHeader = ({ role, setOpen }) => {
               fontWeight: 500,
             }}
           >
-            ${user?.wallets?.earningsWallet || 0}
+            ${user?.wallets?.earningsWallet?.toFixed(4) || 0}
           </Typography>
         </Box>
         <Avatar

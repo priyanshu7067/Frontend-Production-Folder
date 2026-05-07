@@ -80,9 +80,9 @@ export const buySellAiTradingBot = async (payload) => {
     return error.response.data;
   }
 }
-export const allincomeCards = async () => {
+export const allIncomeCards = async () => {
   try {
-    const response = await Axios.get("/user/all-income-cards");
+    const response = await Axios.get("/user/dashboard");
     return response.data;
   } catch (error) {
     console.log(error, "error in apis");

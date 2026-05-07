@@ -13,7 +13,6 @@ const WithdrawalHistory = () => {
     // ✅ FETCH WITHDRAWAL HISTORY
     const fetchWithdrawalHistory = async () => {
         showLoader();
-
         try {
             setLoading(true);
 
@@ -91,7 +90,7 @@ const WithdrawalHistory = () => {
                 render: (row) => (
                     <span className="text-gray-300 text-xs font-mono">
                         {row?.userWalletAddress
-                            ? `${row.userWalletAddress.slice(0, 6)}.....${row.userWalletAddress.slice(-4)}`
+                            ? `${row?.userWalletAddress?.slice(0, 6)}.....${row.userWalletAddress.slice(-4)}`
                             : "N/A"}
                     </span>
                 ),
@@ -108,7 +107,7 @@ const WithdrawalHistory = () => {
                                     : "bg-red-500/20 text-red-400"
                             }`}
                     >
-                        {row?.status || "Pending"}
+                        {row?.status?.toUpperCase() || "Pending"}
                     </span>
                 ),
             },

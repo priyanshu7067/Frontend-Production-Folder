@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import CryptoScreenTable from "../../components/CryptoScreenTable";
-
+import CryptoOverview from "./CryptoOverviews";
+import { useAuth } from "../../context/AuthContext";
 const LivePricing = () => {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const { user } = useAuth();
+  const [tokens, setTokens] = useState([]);
   const fetchCoins = async () => {
     try {
       const res = await fetch(
@@ -34,49 +36,49 @@ const LivePricing = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {loading
           ? [...Array(4)].map((_, i) => (
-              <div key={i} className="glow-card p-4 animate-pulse h-[120px]" />
-            ))
+            <div key={i} className="glow-card p-4 animate-pulse h-[120px]" />
+          ))
           : coins.map((coin) => {
-              const change = coin.price_change_percentage_24h || 0;
-              const isUp = change >= 0;
+            const change = coin.price_change_percentage_24h || 0;
+            const isUp = change >= 0;
 
-              return (
-                <div
-                  key={coin.id}
-                  className="glow-card p-4 hover:scale-[1.02] transition"
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <img src={coin.image} className="w-7 h-7" />
-                    <p className="text-sm text-white font-semibold">
-                      {coin.name}
-                    </p>
-                  </div>
-
-                  <h2 className="text-lg font-bold text-white">
-                    ${coin.current_price.toLocaleString()}
-                  </h2>
-
-                  <p className="text-xs text-gray-400">
-                    MCap: ${(coin.market_cap / 1e9).toFixed(2)}B
+            return (
+              <div
+                key={coin.id}
+                className="glow-card p-4 hover:scale-[1.02] transition"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <img src={coin.image} className="w-7 h-7" />
+                  <p className="text-sm text-white font-semibold">
+                    {coin.name}
                   </p>
-
-                  <p
-                    className={`text-xs mt-1 font-semibold ${
-                      isUp ? "text-[var(--primary)]" : "text-red-400"
-                    }`}
-                  >
-                    {isUp ? "+" : ""}
-                    {change.toFixed(2)}%
-                  </p>
-
-                  <div className="h-10 mt-3 rounded bg-gradient-to-r from-transparent via-[var(--primary)]/20 to-transparent" />
                 </div>
-              );
-            })}
+
+                <h2 className="text-lg font-bold text-white">
+                  ${coin.current_price.toLocaleString()}
+                </h2>
+
+                <p className="text-xs text-gray-400">
+                  MCap: ${(coin.market_cap / 1e9).toFixed(2)}B
+                </p>
+
+                <p
+                  className={`text-xs mt-1 font-semibold ${isUp ? "text-[var(--primary)]" : "text-red-400"
+                    }`}
+                >
+                  {isUp ? "+" : ""}
+                  {change.toFixed(2)}%
+                </p>
+
+                <div className="h-10 mt-3 rounded bg-gradient-to-r from-transparent via-[var(--primary)]/20 to-transparent" />
+              </div>
+            );
+          })}
       </div>
 
       {/* 🔥 LIVE TABLE */}
-      <CryptoScreenTable />
+      <CryptoScreenTable tokens={tokens} />
+    
     </div>
   );
 };

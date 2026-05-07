@@ -2,24 +2,24 @@ import { useState, useEffect, useRef } from "react";
 import { buySellAiTradingBot } from "../../apis/user/users.api";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
-const COINS = [
-    { pair: "BTC/USDT", tvSymbol: "BINANCE:BTCUSDT", price: 63420.5, change: 2.34, vol: "1.2B", icon: "₿" },
-    { pair: "ETH/USDT", tvSymbol: "BINANCE:ETHUSDT", price: 2305.04, change: 0.4, vol: "480M", icon: "Ξ" },
-    { pair: "SOL/USDT", tvSymbol: "BINANCE:SOLUSDT", price: 178.32, change: -1.12, vol: "210M", icon: "◎" },
-    { pair: "BNB/USDT", tvSymbol: "BINANCE:BNBUSDT", price: 601.14, change: 1.87, vol: "95M", icon: "⬡" },
-    { pair: "XRP/USDT", tvSymbol: "BINANCE:XRPUSDT", price: 0.5812, change: -0.64, vol: "320M", icon: "✕" },
-    { pair: "DOGE/USDT", tvSymbol: "BINANCE:DOGEUSDT", price: 0.1623, change: 3.21, vol: "110M", icon: "Ð" },
-    { pair: "ADA/USDT", tvSymbol: "BINANCE:ADAUSDT", price: 0.4421, change: -2.05, vol: "75M", icon: "₳" },
-    { pair: "AVAX/USDT", tvSymbol: "BINANCE:AVAXUSDT", price: 37.85, change: 1.45, vol: "60M", icon: "▲" },
-    { pair: "LINK/USDT", tvSymbol: "BINANCE:LINKUSDT", price: 14.23, change: 0.88, vol: "55M", icon: "⬡" },
-    { pair: "DOT/USDT", tvSymbol: "BINANCE:DOTUSDT", price: 7.12, change: -1.33, vol: "40M", icon: "●" },
-];
+// const COINS = [
+//     { pair: "BTC/USDT", tvSymbol: "BINANCE:BTCUSDT", price: 63420.5, change: 2.34, vol: "1.2B", icon: "₿" },
+//     { pair: "ETH/USDT", tvSymbol: "BINANCE:ETHUSDT", price: 2305.04, change: 0.4, vol: "480M", icon: "Ξ" },
+//     { pair: "SOL/USDT", tvSymbol: "BINANCE:SOLUSDT", price: 178.32, change: -1.12, vol: "210M", icon: "◎" },
+//     { pair: "BNB/USDT", tvSymbol: "BINANCE:BNBUSDT", price: 601.14, change: 1.87, vol: "95M", icon: "⬡" },
+//     { pair: "XRP/USDT", tvSymbol: "BINANCE:XRPUSDT", price: 0.5812, change: -0.64, vol: "320M", icon: "✕" },
+//     { pair: "DOGE/USDT", tvSymbol: "BINANCE:DOGEUSDT", price: 0.1623, change: 3.21, vol: "110M", icon: "Ð" },
+//     { pair: "ADA/USDT", tvSymbol: "BINANCE:ADAUSDT", price: 0.4421, change: -2.05, vol: "75M", icon: "₳" },
+//     { pair: "AVAX/USDT", tvSymbol: "BINANCE:AVAXUSDT", price: 37.85, change: 1.45, vol: "60M", icon: "▲" },
+//     { pair: "LINK/USDT", tvSymbol: "BINANCE:LINKUSDT", price: 14.23, change: 0.88, vol: "55M", icon: "⬡" },
+//     { pair: "DOT/USDT", tvSymbol: "BINANCE:DOTUSDT", price: 7.12, change: -1.33, vol: "40M", icon: "●" },
+// ];
 
-const AI_SIGNALS = [
-    { type: "BUY", pair: "ETH/USDT", confidence: 87, reason: "MA7 crossed above MA25, RSI 42 oversold bounce" },
-    { type: "SELL", pair: "BNB/USDT", confidence: 73, reason: "Bearish divergence on MACD, resistance at 610" },
-    { type: "BUY", pair: "SOL/USDT", confidence: 91, reason: "Strong support at 175, volume spike detected" },
-];
+// const AI_SIGNALS = [
+//     { type: "BUY", pair: "ETH/USDT", confidence: 87, reason: "MA7 crossed above MA25, RSI 42 oversold bounce" },
+//     { type: "SELL", pair: "BNB/USDT", confidence: 73, reason: "Bearish divergence on MACD, resistance at 610" },
+//     { type: "BUY", pair: "SOL/USDT", confidence: 91, reason: "Strong support at 175, volume spike detected" },
+// ];
 
 function Ticker({ price }) {
     return (
@@ -228,14 +228,14 @@ export default function TradingBot() {
     }, [livePrice]);
 
     // AI scanning
-    useEffect(() => {
-        if (!aiActive) { setAiSignal(null); return; }
-        const id = setInterval(() => {
-            const sig = AI_SIGNALS[Math.floor(Math.random() * AI_SIGNALS.length)];
-            setAiSignal(sig);
-        }, 4000);
-        return () => clearInterval(id);
-    }, [aiActive]);
+    // useEffect(() => {
+    //     if (!aiActive) { setAiSignal(null); return; }
+    //     const id = setInterval(() => {
+    //         const sig = AI_SIGNALS[Math.floor(Math.random() * AI_SIGNALS.length)];
+    //         setAiSignal(sig);
+    //     }, 4000);
+    //     return () => clearInterval(id);
+    // }, [aiActive]);
 
     const handleOrder = async (side) => {
         if (isProcessing) return;
@@ -322,8 +322,94 @@ export default function TradingBot() {
         .buy-btn:hover { background:linear-gradient(135deg,#15803d,#16a34a); box-shadow:0 0 20px rgba(34,197,94,0.3); }
         .sell-btn { background:linear-gradient(135deg,#dc2626,#ef4444); color:#fff; }
         .sell-btn:hover { background:linear-gradient(135deg,#b91c1c,#dc2626); box-shadow:0 0 20px rgba(239,68,68,0.3); }
-        .ai-btn { background:linear-gradient(135deg,#1d4ed8,#3b82f6); color:#fff; border:none; border-radius:8px; padding:10px 20px; cursor:pointer; font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13px; letter-spacing:1px; transition:all .2s; }
-        .ai-btn.active { background:linear-gradient(135deg,#7c3aed,#a855f7); animation:glow 1.5s infinite; }
+        .ai-btn {position: relative;overflow: hidden;display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border: 1px solid rgba(34, 211, 238, 0.18);
+
+    border-radius: 14px;
+
+    padding: 10px 18px;
+
+    cursor: pointer;
+
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1px;
+
+    color: #ecfeff;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(14, 165, 233, 0.20),
+            rgba(6, 182, 212, 0.18),
+            rgba(45, 212, 191, 0.20)
+        );
+
+    backdrop-filter: blur(14px);
+
+    box-shadow:
+        0 0 20px rgba(14, 165, 233, 0.10),
+        0 0 40px rgba(45, 212, 191, 0.08),
+        inset 0 0 18px rgba(255,255,255,0.03);
+
+    transition: all .25s ease;
+}
+
+.ai-btn::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,0.10),
+            transparent
+        );
+
+    transform: translateX(-100%);
+    transition: transform .6s ease;
+}
+
+.ai-btn:hover::before {
+    transform: translateX(100%);
+}
+
+.ai-btn:hover {
+    transform: translateY(-1px) scale(1.02);
+
+    border-color: rgba(34, 211, 238, 0.35);
+
+    box-shadow:
+        0 0 25px rgba(14, 165, 233, 0.18),
+        0 0 50px rgba(45, 212, 191, 0.12),
+        inset 0 0 20px rgba(255,255,255,0.04);
+}
+
+.ai-btn.active {
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%,100% {
+        box-shadow:
+            0 0 18px rgba(14, 165, 233, 0.12),
+            0 0 35px rgba(45, 212, 191, 0.08);
+    }
+
+    50% {
+        box-shadow:
+            0 0 28px rgba(14, 165, 233, 0.22),
+            0 0 60px rgba(45, 212, 191, 0.16);
+    }
+}
         .tv-container { position:relative; width:100%; border-radius:8px; overflow:hidden; background:#0d1421; }
         input[type=number] { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:8px 12px; color:#f1f5f9; font-family:'Space Mono',monospace; font-size:13px; width:100%; outline:none; }
         input[type=number]:focus { border-color:rgba(59,130,246,0.5); }
@@ -453,8 +539,8 @@ export default function TradingBot() {
                 {/* CENTER - Chart Area */}
                 <div className="flex-1 flex flex-col min-w-0">
                     {/* Header bar */}
-                    <div className="flex flex-wrap items-center gap-3 p-3 border-b border-white/10 bg-[#0a1120]">                        <div>
-                        <div style={{ fontSize: 11, marginLeft: 8, color: "#6b7280", marginBottom: 2, letterSpacing: 1 }}>SELECTED PAIR</div>
+                    <div className="flex flex-wrap items-center gap-3 !p-3 border-b border-white/10 bg-[#0a1120]">                        <div>
+                        <div style={{ fontSize: 11, marginLeft: 8, color: "white", marginBottom: 2, letterSpacing: 1 }}>SELECTED PAIR</div>
                         <div style={{ fontSize: 18, marginLeft: 8, fontWeight: 700, color: "#e2e8f0", fontFamily: "'Rajdhani',sans-serif", letterSpacing: 1 }}>
                             {selectedCoin?.pair}
                         </div>

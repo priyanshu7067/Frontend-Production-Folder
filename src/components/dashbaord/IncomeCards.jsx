@@ -10,6 +10,12 @@ const IncomeCards = ({ data = [], loading = false }) => {
     "from-[#0ea5e9] to-[#22c55e]", // Blue-Green
     "from-[#f59e0b] to-[#ef4444]", // Amber-Red
     "from-[#ec4899] to-[#8b5cf6]", // Pink-Violet
+    "from-[#8b5cf6] to-[#ec4899]", // Violet-Pink
+    "from-[#22c55e] to-[#0ea5e9]", // Green-Blue
+    "from-[#a855f7] to-[#6366f1]", // Purple-Indigo
+    "from-[#ef4444] to-[#f59e0b]", // Red-Amber
+    "from-[#6366f1] to-[#a855f7]", // Indigo-Purple
+    
   ];
 
   if (loading) {
@@ -26,7 +32,7 @@ const IncomeCards = ({ data = [], loading = false }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-2">
       {data.map((item, index) => {
         const isPositive = item.change >= 0;
         const gradientClass = cardStyles[index % cardStyles.length];
@@ -60,7 +66,7 @@ const IncomeCards = ({ data = [], loading = false }) => {
                   ) : (
                     <ArrowDownRight size={18} />
                   )}
-                  {item.change}%
+                  {/* {item.change}% */}
                 </div>
               </div>
 
@@ -70,7 +76,7 @@ const IncomeCards = ({ data = [], loading = false }) => {
                   {item?.title}
                 </p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-xl font-medium text-gray-400">$</span>
+                  {/* <span className="text-xl font-medium text-gray-400">$</span> */}
                   <h2 className="text-xl font-bold tracking-tight text-white">
                     {item?.amount.toLocaleString()}
                   </h2>
@@ -78,10 +84,10 @@ const IncomeCards = ({ data = [], loading = false }) => {
               </div>
 
               {/* Bottom Row: Subtitle & Navigation Hint */}
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-[11px] font-semibold uppercase tracking-widest text-gray-500">
+              <div className="mt-3 flex items-center justify-end gap-2">
+                {/* <span className="text-[11px] font-semibold uppercase tracking-widest text-gray-500">
                   {item?.subtitle || "Active Now"}
-                </span>
+                </span> */}
 
                 <div className="rounded-full bg-white/5 p-2 text-gray-400 transition-all duration-300 group-hover:bg-white group-hover:text-black">
                   <ArrowRight size={16} />
