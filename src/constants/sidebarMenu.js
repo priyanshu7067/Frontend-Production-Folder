@@ -89,6 +89,20 @@ export const sidebarMenu = {
     { name: "All Users", path: AdminRoutes.ALL_USERS, icon: "users" },
     { name: "Block Withdrawal", path: AdminRoutes.BLOCK_USER_WITHDRAWAL, icon: "blockWithdrawal" },
     {
+      name: "Manage Signal",
+      icon: "user",
+      children: [
+        {
+          name: "Send Signal",
+          path: AdminRoutes.SEND_SIGNAL,
+        },
+        {
+          name: "Signal History",
+          path: AdminRoutes.SIGNAL_HISTORY,
+        },
+      ],
+    },
+    {
       name: "KYC",
       icon: "user",
       children: [

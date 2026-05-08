@@ -3,11 +3,13 @@ import CryptoScreenTable from "../../components/CryptoScreenTable";
 import CryptoOverview from "./CryptoOverviews";
 import TransactionTable from "./TransactionTable";
 import { useAuth } from "../../context/AuthContext";
+import SignalsModal from "../../components/ui/SignalsModal";
 
 const UserDashBoard = () => {
   const { user } = useAuth();
 
   const [tokens, setTokens] = useState([]);
+  const [isSignalsOpen, setIsSignalsOpen] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -54,6 +56,11 @@ const UserDashBoard = () => {
       <CryptoScreenTable tokens={tokens} />
 
       <TransactionTable />
+
+      <SignalsModal
+        open={isSignalsOpen}
+        onClose={() => setIsSignalsOpen(false)}
+      />
     </div>
   );
 };

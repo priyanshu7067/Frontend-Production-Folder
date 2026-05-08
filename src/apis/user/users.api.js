@@ -236,3 +236,13 @@ export const transferToEarnings = async (payload) => {
     return error.response.data;
   }
 };
+
+export const getSignals = async () => {
+  try {
+    const res = await Axios.get("/user/signals");
+    return res.data;
+  } catch (error) {
+    console.error(error, "error in apis");
+    return error.response.data;
+  }
+};

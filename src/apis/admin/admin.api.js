@@ -114,3 +114,23 @@ export const getAdminDashboardData = async () => {
     return error.response.data;
   }
 }
+
+export const sendSignalApi = async (payload) => {
+  try {
+    const response = await Axios.post("/admin/create-signal", payload);
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in login api");
+    return error.response.data;
+  }
+}
+
+export const getSignalHistory = async () => {
+  try {
+    const response = await Axios.get("/admin/get-signal-history");
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in login api");
+    return error.response.data;
+  }
+}

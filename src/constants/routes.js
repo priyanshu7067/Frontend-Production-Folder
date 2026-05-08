@@ -44,4 +44,6 @@ export const AdminRoutes = {
     PENDING_WITHDRAWALS: "pending-withdrawals",
     APPROVED_WITHDRAWALS: "approved-withdrawals",
     REJECTED_WITHDRAWALS: "rejected-withdrawals",
+    SEND_SIGNAL: "send-signal",
+    SIGNAL_HISTORY: "signal-history",
 }

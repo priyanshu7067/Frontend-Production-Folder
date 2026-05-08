@@ -38,6 +38,8 @@ import WithdrawalHistory from "../screens/user/history/WithdrawalHistory";
 import AdminApprovedWithdrawalHistory from "../screens/admin/withdrawal/AdminApprovedWithdrawalHistory";
 import AdminRejectedWithdrawalHistory from "../screens/admin/withdrawal/AdminRejectedWithdrawalHistory";
 import BlockWithdrawalPage from "../screens/admin/adminControl/BlockWithdrawalPage";
+import CreateNotification from "../screens/admin/notification/CreateNotification";
+import SignalHistory from "../screens/admin/notification/SignalHistory";
 const Authenticated = () => {
   const { user } = useAuth();
   return (
@@ -102,6 +104,14 @@ const Authenticated = () => {
             <Route
               path={AdminRoutes.BLOCK_USER_WITHDRAWAL}
               element={<BlockWithdrawalPage />}
+            />
+            <Route
+              path={AdminRoutes.SEND_SIGNAL}
+              element={<CreateNotification />}
+            />
+            <Route
+              path={AdminRoutes.SIGNAL_HISTORY}
+              element={<SignalHistory />}
             />
             {/* <Route path="users" element={<Users />} /> */}
           </Route>
