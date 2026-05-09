@@ -43,22 +43,24 @@ const WalletModal = ({ open, onClose, sponsor, type = "login" }) => {
     try {
       setLoading(true);
       const address = await connectAndSign();
-      // debugger
+
+      if (!address?.address) {
+        throw new Error("Failed to connect wallet. Please try again.");
+      }
+
       let res;
 
       // ✅ REGISTER
       if (type === "register") {
         res = await UserRegister({
-            walletAddress: address?.address,
-          // walletAddress: "0x567ced645a5b17baA7CCdC6e74F419aC2F12caFf",
+          walletAddress: address?.address,
           sponsor,
         });
       }
       // ✅ LOGIN
       else {
         res = await userLogin({
-          // walletAddress: address?.address,
-          walletAddress: "0x567ced645a5b17baA7CCdC6e74F419aC2F12caFf",
+          walletAddress: address?.address,
         });
       }
 
