@@ -137,7 +137,7 @@ const AdminApprovedWithdrawalHistory = () => {
       <div className="dashboard-bg min-h-full md:p-6 text-white space-y-4">
         <div>
           <h2 className="text-sm md:text-base font-medium tracking-wide">
-            Pending Withdrawal
+            Approved Withdrawal
           </h2>
           <p className="text-xs text-gray-400">
             Track all user pending withdrawal
