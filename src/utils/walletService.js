@@ -2,12 +2,26 @@ import { ethers } from "ethers";
 
 export const connectAndSign = async () => {
   if (!window.ethereum) {
+    // Check if running in MetaMask mobile browser
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      throw new Error("Please open this page in MetaMask browser or external browser with MetaMask extension");
+    }
     throw new Error("Please install MetaMask");
   }
 
   // 🔗 Connect wallet
   const provider = new ethers.BrowserProvider(window.ethereum);
-  await provider.send("eth_requestAccounts", []);
+
+  try {
+    await provider.send("eth_requestAccounts", []);
+  } catch (error) {
+    // MetaMask mobile sometimes throws here - try alternative method
+    const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+    if (!accounts || accounts.length === 0) {
+      throw new Error("Please approve wallet connection in MetaMask");
+    }
+  }
 
   const signer = await provider.getSigner();
   const address = await signer.getAddress();
@@ -93,15 +107,15 @@ if (chainId !== "0x38") {
   // 🔍 Check balance
   const balance = await contract.balanceOf(address);
 
-//   if (balance < amountInWei) {
-//     throw new Error("Insufficient USDT balance");
-//   }
+  if (balance < amountInWei) {
+    throw new Error("Insufficient USDT balance");
+  }
 
-//   const bnbBalance = await provider.getBalance(address);
+  const bnbBalance = await provider.getBalance(address);
 
-// if (bnbBalance === 0n) {
-//   throw new Error("You need BNB for gas fees");
-// }
+if (bnbBalance === 0n) {
+  throw new Error("You need BNB for gas fees");
+}
 
   // 💸 SEND USDT
   const tx = await contract.transfer(receiver, amountInWei);

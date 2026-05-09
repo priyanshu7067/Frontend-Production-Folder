@@ -33,7 +33,7 @@ const ProfilePage = () => {
         {/* WALLET */}
         <div className="text-center md:text-right">
           <p className="text-xs text-gray-400">Wallet</p>
-          <p className="text-sm text-blue-400 font-mono">{user.userId || "N/A"}</p>
+          <p className="text-xs text-blue-400 font-mono">{user.userId || "N/A"}</p>
         </div>
       </div>
 
