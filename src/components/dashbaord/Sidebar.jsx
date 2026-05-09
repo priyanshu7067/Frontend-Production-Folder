@@ -37,6 +37,8 @@ import { ChevronDown } from "lucide-react";
 import Collapse from "@mui/material/Collapse";
 import { MainContent } from "../../constants/mainContent";
 import { useAuth } from "../../context/AuthContext";
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 
 const iconMap = {
   dashboard: <LayoutDashboard size={18} />,
@@ -50,7 +52,9 @@ const iconMap = {
   history: <HistoryIcon size={18} />,
   income: <BanknoteArrowUp size={18} />,
   Wallet: <Wallet2Icon size={18} />,
-  blockWithdrawal: <RouteOff size={18} />
+  blockWithdrawal: <RouteOff size={18} />,
+  invest: <CurrencyExchangeIcon fontSize="small" />,
+  topup: <PriceCheckIcon fontSize="small" />,
 };
 
 const Sidebar = ({ open, setOpen }) => {

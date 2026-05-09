@@ -7,8 +7,10 @@ export const sidebarMenu = {
     { name: "All Incomes", path: UserRoutes.INCOME_CARDS, icon: "income" },
     { name: "Live Pricing", path: UserRoutes.LIVE_PRICING, icon: "live" },
     { name: "AI Trading Bot", path: UserRoutes.TRADING_BOT, icon: "bot" },
-    { name: "Wallet Fund Transfer", icon: "Wallet" ,
-       children: [
+    {
+      name: "Wallet Fund Transfer",
+      icon: "Wallet",
+      children: [
         {
           name: "Wallet Fund Transfer",
           path: UserRoutes.WALLET_FUND_TRANSFER,
@@ -16,9 +18,8 @@ export const sidebarMenu = {
         {
           name: "Transfer History",
           path: UserRoutes.WALLET_FUND_TRANSFER_HISTORY,
-        }
-
-       ]
+        },
+      ],
     },
     {
       name: "Withdrawal",
@@ -31,7 +32,7 @@ export const sidebarMenu = {
         {
           name: "Withdrawal History",
           path: UserRoutes.WITHDRAWAL_HISTORY,
-        }
+        },
       ],
     },
     {
@@ -78,7 +79,6 @@ export const sidebarMenu = {
           path: UserRoutes.MY_TEAMS,
         },
       ],
-
     },
     { name: "Profile", path: UserRoutes.PROFILE, icon: "user" },
     { name: "KYC", path: UserRoutes.KYC_PAGE, icon: "user" },
@@ -87,7 +87,11 @@ export const sidebarMenu = {
   admin: [
     { name: "Dashboard", path: AdminRoutes.DASHBOARD, icon: "dashboard" },
     { name: "All Users", path: AdminRoutes.ALL_USERS, icon: "users" },
-    { name: "Block Withdrawal", path: AdminRoutes.BLOCK_USER_WITHDRAWAL, icon: "blockWithdrawal" },
+    {
+      name: "Block Withdrawal",
+      path: AdminRoutes.BLOCK_USER_WITHDRAWAL,
+      icon: "blockWithdrawal",
+    },
     {
       name: "Manage Signal",
       icon: "user",
@@ -139,13 +143,23 @@ export const sidebarMenu = {
       ],
     },
     {
-      name: "Income History",
-      icon: "income",
+      name: "Manage User Topup",
+      icon: "topup",
       children: [
+        {
+          name: "Topup User",
+          path: AdminRoutes.TOPUP_USER,
+        },
         {
           name: "Investment History",
           path: AdminRoutes.INVESTMENT_HISTORY,
         },
+      ],
+    },
+    {
+      name: "Income History",
+      icon: "income",
+      children: [
         {
           name: "Direct Income",
           path: AdminRoutes.DIRECT_INCOME,
@@ -161,7 +175,7 @@ export const sidebarMenu = {
         {
           name: "Rank Income History",
           path: AdminRoutes.RANK_INCOME_HISTORY,
-        }
+        },
       ],
     },
   ],

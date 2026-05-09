@@ -134,3 +134,13 @@ export const getSignalHistory = async () => {
     return error.response.data;
   }
 }
+
+export const topupUserApi = async (payload) => {
+  try {
+    const response = await Axios.post("/admin/topup-user", payload);
+    return response.data;
+  } catch (error) {
+    console.log(error, "error in topup api");
+    return error.response.data;
+  }
+}

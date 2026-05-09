@@ -66,18 +66,10 @@ const AdminInvestmentHistory = () => {
         ),
       },
       {
-        header: "Return",
+        header: "Topup By",
         render: (row) => (
-          <span className="text-green-400 text-sm font-semibold">
-            ${Number(row?.returnInvestment || 0).toLocaleString("en-IN")}
-          </span>
-        ),
-      },
-      {
-        header: "Days",
-        render: (row) => (
-          <span className="text-yellow-400 text-sm">
-            {row?.days || 0}
+          <span className="text-green-400 text-sm font-semibold capitalize">
+            {row?.topupBy || "N/A"}
           </span>
         ),
       },

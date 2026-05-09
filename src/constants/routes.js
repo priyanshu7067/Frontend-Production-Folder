@@ -46,4 +46,5 @@ export const AdminRoutes = {
     REJECTED_WITHDRAWALS: "rejected-withdrawals",
     SEND_SIGNAL: "send-signal",
     SIGNAL_HISTORY: "signal-history",
+    TOPUP_USER: "topup-user",
 }

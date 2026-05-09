@@ -40,6 +40,8 @@ import AdminRejectedWithdrawalHistory from "../screens/admin/withdrawal/AdminRej
 import BlockWithdrawalPage from "../screens/admin/adminControl/BlockWithdrawalPage";
 import CreateNotification from "../screens/admin/notification/CreateNotification";
 import SignalHistory from "../screens/admin/notification/SignalHistory";
+import TopupUser from "../screens/admin/topupUser/TopupUser";
+
 const Authenticated = () => {
   const { user } = useAuth();
   return (
@@ -112,6 +114,10 @@ const Authenticated = () => {
             <Route
               path={AdminRoutes.SIGNAL_HISTORY}
               element={<SignalHistory />}
+            />
+            <Route
+              path={AdminRoutes.TOPUP_USER}
+              element={<TopupUser />}
             />
             {/* <Route path="users" element={<Users />} /> */}
           </Route>
