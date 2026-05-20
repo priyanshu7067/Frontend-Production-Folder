@@ -92,7 +92,7 @@ const Authenticated = () => {
               element={<AdminRankIncome />}
             />
             <Route
-              path={AdminRoutes.WITHDRAWAL_HISTORY}
+              path={AdminRoutes.PENDING_WITHDRAWALS}
               element={<AdminWithdrawalHistory />}
             />
             <Route
