@@ -1,118 +1,124 @@
 import React from "react";
-import { Zap, BarChart3, ShieldCheck } from "lucide-react";
+import { ShieldCheck, Lock, Award, Server, Cpu, RefreshCw, CheckCircle2 } from "lucide-react";
 import ButtonComponent from "../components/ui/ButtonComponent";
 import { Link } from "react-router-dom";
 import { AuthRoutes } from "../constants/routes";
 
-const opportunityCards = [
-  {
-    icon: BarChart3,
-    title: "Data-Driven Precision",
-    desc: "Cut through market noise with AI-filtered signals that highlight high-probability opportunities in real-time.",
-  },
-  {
-    icon: Zap,
-    title: "Instant Execution",
-    desc: "Eliminate manual latency. Our infrastructure ensures your strategies execute at the speed of the market.",
-  },
+const features = [
   {
     icon: ShieldCheck,
-    title: "Adaptive Risk Logic",
-    desc: "Navigate crypto volatility with automated guardrails designed to protect capital and lock in gains.",
+    title: "Institutional Security Standards",
+    desc: "Your assets are protected with multi-signature cold storage, hardware security modules, and strict compliance controls.",
+  },
+  {
+    icon: RefreshCw,
+    title: "Automated Daily Earnings",
+    desc: "No manual calculations needed. Daily yields are automatically computed and credited directly to your INR dashboard.",
+  },
+  {
+    icon: Server,
+    title: "99.9% Infrastructure Uptime",
+    desc: "Built on enterprise cloud clusters ensuring high availability, continuous trade execution, and instant API access.",
+  },
+  {
+    icon: Award,
+    title: "Regulated & Transparent",
+    desc: "Complete financial transparency with detailed ROI transaction logs, user referral hierarchies, and downloadable statements.",
   },
 ];
 
 export default function ProblemSection() {
   return (
-    <section className="relative overflow-hidden bg-[var(--bg-main)] py-24 text-white" id="solution">
-
-      {/* Background Tech Grid */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(127,156,168,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(127,156,168,0.1)_1px,transparent_1px)] bg-[size:50px_50px]" />
-      </div>
-
-      {/* Strategic Glow Effects */}
-      <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-emerald-500/5 blur-[120px]" />
-      <div className="absolute right-[-10%] bottom-[-10%] h-[400px] w-[400px] rounded-full bg-blue-500/5 blur-[120px]" />
-
-      <div className="relative z-10 mx-auto max-w-7xl px-4">
-
-        {/* 🔰 Heading Section */}
-        <div className="mx-auto mb-20 max-w-4xl text-center">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.4em] text-gradient">
-            Strategic Intelligence
-          </p>
-
-          <h2 className="text-4xl font-black leading-[1.1] md:text-6xl text-metal">
-            Trade with the edge of
-            <br />
-            <span className="text-white">Institutional Logic.</span>
-          </h2>
-
-          <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-gray-400 md:text-lg">
-            Stop reacting and start anticipating. BYNEXA.AI transforms raw crypto volatility
-            into a structured, high-performance trading environment.
-          </p>
-        </div>
-
-        {/* 🔰 Opportunity Cards */}
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
-          {opportunityCards.map((item) => {
-            const Icon = item.icon;
-
-            return (
-              <div
-                key={item.title}
-                className="group relative rounded-[32px] border border-white/5 bg-white/[0.02] p-10 transition-all duration-500 hover:border-teal-500 hover:bg-white/[0.04] hover:-translate-y-2 overflow-hidden"
-              >
-                {/* Subtle Hover Glow inside card */}
-                <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#0e8fa3] blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-                <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#0e8fa3] bg-teal-500 text-gradient shadow-[0_0_20px_rgba(16,185,129,0.1)] transition-transform duration-500 group-hover:scale-110">
-                  <Icon className="h-7 w-7" />
-                </div>
-
-                <h3 className="mb-4 text-xl font-bold text-white tracking-tight">
-                  {item.title}
-                </h3>
-
-                <p className="text-sm leading-relaxed text-gray-400 group-hover:text-gray-300 transition-colors">
-                  {item.desc}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* 🔥 Unified CTA Platform Section */}
-        <div className="mt-28 flex justify-center">
-          <div className="relative w-full max-w-5xl overflow-hidden rounded-[40px] border border-white/10 bg-[#11141a]/50 px-6 py-12 text-center backdrop-blur-2xl md:px-20 md:py-10">
-
-            {/* Background Accent for CTA */}
-            <div className="absolute left-1/2 top-1/2 -z-10 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/10 blur-[100px]" />
-
-            <h2 className="text-3xl font-black md:text-5xl tracking-tight text-glow">
-              M.F Finor<span className="text-gray-500">|</span> The Smart Money Protocol
+    <section id="security" className="py-20 bg-white border-t border-slate-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+        
+        {/* WHY CHOOSE US */}
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          
+          <div className="lg:col-span-6 space-y-6">
+            <span className="text-xs font-bold uppercase tracking-wider text-sky-600 bg-sky-50 px-3.5 py-1.5 rounded-full border border-sky-100">
+              Institutional Quality
+            </span>
+            
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              Why Smart Investors Choose Finor Capital
             </h2>
 
-            <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-gray-400 md:text-xl">
-              We bridges the gap between complex market data and
-              <span className="text-gradient font-semibold"> profitable execution. </span>
-              Experience the future of decentralized asset management.
+            <p className="text-slate-600 text-base leading-relaxed">
+              We eliminate complex manual trading hurdles by providing a secure, automated fintech platform tailored specifically for Indian investors.
             </p>
 
-            <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to={AuthRoutes.REGISTER}>
-                <ButtonComponent variant="neon">
-                  Launch
-                </ButtonComponent >
-              </Link>
-              <ButtonComponent variant="outline" >
-                View Documentation
-              </ButtonComponent>
+            <div className="grid sm:grid-cols-2 gap-6 pt-2">
+              {features.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div key={item.title} className="space-y-2">
+                    <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
+                      <Icon size={20} />
+                    </div>
+                    <h4 className="text-base font-bold text-slate-900">{item.title}</h4>
+                    <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
+                  </div>
+                );
+              })}
             </div>
 
           </div>
+
+          {/* SECURITY & TRUST CARD */}
+          <div className="lg:col-span-6">
+            <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-10 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="relative z-10 space-y-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-sky-600 rounded-2xl text-white">
+                    <Lock size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">Security & Risk Architecture</h3>
+                    <p className="text-xs text-slate-400">Zero-compromise protection for your capital</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3.5 pt-2">
+                  <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/60">
+                    <CheckCircle2 size={18} className="text-sky-400 mt-0.5 shrink-0" />
+                    <div>
+                      <h5 className="text-xs font-bold text-white">Multi-Signature Wallet Governance</h5>
+                      <p className="text-[11px] text-slate-400">Transactions require multiple trusted key approvals before authorization.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/60">
+                    <CheckCircle2 size={18} className="text-sky-400 mt-0.5 shrink-0" />
+                    <div>
+                      <h5 className="text-xs font-bold text-white">Automated Risk Stop-Loss</h5>
+                      <p className="text-[11px] text-slate-400">AI bots automatically enforce strict risk mitigation algorithms to safeguard principal.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/60">
+                    <CheckCircle2 size={18} className="text-sky-400 mt-0.5 shrink-0" />
+                    <div>
+                      <h5 className="text-xs font-bold text-white">Instant Audit Trail Access</h5>
+                      <p className="text-[11px] text-slate-400">Track all incoming investments, referral bonuses, and bank payouts seamlessly.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800">
+                  <span>Support: 24/7 Priority Desk</span>
+                  <Link to={AuthRoutes.REGISTER} className="text-sky-400 font-semibold hover:underline">
+                    Get Started Free →
+                  </Link>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
         </div>
 
       </div>

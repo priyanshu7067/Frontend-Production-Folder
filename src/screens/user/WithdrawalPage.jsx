@@ -4,19 +4,18 @@ import { sendWithdrawalOtp, submitWithdrawalApi } from "../../apis/user/users.ap
 import { useAuth } from "../../context/AuthContext";
 import ButtonComponent from "../../components/ui/ButtonComponent";
 import ReusableInput from "../../components/global/ReusableInput";
-import { form } from "framer-motion/client";
+import { formatINR } from "../../utils/helper";
+import { Wallet, ShieldCheck, HelpCircle } from "lucide-react";
 
 const WithdrawalPage = () => {
   const { user, showLoader, hideLoader } = useAuth();
   const userInfo = user;
-  // console.log(userInfo,'jjj');
-  
 
   const [isOtpDisabled, setIsOtpDisabled] = useState(false);
   const [otpTimer, setOtpTimer] = useState(0);
 
   const [formData, setFormData] = useState({
-    userWalletAddress: userInfo?.walletAddress,
+    userWalletAddress: userInfo?.walletAddress || "",
     loginPassword: "",
     amount: "",
     otp: "",
@@ -34,23 +33,23 @@ const WithdrawalPage = () => {
   };
 
   const otpHandler = async () => {
-    if(userInfo?.isKycVerified === false) {
-      return Swal.fire("Error", "KYC not verified! Please verify KYC first", "error");
+    if (userInfo?.isKycVerified === false) {
+      return Swal.fire("KYC Required", "Please complete your KYC verification first.", "warning");
     }
     showLoader();
     try {
       const res = await sendWithdrawalOtp();
       if (res?.success) {
-        Swal.fire("OTP Sent!", res?.message, "success");
+        Swal.fire("OTP Sent!", res?.message || "Verification code sent to registered mobile/email.", "success");
         setIsOtpDisabled(true);
         setOtpTimer(30);
       } else {
         Swal.fire("Failed!", res?.message, "error");
       }
-    } catch(error) {
-      Swal.fire("Error", error?.message || "API failed", "error");
+    } catch (error) {
+      Swal.fire("Error", error?.message || "Failed to send OTP", "error");
     } finally {
-        hideLoader();
+      hideLoader();
     }
   };
 
@@ -60,19 +59,11 @@ const WithdrawalPage = () => {
       !formData.amount ||
       !formData.otp
     ) {
-      return Swal.fire("Error", "Please fill all required fields", "error");
+      return Swal.fire("Missing Information", "Please fill all required fields before submitting.", "warning");
     }
 
-    if(formData.amount > userInfo?.wallets?.earningsWallet) {
-      return Swal.fire("Error", "Insufficient balance", "error");
-    }
-
-    // if(formData.amount < 10) {
-    //   return Swal.fire("Error", "Minimum withdrawal amount is 10", "error");
-    // }
-
-    if(formData.userWalletAddress !== userInfo?.walletAddress) {
-      return Swal.fire("Error", "Invalid wallet address", "error");
+    if (Number(formData.amount) > (userInfo?.wallets?.earningsWallet || 0)) {
+      return Swal.fire("Insufficient Balance", "Requested withdrawal exceeds available balance.", "error");
     }
 
     showLoader();
@@ -85,24 +76,22 @@ const WithdrawalPage = () => {
 
     try {
       const res = await submitWithdrawalApi(payload);
-
       if (res?.success) {
-        Swal.fire("Success!", res?.message, "success");
-
+        Swal.fire("Withdrawal Submitted!", res?.message || "Your withdrawal request has been submitted successfully.", "success");
         setFormData({
-          userWalletAddress: userInfo?.walletAddress,
+          userWalletAddress: userInfo?.walletAddress || "",
           loginPassword: "",
           amount: "",
           otp: "",
           options: "mainWallet",
         });
       } else {
-        Swal.fire("Failed!", res?.message, "error");
+        Swal.fire("Request Failed", res?.message, "error");
       }
-    } catch(error) {
+    } catch (error) {
       Swal.fire("Error", error?.message || "Something went wrong", "error");
     } finally {
-        hideLoader();
+      hideLoader();
     }
   };
 
@@ -122,118 +111,112 @@ const WithdrawalPage = () => {
   }, [isOtpDisabled, otpTimer]);
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6">
-
-      {/* LEFT CARD */}
-      <div className="flex-1">
-        <div className="bg-[rgba(2,6,23,0.7)] border border-[#22d3ee]/20 rounded-xl p-5 shadow-lg">
-          <div className="flex justify-between mb-4">
-            <p className="text-white font-semibold">Available Balance</p>
-            <span className="text-[#22d3ee] font-bold">
-              {userInfo?.wallets?.earningsWallet?.toFixed(2)}
-            </span>
-          </div>
-
-          <div className="flex justify-between">
-            <p className="text-white font-semibold">Minimum Withdrawal</p>
-            <span className="text-[#22d3ee] font-bold">10 USDT</span>
-          </div>
-        </div>
+    <div className="space-y-6 pb-12">
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Withdraw Funds</h1>
+        <p className="text-xs text-slate-500 mt-1">Request instant or bank-credited INR payouts.</p>
       </div>
 
-      {/* RIGHT FORM */}
-      <div className="w-full lg:w-[420px]">
-        <div className="bg-[rgba(2,6,23,0.7)] border border-[#22d3ee]/20 rounded-xl p-6">
-
-          <h2 className="text-xl font-semibold text-[#22d3ee] mb-4">
-            Withdraw
-          </h2>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-
-            <ReusableInput
-              label="Wallet Address"
-              name="userWalletAddress"
-              value={formData.userWalletAddress}
-              onChange={handleChange}
-              sx={{mb:2}}
-              disabled
-            />
-
-            {/* Amount */}
-            <div className="flex gap-2">
-              <ReusableInput
-                label="Amount"
-                name="amount"
-                value={formData.amount}
-                onChange={handleChange}
-              />
-
-              <ButtonComponent variant="neon" onClick={handleAllWithdrawal}>
-                All
-              </ButtonComponent>
+      <div className="grid lg:grid-cols-12 gap-6">
+        {/* LEFT CARDS */}
+        <div className="lg:col-span-5 space-y-6">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
+                <Wallet size={20} />
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-slate-500">Available Earnings Balance</p>
+                <h2 className="text-2xl font-extrabold text-sky-600 mt-0.5">
+                  {formatINR(userInfo?.wallets?.earningsWallet || 0)}
+                </h2>
+              </div>
             </div>
 
-            {/* Wallet select */}
-            {/* <select
-              name="options"
-              value={formData.options}
-              onChange={handleChange}
-              className="
-                w-full px-4 py-2 rounded-lg
-                bg-[rgba(255,255,255,0.03)]
-                border border-white/10
-                text-white
-                focus:outline-none focus:border-[#22d3ee]
-              "
-            >
-              <option value="mainWallet">Main Wallet</option>
-            </select> */}
-
-            {/* <ReusableInput
-              label="Login Password"
-              type="password"
-              name="loginPassword"
-              value={formData.loginPassword}
-              onChange={handleChange}
-              sx={{mb:2}}
-            /> */}
-
-            {/* OTP */}
-            <div className="flex gap-2">
-              <ReusableInput
-                label="OTP"
-                type="number"
-                name="otp"
-                value={formData.otp}
-                onChange={handleChange}
-              />
-
-              <ButtonComponent
-                onClick={otpHandler}
-                variant="neon"
-                wrap
-              >
-                {isOtpDisabled ? `${otpTimer}s` : "GET OTP"}
-              </ButtonComponent>
+            <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-medium">
+              <span className="text-slate-500">Min. Withdrawal</span>
+              <span className="text-slate-900 font-bold">{formatINR(1000)} (or 10 USDT)</span>
             </div>
+          </div>
 
-            {/* Buttons */}
-            <div className="flex gap-2">
-              <ButtonComponent variant="outline" fullWidth>
-                Cancel
-              </ButtonComponent>
-
-              <ButtonComponent variant="neon" fullWidth type="submit">
-                Withdraw
-              </ButtonComponent>
+          <div className="bg-slate-900 text-white rounded-3xl p-6 shadow-md space-y-4">
+            <div className="flex items-center gap-2 text-sky-400 font-semibold text-sm">
+              <ShieldCheck size={18} /> Payout Guidelines
             </div>
-          </form>
+            <ul className="space-y-2 text-xs text-slate-300 leading-relaxed">
+              <li>• Withdrawals are processed within 3 to 24 business hours.</li>
+              <li>• Ensure your bank account / payout wallet address is verified.</li>
+              <li>• OTP authentication is required for every withdrawal request.</li>
+            </ul>
+          </div>
+        </div>
 
-          {/* NOTES */}
-          <div className="mt-4 text-sm text-gray-300 space-y-2">
-            <p>• Withdrawal processed within 3–96 hours</p>
-            <p>• Next withdrawal after previous is completed</p>
+        {/* RIGHT FORM */}
+        <div className="lg:col-span-7">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
+            <h2 className="text-lg font-bold text-slate-900 mb-5">
+              Submit Withdrawal Request
+            </h2>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <ReusableInput
+                  label="Registered Wallet / Account Address"
+                  name="userWalletAddress"
+                  value={formData.userWalletAddress}
+                  onChange={handleChange}
+                  disabled
+                />
+              </div>
+
+              <div className="flex gap-2 items-start">
+                <div className="flex-1">
+                  <ReusableInput
+                    label="Withdrawal Amount (INR)"
+                    name="amount"
+                    type="number"
+                    placeholder="Enter amount"
+                    value={formData.amount}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="pt-0.5">
+                  <ButtonComponent variant="outline" onClick={handleAllWithdrawal}>
+                    Max Balance
+                  </ButtonComponent>
+                </div>
+              </div>
+
+              <div className="flex gap-2 items-start">
+                <div className="flex-1">
+                  <ReusableInput
+                    label="Verification OTP"
+                    type="number"
+                    name="otp"
+                    placeholder="Enter 6-digit OTP"
+                    value={formData.otp}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="pt-0.5">
+                  <ButtonComponent
+                    onClick={otpHandler}
+                    variant="secondary"
+                    disabled={isOtpDisabled}
+                  >
+                    {isOtpDisabled ? `${otpTimer}s` : "Get OTP"}
+                  </ButtonComponent>
+                </div>
+              </div>
+
+              <div className="pt-4 flex gap-3">
+                <ButtonComponent variant="primary" fullWidth type="submit">
+                  Confirm Withdrawal →
+                </ButtonComponent>
+              </div>
+            </form>
           </div>
         </div>
       </div>

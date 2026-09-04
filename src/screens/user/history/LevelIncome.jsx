@@ -3,31 +3,25 @@ import TableComponent from "../../../components/ui/TableComponent";
 import { getLevelncomeHistory } from "../../../apis/user/users.api";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../context/AuthContext";
+import { formatINR } from "../../../utils/helper";
 
 const LevelIncome = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const { showLoader, hideLoader } = useAuth();
 
-  // 🔥 FETCH API
   const fetchLevelIncome = async () => {
     showLoader();
     try {
       setLoading(true);
-
       const res = await getLevelncomeHistory();
-      // console.log("LEVEL INCOME:", res);
-
       if (res?.success) {
         setData(res?.data || []);
       } else {
         toast.error(res?.message || "Failed to fetch level income");
       }
     } catch (err) {
-      toast.error(
-        err?.response?.data?.message || "Something went wrong"
-      );
+      toast.error(err?.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
       hideLoader();
@@ -38,64 +32,63 @@ const LevelIncome = () => {
     fetchLevelIncome();
   }, []);
 
-  // 🔥 CORRECT COLUMNS (render use karo)
   const columns = useMemo(() => [
     {
       header: "S.No",
-      render: (_, i) => i + 1,
+      render: (_, i) => <span className="font-semibold text-slate-600">{i + 1}</span>,
     },
     {
       header: "Level",
       render: (row) => (
-        <span className="text-purple-400 text-xs font-semibold">
+        <span className="text-sky-700 bg-sky-50 border border-sky-200 px-2 py-0.5 rounded text-xs font-bold">
           Level {row?.level || 0}
         </span>
       ),
     },
     {
-      header: "From User",
+      header: "From Member",
       render: (row) => (
-        <span className="text-white text-sm">
-          {row?.fromUser?.userId?.slice(0, 10) || "N/A"}...
+        <span className="text-slate-900 text-xs font-mono">
+          {row?.fromUser?.userId ? `${row.fromUser.userId.slice(0, 10)}...` : "N/A"}
         </span>
       ),
     },
     {
-      header: "To User",
+      header: "Recipient",
       render: (row) => (
-        <span className="text-gray-400 text-xs">
-          {row?.user?.userId?.slice(0, 10) || "N/A"}...
+        <span className="text-slate-600 text-xs font-mono">
+          {row?.user?.userId ? `${row.user.userId.slice(0, 10)}...` : "N/A"}
         </span>
       ),
     },
     {
-      header: "Income",
+      header: "Income (INR)",
       render: (row) => (
-        <span className="text-green-400 font-semibold">
-          ${Number(row?.income || 0).toLocaleString("en-IN")}
+        <span className="text-emerald-600 font-bold text-sm">
+          {formatINR(row?.income || 0)}
         </span>
       ),
     },
     {
-      header: "Amount",
+      header: "Investment Base",
       render: (row) => (
-        <span className="text-blue-400 text-xs">
-          ${Number(row?.amount || 0).toLocaleString("en-IN")}
+        <span className="text-sky-600 text-xs font-semibold">
+          {formatINR(row?.amount || 0)}
         </span>
       ),
     },
     {
       header: "Note",
       render: (row) => (
-        <span className="text-gray-300 text-xs">
-          {row?.note || "N/A"}
+        <span className="text-slate-500 text-xs">
+          {row?.note || "Level bonus distribution"}
         </span>
       ),
     },
     {
       header: "Date",
       render: (row) => (
-        <span className="text-gray-400 text-xs">
+        <span className="text-slate-500 text-xs">
           {row?.createdAt
             ? new Date(row.createdAt).toLocaleDateString("en-IN")
             : "N/A"}
@@ -105,30 +98,26 @@ const LevelIncome = () => {
   ], []);
 
   return (
-    <div className="dashboard-bg min-h-full p-4 md:p-6 text-white space-y-5">
-
-      {/* HEADER */}
+    <div className="space-y-6 pb-12">
       <div>
-        <h2 className="text-lg md:text-xl font-semibold tracking-wide">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">
           Level Income History
-        </h2>
-        <p className="text-sm text-gray-400 mt-1">
-          Track your earnings from referral levels
+        </h1>
+        <p className="text-xs text-slate-500 mt-1">
+          Track earnings generated from multi-tier team referral levels in INR.
         </p>
       </div>
 
-      {/* TABLE */}
-      <div className="glow-card p-4">
+      <div className="bg-white border border-slate-200 rounded-2xl shadow-xs p-3">
         <TableComponent
           columns={columns}
           data={data}
           loading={loading}
-          rowsPerPage={5}
+          rowsPerPage={8}
           searchable={true}
-          emptyMessage="No income records found"
+          emptyMessage="No level income records found"
         />
       </div>
-
     </div>
   );
 };

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { connectAndSendUSDT } from "../../utils/walletService";
+import { connectAndSendUSDT, getConnectedWallet } from "../../utils/walletService";
 import { topupApi } from "../../apis/user/users.api";
-import { getConnectedWallet } from "../../utils/walletService";
 import ConnectWalletModal from "./ConnectWalletModal";
 import { useAuth } from "../../context/AuthContext";
+import ButtonComponent from "./ButtonComponent";
+import { ShieldCheck, Wallet, ArrowRight } from "lucide-react";
 
 const TopUpModal = ({ open, onClose }) => {
   const [amount, setAmount] = useState("");
@@ -15,7 +16,6 @@ const TopUpModal = ({ open, onClose }) => {
 
   if (!open) return null;
 
-  // 🔥 Check if already connected
   useEffect(() => {
     const checkWallet = async () => {
       const address = await getConnectedWallet();
@@ -26,23 +26,21 @@ const TopUpModal = ({ open, onClose }) => {
     checkWallet();
   }, []);
 
-  // 🔥 HANDLE CONNECT
   const handleConnect = async () => {
     if (walletAddress) return;
     setOpenWalletModal(true);
   };
 
-  // 🔥 HANDLE PAYMENT
   const handleTopUp = async () => {
     showLoader();
     try {
       if (!amount || Number(amount) < 50) {
-        toast.error("Minimum 50 USDT required");
+        toast.error("Minimum 50 USDT deposit required");
         return;
       }
 
       if (!walletAddress) {
-        toast.error("Connect wallet first");
+        toast.error("Please connect your wallet first");
         return;
       }
 
@@ -59,12 +57,12 @@ const TopUpModal = ({ open, onClose }) => {
       if (res?.success) {
         toast.success(res?.message || "Top up successful 🚀");
         refreshUser();
-    } else {
-        toast.error(res?.message);
-    }
-    onClose();
+      } else {
+        toast.error(res?.message || "Deposit processing error");
+      }
+      onClose();
     } catch (err) {
-      toast.error(err.message);
+      toast.error(err.message || "Transaction failed");
     } finally {
       setLoading(false);
       hideLoader();
@@ -73,53 +71,80 @@ const TopUpModal = ({ open, onClose }) => {
 
   return (
     <>
-      <div className="fixed inset-0 z-[1201] flex items-center justify-center bg-black/70">
-        <div className="glass p-6 rounded-xl w-full max-w-sm">
+      <div className="fixed inset-0 z-[1201] flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl relative">
+          
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
+              <Wallet size={20} />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-slate-900">Deposit / Top Up</h2>
+              <p className="text-xs text-slate-500">BEP-20 Payment Network</p>
+            </div>
+          </div>
 
-          <h2 className="text-gradient text-lg mb-4">Top Up Balance</h2>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-xs font-semibold text-slate-600 mb-1">
+                Deposit Amount (USDT / BEP-20)
+              </label>
+              <input
+                type="number"
+                placeholder="Minimum 50 USDT"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                min={50}
+                className="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none font-medium"
+              />
+            </div>
 
-          <input
-            type="number"
-            placeholder="Enter amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            min={50}
-            className="w-full p-3 rounded-lg bg-black/40 border border-white/10 text-white"
-          />
-
-          {/* 🔥 CONNECT WALLET */}
-          {!walletAddress ? (
-            <button
-              onClick={handleConnect}
-              className="w-full mt-4 bg-yellow-400 text-black py-2 rounded-lg cursor-pointer"
-            >
-              Connect Wallet
-            </button>
-          ) : (
-            <>
-              <p className="text-green-400 text-sm mt-2">
-                Wallet Connected: {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
-              </p>
-
-              <button
-                onClick={handleTopUp}
-                className="w-full mt-4 bg-[#22d3ee] text-black py-2 rounded-lg cursor-pointer"
+            {!walletAddress ? (
+              <ButtonComponent
+                variant="outline"
+                fullWidth
+                onClick={handleConnect}
               >
-                {loading ? "Processing..." : "Confirm & Pay"}
-              </button>
-            </>
-          )}
+                Connect Wallet (BEP-20)
+              </ButtonComponent>
+            ) : (
+              <div className="space-y-3">
+                <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between text-xs text-emerald-800 font-medium">
+                  <span className="flex items-center gap-1.5">
+                    <ShieldCheck size={16} className="text-emerald-600" /> Connected Wallet:
+                  </span>
+                  <span className="font-mono">{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</span>
+                </div>
+
+                <ButtonComponent
+                  variant="primary"
+                  fullWidth
+                  disabled={loading}
+                  onClick={handleTopUp}
+                >
+                  {loading ? "Processing Deposit..." : "Confirm & Pay USDT →"}
+                </ButtonComponent>
+              </div>
+            )}
+
+            <ButtonComponent
+              variant="secondary"
+              fullWidth
+              onClick={onClose}
+            >
+              Cancel
+            </ButtonComponent>
+          </div>
 
           <button
             onClick={onClose}
-            className="w-full mt-4 bg-gray-300 text-black py-2 rounded-lg cursor-pointer"
+            className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-sm font-bold"
           >
-            Cancel
+            ✕
           </button>
         </div>
       </div>
 
-      {/* 🔥 WALLET MODAL */}
       <ConnectWalletModal
         open={openWalletModal}
         onClose={() => setOpenWalletModal(false)}

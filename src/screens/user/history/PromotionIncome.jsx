@@ -3,110 +3,86 @@ import TableComponent from "../../../components/ui/TableComponent";
 import { getPromotionHistory } from "../../../apis/user/users.api";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../context/AuthContext";
+import { formatINR } from "../../../utils/helper";
+
 const PromotionIncome = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { user, showLoader, hideLoader } = useAuth();
+  const { showLoader, hideLoader } = useAuth();
 
   const fetchPromotionHistory = async () => {
     try {
       showLoader();
-      const res = await getPromotionHistory();
       setLoading(true);
+      const res = await getPromotionHistory();
       if (res?.success) {
         setData(res?.data || []);
+      } else {
+        toast.error(res?.message || "Failed to fetch promotion income");
       }
-      else {
-        toast.error(res?.message || "Failed to fetch");
-      }
-
     } catch (error) {
       toast.error(error?.message || "Something went wrong");
     } finally {
       setLoading(false);
       hideLoader();
     }
-  }
+  };
+
   useEffect(() => {
     fetchPromotionHistory();
-  }, [])
+  }, []);
 
   const columns = useMemo(() => [
     {
       header: "S.No",
-      render: (_, i) => i + 1,
+      render: (_, i) => <span className="font-semibold text-slate-600">{i + 1}</span>,
     },
-
     {
-      header: "User",
+      header: "Member",
       render: (row) => (
-        <span className="text-purple-400 text-xs font-mono">
-          {row?.user?.userId?.slice(0, 4)}.....{row?.user?.userId?.slice(32, 36)}
+        <span className="text-slate-900 text-xs font-mono">
+          {row?.user?.userId ? `${row.user.userId.slice(0, 6)}.....${row.user.userId.slice(-4)}` : "N/A"}
         </span>
       ),
     },
     {
       header: "Level",
       render: (row) => (
-        <span className="text-purple-400 text-xs font-semibold">
-          Level {row?.level}
+        <span className="text-sky-700 bg-sky-50 border border-sky-200 px-2 py-0.5 rounded text-xs font-bold">
+          Level {row?.level || 1}
         </span>
       ),
     },
     {
-      header: "Type",
+      header: "Reward Amount (INR)",
       render: (row) => (
-        <span className="text-gray-400 text-xs font-mono">
-          {row?.type}
-        </span>
-      ),
-    },
-    {
-      header: "Amount",
-      render: (row) => (
-        <span className="text-green-400 text-sm font-bold">
-          ${Number(row?.amount || 0).toLocaleString("en-IN")}
+        <span className="text-emerald-600 font-bold text-sm">
+          {formatINR(row?.amount || 0)}
         </span>
       ),
     },
     {
       header: "Qualified Directs",
       render: (row) => (
-        <span className="text-teal-400 text-sm font-bold">
+        <span className="text-slate-700 font-bold text-xs">
           {row?.qualifiedDirects || 0}
         </span>
       ),
     },
     {
-      header: "Qualified Team",
+      header: "Team Business (INR)",
       render: (row) => (
-        <span className="text-teal-400 text-sm font-bold">
-          {row?.qualifiedTeam || 0}
-        </span>
-      ),
-    },
-    {
-      header: "Required Team Business",
-      render: (row) => (
-        <span className="text-teal-400 text-sm font-bold">
-          {row?.requiredTeamBusiness || 0}
-        </span>
-      ),
-    },
-    {
-      header: "Team Business",
-      render: (row) => (
-        <span className="text-blue-400 text-xs font-semibold">
-          ${Number(row?.teamBusiness || 0).toLocaleString("en-IN")}
+        <span className="text-sky-600 font-semibold text-xs">
+          {formatINR(row?.teamBusiness || 0)}
         </span>
       ),
     },
     {
       header: "Date",
       render: (row) => (
-        <span className="text-gray-400 text-xs">
+        <span className="text-slate-500 text-xs">
           {row?.createdAt
-            ? new Date(row.createdAt).toLocaleString("en-IN")
+            ? new Date(row.createdAt).toLocaleDateString("en-IN")
             : "N/A"}
         </span>
       ),
@@ -114,25 +90,24 @@ const PromotionIncome = () => {
   ], []);
 
   return (
-    <div className="dashboard-bg min-h-full md:p-6 text-white space-y-4">
-      {/* 🔥 HEADER */}
+    <div className="space-y-6 pb-12">
       <div>
-        <h2 className="text-sm md:text-base font-medium tracking-wide">
-          Promotion Income
-        </h2>
-        <p className="text-xs text-gray-400">
-          Track your rank-based rewards and achievements
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+          Promotion & Reward Income
+        </h1>
+        <p className="text-xs text-slate-500 mt-1">
+          Track rank promotions, milestone bonuses, and team business rewards.
         </p>
       </div>
 
-      {/* 🔥 TABLE */}
-      <div className="glow-card p-3">
+      <div className="bg-white border border-slate-200 rounded-2xl shadow-xs p-3">
         <TableComponent
           columns={columns}
           data={data}
-          rowsPerPage={5}
-          searchable={false}
-          emptyMessage="No promotion income records"
+          loading={loading}
+          rowsPerPage={8}
+          searchable={true}
+          emptyMessage="No promotion income records found"
         />
       </div>
     </div>

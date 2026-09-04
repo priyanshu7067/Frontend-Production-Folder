@@ -1,28 +1,33 @@
 import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import WalletModal from "../components/ui/WalletModal";
+import { AuthRoutes } from "../constants/routes";
 
 const MainLayout = () => {
   const [openWalletModal, setOpenWalletModal] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate(AuthRoutes.LOGIN);
+  };
 
   return (
-    <>
-      <Header onLoginClick={() => setOpenWalletModal(true)} />
+    <div className="bg-slate-50 min-h-screen flex flex-col justify-between">
+      <Header onLoginClick={handleLoginClick} />
 
-      <main className="max-w-7xl mx-auto">
+      <main className="flex-grow">
         <Outlet />
       </main>
 
       <Footer />
 
-      {/* 🔥 MODAL AT ROOT LEVEL */}
       <WalletModal
         open={openWalletModal}
         onClose={() => setOpenWalletModal(false)}
       />
-    </>
+    </div>
   );
 };
 

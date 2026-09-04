@@ -3,6 +3,7 @@ import TableComponent from "../../../components/ui/TableComponent";
 import { getInvestmentHistory } from "../../../apis/user/users.api";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../context/AuthContext";
+import { formatINR } from "../../../utils/helper";
 
 const InvestmentHistory = () => {
   const [data, setData] = useState([]);
@@ -13,14 +14,11 @@ const InvestmentHistory = () => {
     showLoader();
     try {
       setLoading(true);
-
       const res = await getInvestmentHistory();
-      //   console.log("API:", res);
-
       if (res?.success) {
         setData(res?.data || []);
       } else {
-        toast.error(res?.message || "Failed to fetch");
+        toast.error(res?.message || "Failed to fetch investment history");
       }
     } catch (err) {
       toast.error("Something went wrong");
@@ -34,33 +32,32 @@ const InvestmentHistory = () => {
     fetchHistory();
   }, []);
 
-  // ✅ CORRECT COLUMNS (render use karo)
   const columns = useMemo(
     () => [
       {
         header: "S.No",
-        render: (_, i) => i + 1,
+        render: (_, i) => <span className="font-semibold text-slate-600">{i + 1}</span>,
       },
       {
         header: "Transaction Hash",
         render: (row) => (
-          <span className="text-gray-300 text-xs font-mono">
-            {row?.transactionHash}
+          <span className="text-slate-600 text-xs font-mono">
+            {row?.transactionHash || "N/A"}
           </span>
         ),
       },
       {
-        header: "Investment",
+        header: "Investment Amount",
         render: (row) => (
-          <span className="text-blue-400 text-sm font-semibold">
-            ₹{Number(row?.investment || 0).toLocaleString("en-IN")}
+          <span className="text-sky-600 text-sm font-bold">
+            {formatINR(row?.investment || 0)}
           </span>
         ),
       },
       {
-        header: "Date",
+        header: "Investment Date",
         render: (row) => (
-          <span className="text-gray-400 text-xs">
+          <span className="text-slate-500 text-xs">
             {row?.investmentDate
               ? new Date(row.investmentDate).toLocaleDateString("en-IN")
               : "N/A"}
@@ -68,32 +65,32 @@ const InvestmentHistory = () => {
         ),
       },
       {
-        header: "Return",
+        header: "Total Return",
         render: (row) => (
-          <span className="text-green-400 text-xs font-semibold">
-            ₹{Number(row?.returnInvestment || 0).toLocaleString("en-IN")}
+          <span className="text-emerald-600 text-xs font-bold">
+            {formatINR(row?.returnInvestment || 0)}
           </span>
         ),
       },
     ],
-    [],
+    []
   );
 
   return (
-    <div className="dashboard-bg min-h-full md:p-6 text-white space-y-4">
+    <div className="space-y-6 pb-12">
       <div>
-        <h2 className="text-sm md:text-base font-medium tracking-wide">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">
           Investment History
-        </h2>
-        <p className="text-xs text-gray-400">Track all your investments</p>
+        </h1>
+        <p className="text-xs text-slate-500 mt-1">Track all your active and past INR investments.</p>
       </div>
 
-      <div className="glow-card p-3">
+      <div className="bg-white border border-slate-200 rounded-2xl shadow-xs p-3">
         <TableComponent
           columns={columns}
           data={data}
           loading={loading}
-          rowsPerPage={5}
+          rowsPerPage={8}
           searchable={true}
           emptyMessage="No investment history found"
         />

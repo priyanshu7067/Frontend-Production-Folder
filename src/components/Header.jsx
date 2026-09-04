@@ -1,88 +1,101 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Auth from "../navigations/Auth";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthRoutes } from "../constants/routes";
-import { MainContent } from "../constants/mainContent";
-import WalletModal from "./ui/WalletModal";
+import { ArrowRight } from "lucide-react";
 
-const Header = ({ onLoginClick }) => {
-  const [openWalletModal, setOpenWalletModal] = useState(false);
+const Header = () => {
+  const navigate = useNavigate();
+
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) {
-      const offset = 60; // 🔥 adjust this (header height / spacing)
-
+      const offset = 80;
       const elementPosition = el.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
-
       window.scrollTo({
         top: offsetPosition,
         behavior: "smooth",
       });
     }
   };
+
   return (
-    <header className="sticky top-4 z-50 flex justify-center ">
-      {/* 🔥 GLASS CONTAINER */}
-      <div
-        className="w-[95%] max-w-7xl px-6 py-3 
-        flex items-center justify-between
-        rounded-xl glass
-        shadow-[0_0_30px_rgba(183,110,121,0.15)] bg-black"
-      >
-        {/* 🔥 LOGO */}
-        <Link
-          to="/"
-          className="text-2xl font-bold tracking-wide text-metal text-glow"
-        >
-          <img src={MainContent.logo} alt="" className="w-20" />
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-xs transition-all">
+      <div className="w-full px-4 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
+        
+        {/* LOGO */}
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center font-bold text-xl text-white shadow-md shadow-sky-600/20 group-hover:scale-105 transition-transform">
+            ₹
+          </div>
+          <div>
+            <span className="text-xl font-bold tracking-tight text-slate-900 block leading-none">
+              Finor
+            </span>
+            <span className="text-[10px] font-semibold tracking-wider text-sky-600 uppercase mt-0.5 block">
+              Fintech Capital
+            </span>
+          </div>
         </Link>
-        {/* 🔥 NAV LINKS */}
-        <nav className="hidden md:flex items-center gap-8 font-bold text-sm text-white/70">
-          {["Company", "Solution", "About"].map((item, i) => (
-            <button
-              key={i}
-              onClick={() => scrollToSection(item.toLowerCase())}
-              className="relative group transition-all duration-300 hover:text-white"
-            >
-              {item}
-              <span
-                className="absolute left-0 -bottom-1 w-0 h-[2px] 
-    bg-gradient-to-r from-[#06b6d4] via-[#22d3ee] to-[#67e8f9]
-    transition-all duration-300 group-hover:w-full"
-              ></span>
-            </button>
-          ))}
+
+        {/* NAV LINKS MATCHING SCREENSHOT */}
+        <nav className="hidden md:flex items-center gap-8 font-medium text-sm text-slate-600">
+          <button
+            onClick={() => scrollToSection("home")}
+            className="hover:text-sky-600 transition-colors cursor-pointer"
+          >
+            Home
+          </button>
+          <button
+            onClick={() => scrollToSection("about")}
+            className="hover:text-sky-600 transition-colors cursor-pointer"
+          >
+            About Us
+          </button>
+          <button
+            onClick={() => scrollToSection("services")}
+            className="hover:text-sky-600 transition-colors cursor-pointer"
+          >
+            Services
+          </button>
+          <button
+            onClick={() => scrollToSection("plans")}
+            className="hover:text-sky-600 transition-colors cursor-pointer"
+          >
+            Investment Plans
+          </button>
+          <button
+            onClick={() => scrollToSection("reviews")}
+            className="hover:text-sky-600 transition-colors cursor-pointer"
+          >
+            Reviews
+          </button>
+          <button
+            onClick={() => scrollToSection("faq")}
+            className="hover:text-sky-600 transition-colors cursor-pointer"
+          >
+            Contact Us
+          </button>
         </nav>
 
-        {/* 🔥 RIGHT SIDE */}
+        {/* RIGHT CTA BUTTON MATCHING SCREENSHOT GET IN TOUCH */}
         <div className="flex items-center gap-3">
-          <button
-            onClick={onLoginClick}
-            className="px-4 py-1.5 text-sm rounded-full 
-  border border-white/10 text-white/70 
-  hover:bg-white/10 transition"
+          <Link
+            to={AuthRoutes.LOGIN}
+            className="hidden sm:inline-block px-4 py-2 text-sm font-semibold text-slate-700 hover:text-sky-600 transition-all"
           >
-            Login
-          </button>
-          {/* <WalletModal
-            open={openWalletModal}
-            onClose={() => setOpenWalletModal(false)}
-          /> */}
+            Sign In
+          </Link>
 
-          {/* CTA */}
           <Link
             to={AuthRoutes.REGISTER}
-            className="px-5 py-2 text-sm font-semibold rounded-full 
-  text-white
-  bg-[linear-gradient(135deg,#13a8c2,#0f7c91,#0a5f6f)]
-  hover:opacity-90
-  shadow-[0_0_20px_rgba(19,168,194,0.5)]
-  transition-all duration-300"
+            className="px-5 py-2.5 text-sm font-semibold rounded-full text-white bg-sky-600 hover:bg-sky-700 shadow-sm shadow-sky-600/30 transition-all flex items-center gap-1.5"
           >
-            Get Started
+            Get in Touch
+            <ArrowRight size={15} />
           </Link>
         </div>
+
       </div>
     </header>
   );

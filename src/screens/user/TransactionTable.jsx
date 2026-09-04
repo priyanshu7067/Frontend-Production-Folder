@@ -3,21 +3,18 @@ import { getTransactionHistory } from "../../apis/user/users.api";
 import TableComponent from "../../components/ui/TableComponent";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
+import { formatINR } from "../../utils/helper";
 
 const TransactionTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {showLoader, hideLoader} = useAuth();
+    const { showLoader, hideLoader } = useAuth();
 
-    // 🔥 FETCH API
     const fetchTransactions = async () => {
         showLoader();
         try {
             setLoading(true);
-
             const res = await getTransactionHistory();
-            //   console.log("TXN:", res);
-
             if (res?.success) {
                 setData(res?.data || []);
             } else {
@@ -35,76 +32,69 @@ const TransactionTable = () => {
         fetchTransactions();
     }, []);
 
-    // 🔥 COLUMNS (TableComponent ke hisaab se render use karo)
     const columns = useMemo(() => [
         {
             header: "S.No.",
-            render: (_, i) => i + 1,
-
+            render: (_, i) => <span className="font-semibold text-slate-600">{i + 1}</span>,
         },
         {
-            header: "Amount",
+            header: "Amount (INR)",
             render: (row) => (
-                <span className="text-right text-sm font-semibold text-purple-400">
-                    ${Number(row?.amount || 0).toLocaleString("en-IN")}
+                <span className="text-sm font-bold text-sky-600">
+                    {formatINR(row?.amount || 0)}
                 </span>
             ),
         },
         {
-            header: "Type",
+            header: "Transaction Type",
             render: (row) => (
-                <span className="text-blue-400 font-medium">
+                <span className="text-slate-800 font-semibold text-xs bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
                     {row?.type || "N/A"}
                 </span>
             ),
         },
         {
-            header: "Transaction Id",
+            header: "Transaction ID",
             render: (row) => (
-                <span className="text-white text-sm">
+                <span className="text-slate-700 font-mono text-xs">
                     {row?.transactionId || "N/A"}
                 </span>
             ),
         },
         {
-            header: "TransactionDate",
+            header: "Date",
             render: (row) => (
-                <span className="text-gray-300 text-xs">
+                <span className="text-slate-500 text-xs">
                     {row?.transactionDate
                         ? new Date(row.transactionDate).toLocaleDateString("en-IN")
                         : "N/A"}
                 </span>
             ),
         },
-
-
         {
             header: "Status",
             render: (row) => (
                 <span
-                    className={`text-[10px] px-2 py-0.5 rounded-full ${row?.status === "Completed"
-                        ? "bg-green-500/20 text-green-400"
-                        : row?.status === "Pending"
-                            ? "bg-yellow-500/20 text-yellow-400"
-                            : "bg-green-500/20 text-green-400"            // dummy
-                        }`}
+                    className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${
+                        row?.status === "Completed" || row?.status === "Success"
+                            ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+                            : row?.status === "Pending"
+                            ? "bg-amber-100 text-amber-700 border border-amber-200"
+                            : "bg-emerald-100 text-emerald-700 border border-emerald-200"
+                    }`}
                 >
-                    {row?.status || "Active"}
+                    {row?.status || "Success"}
                 </span>
             ),
         },
-
     ], []);
 
     return (
-        <div className="glow-card mt-6">
-
-            {/* HEADER */}
-            <div className="p-4 border-b font-bold border-white/5 text-sm text-[var(--primary)]">
-                TRANSACTION HISTORY
+        <div className="bg-white border border-slate-200 rounded-2xl shadow-xs mt-6 overflow-hidden">
+            <div className="p-4 border-b border-slate-200 font-bold text-sm text-slate-900 bg-slate-50/50">
+                RECENT TRANSACTIONS
             </div>
 
-            {/* TABLE */}
             <div className="p-3">
                 <TableComponent
                     columns={columns}
@@ -115,7 +105,6 @@ const TransactionTable = () => {
                     emptyMessage="No transactions found"
                 />
             </div>
-
         </div>
     );
 };

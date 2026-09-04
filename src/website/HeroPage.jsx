@@ -1,383 +1,195 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import ButtonComponent from "../components/ui/ButtonComponent";
 import { AuthRoutes } from "../constants/routes";
 import { Link } from "react-router-dom";
-
-const PriceCard = ({
-  icon,
-  iconBg,
-  symbol,
-  name,
-  price,
-  change,
-  isUp,
-  bars,
-  delay,
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30, scale: 0.92 }}
-    animate={{ opacity: 1, y: 0, scale: 1 }}
-    transition={{ delay, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-    whileHover={{ scale: 1.05, y: -6 }}
-    className="glass hero-card rounded-3xl p-4 min-w-[190px] pointer-events-auto"
-  >
-    <div className="flex items-center gap-3 mb-3">
-      <div
-        className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-base shadow-lg"
-        style={{ background: iconBg }}
-      >
-        {icon}
-      </div>
-
-      <div className="flex-1">
-        <div className="text-white text-sm font-bold leading-none">
-          {symbol}
-        </div>
-        <div className="text-xs mt-1 text-slate-400">{name}</div>
-      </div>
-
-      <div className="text-right">
-        <div className="text-white text-sm font-bold">{price}</div>
-        <div
-          className={`text-xs font-semibold ${isUp ? "text-emerald-400" : "text-rose-400"
-            }`}
-        >
-          {isUp ? "▲" : "▼"} {change}
-        </div>
-      </div>
-    </div>
-
-    <div className="flex items-end gap-1 h-8 mt-2">
-      {bars.map((h, i) => (
-        <motion.div
-          key={i}
-          className="flex-1 rounded-full"
-          style={{
-            height: `${h}%`,
-            background: isUp
-              ? `linear-gradient(to top, rgba(16,185,129,.25), rgba(74,222,128,.95))`
-              : `linear-gradient(to top, rgba(244,63,94,.25), rgba(251,113,133,.95))`,
-            transformOrigin: "bottom",
-          }}
-          initial={{ scaleY: 0 }}
-          animate={{ scaleY: 1 }}
-          transition={{
-            delay: delay + i * 0.05,
-            duration: 0.45,
-            ease: "easeOut",
-          }}
-        />
-      ))}
-    </div>
-  </motion.div>
-);
-
-const Stat = ({ num, label, delay }) => {
-  const [displayed, setDisplayed] = useState("0");
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const target = parseFloat(num);
-      const suffix = num.replace(/[\d.]/g, "");
-      const duration = 1600;
-      const startTime = performance.now();
-
-      const step = (now) => {
-        const progress = Math.min((now - startTime) / duration, 1);
-        const ease = 1 - Math.pow(1 - progress, 3);
-        const value = target * ease;
-
-        setDisplayed(
-          (Number.isInteger(target) ? Math.round(value) : value.toFixed(1)) +
-          suffix
-        );
-
-        if (progress < 1) requestAnimationFrame(step);
-      };
-
-      requestAnimationFrame(step);
-    }, delay * 1000 + 500);
-
-    return () => clearTimeout(timer);
-  }, [num, delay]);
-
-  return (
-    <motion.div
-      className="text-center"
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay, duration: 0.6 }}
-    >
-      <div className="text-metal text-3xl md:text-4xl font-black">
-        {displayed}
-      </div>
-      <p className="text-[11px] uppercase tracking-[0.22em] text-slate-400 mt-1">
-        {label}
-      </p>
-    </motion.div>
-  );
-};
-
-const Particle = ({ style }) => (
-  <motion.div
-    className="absolute rounded-full"
-    style={style}
-    initial={{ y: "100vh", opacity: 0 }}
-    animate={{ y: -30, opacity: [0, 0.8, 0.45, 0] }}
-    transition={{
-      duration: style.duration,
-      delay: style.delay,
-      repeat: Infinity,
-      ease: "linear",
-    }}
-  />
-);
+import { ShieldCheck, TrendingUp, Zap, ChevronRight, Lock, CheckCircle2 } from "lucide-react";
+import { formatINR } from "../utils/helper";
 
 const HeroPage = () => {
-  const particles = Array.from({ length: 36 }, (_, i) => ({
-    left: `${Math.random() * 100}%`,
-    width: `${1 + Math.random() * 3}px`,
-    height: `${1 + Math.random() * 3}px`,
-    background: i % 2 === 0 ? "#b76e79" : "#7f9ca8",
-    boxShadow:
-      i % 2 === 0
-        ? "0 0 16px rgba(183,110,121,.8)"
-        : "0 0 16px rgba(127,156,168,.8)",
-    duration: 8 + Math.random() * 12,
-    delay: Math.random() * 10,
-  }));
-
-  const cryptos = [
-    {
-      icon: "₿",
-      iconBg: "linear-gradient(135deg,#f59e0b,#d97706)",
-      symbol: "BTC/USDT",
-      name: "Bitcoin",
-      price: "$67,420",
-      change: "2.41%",
-      isUp: true,
-      bars: [28, 48, 34, 72, 60, 88, 68, 96, 77, 55, 33, 88, 44, 3, 33, 55, 22, 99, 44, 88, 99],
-      delay: 0.9,
-    },
-    {
-      icon: "Ξ",
-      iconBg: "linear-gradient(135deg,#7f9ca8,#4f6d7a)",
-      symbol: "ETH/USDT",
-      name: "Ethereum",
-      price: "$3,512",
-      change: "0.87%",
-      isUp: false,
-      bars: [70, 48, 62, 34, 78, 55, 28, 42, 55, 77, 88, 99, 44, 3, 33, 55, 22, 99, 44, 88, 99],
-      delay: 1.05,
-    },
-  ];
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[var(--bg-main)] text-white md:mt-10">
-      {/* 3D GIF Background */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="https://media.giphy.com/media/l0HlNaQ6gWfllcjDO/giphy.gif"
-          alt="3d animated background"
-          className="w-full h-full object-cover opacity-[0.16]"
-        />
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-slate-50 py-16 lg:py-24">
+      {/* BACKGROUND DECORATION */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-sky-200/50 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-100/60 rounded-full blur-[120px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f015_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f015_1px,transparent_1px)] bg-[size:4rem_4rem]" />
       </div>
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 z-[1] bg-[#020617]/88 backdrop-blur-[2px]" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12 items-center">
+        
+        {/* LEFT COLUMN: HERO HEADLINE & CTAS */}
+        <div className="lg:col-span-7 space-y-6 text-left">
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-xs font-semibold"
+          >
+            <span className="w-2 h-2 rounded-full bg-sky-600 animate-pulse" />
+            India's #1 Automated Financial Platform
+          </motion.div>
 
-      {/* Premium Gradient Layers */}
-      <div className="absolute inset-0 z-[2] bg-[radial-gradient(circle_at_25%_20%,rgba(34,211,238,0.35),transparent_35%),radial-gradient(circle_at_75%_75%,rgba(127,156,168,0.32),transparent_38%),radial-gradient(circle_at_50%_45%,rgba(79,109,122,0.22),transparent_48%)]" />
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]"
+          >
+            Grow Your Wealth with{" "}
+            <span className="text-gradient-sky">India's Smartest</span> Investment Platform
+          </motion.h1>
 
-      {/* Grid */}
-      <div className="grid-bg z-[3]" />
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-slate-600 text-base sm:text-lg leading-relaxed max-w-2xl"
+          >
+            Automated high-yield returns calculated directly in <span className="font-semibold text-slate-900">INR (₹)</span>. Backed by AI portfolio allocation, institutional security, and instant bank withdrawals.
+          </motion.p>
 
-      {/* Orbs */}
-      <div className="orb orb-1 z-[4]" />
-      <div className="orb orb-2 z-[4]" />
-      <div className="orb orb-3 z-[4]" />
-
-      {/* Particles */}
-      <div className="absolute inset-0 z-[5] pointer-events-none">
-        {particles.map((p, i) => (
-          <Particle key={i} style={p} />
-        ))}
-      </div>
-
-      {/* Floating Cards */}
-      <div className="absolute inset-0 pointer-events-none z-10 hidden lg:block">
-        <div className="absolute left-8 top-[34%] float-l">
-          <PriceCard {...cryptos[0]} />
-        </div>
-
-        <div className="absolute right-8 top-[40%] float-r">
-          <PriceCard {...cryptos[1]} />
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, x: -25 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.2, duration: 0.7 }}
-          className="glass hero-card absolute left-[10%] top-[14%] rounded-3xl p-4 float-soft"
-        >
-          <p className="text-[11px] uppercase tracking-[0.22em] text-slate-400 mb-1">
-            Market Cap
-          </p>
-          <h3 className="text-2xl font-black text-white">$2.84T</h3>
-          <p className="text-xs text-emerald-400 mt-1">▲ 5.2% today</p>
-        </motion.div>
-
-        {/* <motion.div
-          initial={{ opacity: 0, x: 25 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.35, duration: 0.7 }}
-          className="glass hero-card absolute right-[9%] bottom-[19%] rounded-3xl p-4 float-soft-two"
-        >
-          <p className="text-[11px] uppercase tracking-[0.22em] text-slate-400 mb-3">
-            24h Volume
-          </p>
-
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold bg-gradient-to-br from-violet-400 to-violet-700">
-              ◎
+          {/* BADGES */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="flex flex-wrap gap-4 text-xs font-medium text-slate-600 pt-1"
+          >
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 size={16} className="text-emerald-500" /> Instant INR Bank Payouts
             </div>
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 size={16} className="text-emerald-500" /> Automated AI Trading Bot
+            </div>
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 size={16} className="text-emerald-500" /> Bank-Grade 256-bit Security
+            </div>
+          </motion.div>
 
+          {/* ACTION BUTTONS */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4 pt-3"
+          >
+            <Link to={AuthRoutes.REGISTER}>
+              <ButtonComponent variant="primary" padding="14px 28px">
+                Start Investing Now →
+              </ButtonComponent>
+            </Link>
+
+            <a href="#opportunities">
+              <ButtonComponent variant="outline" padding="14px 28px">
+                Explore Growth Plans
+              </ButtonComponent>
+            </a>
+          </motion.div>
+
+          {/* HERO STATS BAR */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200"
+          >
             <div>
-              <h3 className="text-white text-sm font-bold">184.2 SOL</h3>
-              <p className="text-xs text-slate-400">≈ $32,400</p>
+              <p className="text-2xl font-bold text-slate-900">{formatINR(250000000).split('.')[0]}+</p>
+              <p className="text-xs text-slate-500 mt-0.5">Assets Managed</p>
             </div>
-          </div>
-        </motion.div> */}
-      </div>
-
-      {/* Main Content */}
-      <div className="relative z-20 text-center max-w-5xl mx-auto px-6 py-24">
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 rounded-full px-5 py-2 mb-8 glass badge-glow"
-        >
-          <span className="badge-dot w-2.5 h-2.5 rounded-full bg-[#04d3f3]" />
-          <span className="text-[11px] md:text-xs font-semibold uppercase tracking-[0.24em] text-[#ebeff08e]">
-            Live Trading • $2.84T Market Cap
-          </span>
-        </motion.div>
-
-        <motion.h1
-          className="text-glow text-4xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-        >
-          <motion.span
-            className="block text-white"
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.7 }}
-          >
-            Trade the
-          </motion.span>
-
-          <motion.span
-            className="block text-metal"
-          // initial={{ opacity: 0, y: 35 }}
-          // animate={{ opacity: 1, y: 0 }}
-          // transition={{ delay: 0.35, duration: 0.7 }}
-          >
-            Future of Finance
-          </motion.span>
-
-          <motion.span
-            className="block text-white"
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-          >
-            with Precision
-          </motion.span>
-        </motion.h1>
-
-        <motion.p
-          className="text-base md:text-xl max-w-2xl mx-auto mt-7 mb-10 leading-relaxed text-slate-300/75"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.62, duration: 0.7 }}
-        >
-          Institutional-grade crypto trading powered by real-time data,
-          advanced analytics, and military-level security. Your edge in the
-          decentralized economy.
-        </motion.p>
-
-        <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center mb-14"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.75, duration: 0.6 }}
-        >
-          <Link to={AuthRoutes.REGISTER}>
-            <ButtonComponent variant="neon">
-              Start Trading Free →
-            </ButtonComponent>
-          </Link>
-
-          <ButtonComponent variant="outline">
-            View Live Markets
-          </ButtonComponent>
-        </motion.div>
-
-        <motion.div
-          className="glass stats-box mx-auto max-w-4xl rounded-[32px] px-5 py-6 flex flex-wrap justify-center items-center gap-7 sm:gap-10"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.88, duration: 0.6 }}
-        >
-          {[
-            { num: "48B+", label: "Volume Traded", delay: 0.85 },
-            { num: "2.1M+", label: "Active Traders", delay: 0.95 },
-            { num: "180+", label: "Crypto Assets", delay: 1.05 },
-            { num: "99.9%", label: "Uptime SLA", delay: 1.15 },
-          ].map((s, i, arr) => (
-            <div key={s.label} className="flex items-center gap-7 sm:gap-10">
-              <Stat {...s} />
-
-              {i < arr.length - 1 && (
-                <div className="h-11 w-px hidden sm:block bg-white/10" />
-              )}
+            <div>
+              <p className="text-2xl font-bold text-slate-900">50,000+</p>
+              <p className="text-xs text-slate-500 mt-0.5">Active Investors</p>
             </div>
-          ))}
-        </motion.div>
+            <div>
+              <p className="text-2xl font-bold text-sky-600">18.4%</p>
+              <p className="text-xs text-slate-500 mt-0.5">Avg Annual Yield</p>
+            </div>
+          </motion.div>
 
-        <motion.div
-          className="mt-12 flex flex-col items-center gap-3"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.25, duration: 0.7 }}
-        >
-          <p className="text-[11px] uppercase tracking-[0.25em] text-slate-500">
-            Trusted by traders in 120+ countries
-          </p>
+        </div>
 
-          <div className="flex items-center gap-3">
-            {["🇺🇸", "🇬🇧", "🇯🇵", "🇩🇪", "🇸🇬", "🇦🇺", "🇧🇷"].map(
-              (flag, i) => (
-                <motion.span
-                  key={i}
-                  className="text-xl"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.3 + i * 0.05, duration: 0.3 }}
-                >
-                  {flag}
-                </motion.span>
-              )
-            )}
-          </div>
-        </motion.div>
+        {/* RIGHT COLUMN: PREVIEWS & DASHBOARD METRICS */}
+        <div className="lg:col-span-5 relative">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-white rounded-3xl p-6 shadow-2xl border border-slate-200 space-y-6 relative z-10"
+          >
+            {/* CARD HEADER */}
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div>
+                <span className="text-xs text-slate-400 font-medium">Verified Portfolio</span>
+                <h3 className="text-xl font-bold text-slate-900">{formatINR(125000)}</h3>
+              </div>
+              <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-full flex items-center gap-1">
+                <TrendingUp size={14} /> +2.4% Today
+              </span>
+            </div>
+
+            {/* QUICK STATS IN CARD */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                <p className="text-xs text-slate-500 font-medium">Daily Earnings</p>
+                <p className="text-base font-bold text-emerald-600 mt-0.5">{formatINR(3125)}</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                <p className="text-xs text-slate-500 font-medium">Total ROI Earned</p>
+                <p className="text-base font-bold text-sky-600 mt-0.5">{formatINR(42500)}</p>
+              </div>
+            </div>
+
+            {/* LIVE BOT ACTIVITY PREVIEW */}
+            <div className="space-y-3 pt-1">
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">AI Portfolio Allocations</p>
+
+              <div className="flex items-center justify-between p-3 rounded-xl bg-sky-50/70 border border-sky-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-sky-600 text-white font-bold text-xs flex items-center justify-center">
+                    AI
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-900">Quant Alpha Plan</p>
+                    <p className="text-[11px] text-slate-500">Auto-compounded daily</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs font-bold text-slate-900">{formatINR(75000)}</p>
+                  <p className="text-[10px] text-emerald-600 font-semibold">+1.8% / day</p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold text-xs flex items-center justify-center">
+                    INR
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-900">High-Yield Reserve</p>
+                    <p className="text-[11px] text-slate-500">Instant liquidity</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs font-bold text-slate-900">{formatINR(50000)}</p>
+                  <p className="text-[10px] text-emerald-600 font-semibold">+0.9% / day</p>
+                </div>
+              </div>
+            </div>
+
+            {/* TRUST NOTICE */}
+            <div className="flex items-center justify-between pt-2 text-[11px] text-slate-500 border-t border-slate-100">
+              <span className="flex items-center gap-1"><Lock size={12} className="text-sky-600" /> End-to-end encrypted</span>
+              <span className="font-semibold text-slate-700">BEP-20 Network Supported</span>
+            </div>
+
+          </motion.div>
+        </div>
+
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0 h-px z-30 bg-gradient-to-r from-transparent via-[#35d1ec83] to-transparent" />
     </section>
   );
 };

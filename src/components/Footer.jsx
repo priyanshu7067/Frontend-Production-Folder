@@ -1,81 +1,93 @@
 import React from "react";
-import { MainContent } from "../constants/mainContent";
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import XIcon from '@mui/icons-material/X';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import { Link } from "react-router-dom";
+import { AuthRoutes } from "../constants/routes";
+import { Shield, Lock, Phone, Mail, MapPin } from "lucide-react";
+
 const Footer = () => {
   return (
-    <footer className="bg-black text-gray-300 mt-20 border-t border-gray-800">
+    <footer className="bg-white text-slate-600 pt-16 pb-8 border-t border-slate-200/80">
+      <div className="px-4 sm:px-8 lg:px-12 w-full">
+        
+        {/* MAIN GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-200">
+          
+          {/* BRAND */}
+          <div className="lg:col-span-2 space-y-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-sky-600 flex items-center justify-center font-bold text-lg text-white shadow-md shadow-sky-600/30">
+                ₹
+              </div>
+              <span className="text-xl font-bold tracking-tight text-slate-900">
+                Finor Capital
+              </span>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-500 max-w-sm leading-relaxed">
+              India's premier digital fintech investment platform. Automated high-yield returns, AI portfolio trading, and instant INR bank transfers.
+            </p>
+            <div className="flex items-center gap-4 pt-1 text-xs font-semibold text-slate-600">
+              <span className="flex items-center gap-1.5">
+                <Shield size={14} className="text-sky-600" /> ISO 27001 Certified
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Lock size={14} className="text-sky-600" /> 256-bit Encryption
+              </span>
+            </div>
+          </div>
 
-      {/* 🔥 MAIN GRID */}
-      <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+          {/* QUICK LINKS */}
+          <div>
+            <h3 className="text-slate-900 font-bold mb-4 text-xs uppercase tracking-wider">Investment</h3>
+            <ul className="space-y-2.5 text-xs sm:text-sm font-medium">
+              <li><a href="#plans" className="hover:text-sky-600 transition-colors">Growth Plans</a></li>
+              <li><a href="#services" className="hover:text-sky-600 transition-colors">Automated Yield</a></li>
+              <li><a href="#about" className="hover:text-sky-600 transition-colors">AI Trading Engine</a></li>
+              <li><Link to={AuthRoutes.REGISTER} className="hover:text-sky-600 transition-colors">Create Portfolio</Link></li>
+            </ul>
+          </div>
 
-        {/* 🔥 BRAND */}
-        <div>
-          <img src={MainContent.logo} alt="logo" className="w-20 mb-3" />
-          <p className="text-sm text-gray-400">
-            Build your future with smart shopping & earning platform.
-          </p>
+          {/* COMPANY */}
+          <div>
+            <h3 className="text-slate-900 font-bold mb-4 text-xs uppercase tracking-wider">Company</h3>
+            <ul className="space-y-2.5 text-xs sm:text-sm font-medium">
+              <li><a href="#about" className="hover:text-sky-600 transition-colors">About Finor</a></li>
+              <li><a href="#reviews" className="hover:text-sky-600 transition-colors">Client Reviews</a></li>
+              <li><a href="#faq" className="hover:text-sky-600 transition-colors">FAQ</a></li>
+              <li><Link to={AuthRoutes.LOGIN} className="hover:text-sky-600 transition-colors">Client Login</Link></li>
+            </ul>
+          </div>
+
+          {/* CONTACT INFO */}
+          <div>
+            <h3 className="text-slate-900 font-bold mb-4 text-xs uppercase tracking-wider">Contact Us</h3>
+            <ul className="space-y-3 text-xs sm:text-sm text-slate-600 font-medium">
+              <li className="flex items-center gap-2">
+                <Mail size={15} className="text-sky-600 shrink-0" />
+                <span>support@finor.in</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone size={15} className="text-sky-600 shrink-0" />
+                <span>+91 (1800) 234-5678</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <MapPin size={15} className="text-sky-600 shrink-0 mt-0.5" />
+                <span>BKC, Bandra East, Mumbai, Maharashtra 400051</span>
+              </li>
+            </ul>
+          </div>
+
         </div>
 
-        {/* 🔥 COMPANY */}
-        <div>
-          <h3 className="text-white font-semibold mb-3 text-sm">Company</h3>
-          <ul className="space-y-2 text-sm">
-            <li><a href="#about" className="hover:text-white transition">About</a></li>
-            <li><a href="#contact" className="hover:text-white transition">Contact</a></li>
-            <li><a href="#solution" className="hover:text-white transition">Solution</a></li>
-          </ul>
-        </div>
-
-        {/* 🔥 SUPPORT */}
-        <div>
-          <h3 className="text-white font-semibold mb-3 text-sm">Support</h3>
-          <ul className="space-y-2 text-sm">
-            <li><a href="#faq" className="hover:text-white transition">FAQ</a></li>
-            <li><a href="#policy" className="hover:text-white transition">Privacy Policy</a></li>
-            <li><a href="#terms" className="hover:text-white transition">Terms</a></li>
-          </ul>
-        </div>
-
-        {/* 🔥 SOCIAL */}
-        <div>
-          <h3 className="text-white font-semibold mb-3 text-sm">Follow Us</h3>
-
-          <div className="flex gap-3 flex-wrap">
-
-            <a href="#" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition">
-              <FacebookIcon size={18} />
-            </a>
-
-            <a href="#" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition">
-              <InstagramIcon size={18} />
-            </a>
-
-            <a href="#" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition">
-              <XIcon size={18} />
-            </a>
-
-            <a href="#" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition">
-              <LinkedInIcon size={18} />
-            </a>
-
-            <a href="#" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition">
-              <YouTubeIcon size={18} />
-            </a>
-
+        {/* BOTTOM */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-500">
+          <p>© {new Date().getFullYear()} Finor Capital India. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <span className="hover:text-slate-900 cursor-pointer">Privacy Policy</span>
+            <span className="hover:text-slate-900 cursor-pointer">Terms of Service</span>
+            <span className="hover:text-slate-900 cursor-pointer">Risk Disclosure</span>
           </div>
         </div>
 
       </div>
-
-      {/* 🔥 BOTTOM */}
-      <div className="border-t border-gray-800 text-center py-4 text-xs text-gray-500">
-        © {new Date().getFullYear()} YourBrand. All rights reserved.
-      </div>
-
     </footer>
   );
 };

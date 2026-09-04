@@ -1,43 +1,45 @@
 import React from "react";
-import { Search, Bell } from "lucide-react";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
-import { IconButton, Avatar, Box, Typography, Chip } from "@mui/material";
+import { Bell } from "lucide-react";
+import { IconButton, Avatar, Box, Typography } from "@mui/material";
 import gif from "../../assets/spin.gif";
 import { useAuth } from "../../context/AuthContext";
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar';
+import { formatINR } from "../../utils/helper";
+
 const DashboardHeader = ({ role, setOpen }) => {
-  const {user} = useAuth();
-  // console.log(user, "gfayuehg")
+  const { user } = useAuth();
+
   return (
-    <header className="h-14  bg-[#020617]/90 backdrop-blur-md border-b border-[#076b7c] flex items-center justify-between px-1 md:px-4">
-      {/* 🔥 LEFT */}
+    <header className="h-16 bg-white border-b border-slate-200 shadow-xs flex items-center justify-between px-3 md:px-6 sticky top-0 z-30">
+      {/* LEFT */}
       <div className="flex items-center gap-3">
-        {/* Sidebar Toggle (MUI) */}
         <IconButton
           onClick={() => setOpen((prev) => !prev)}
           sx={{
-            color: "#11c4a9",
-            "&:hover": { backgroundColor: "rgba(255,255,255,0.08)" },
+            color: "#0284c7",
+            "&:hover": { backgroundColor: "#f0f9ff" },
           }}
         >
           <ViewSidebarIcon fontSize="medium" />
         </IconButton>
 
-        {/* Title */}
         <div className="flex flex-col leading-tight">
-          <span className="text-sm text-gray-200">
-            {role === "admin" ? "Admin Panel" : "Dashboard"}
+          <span className="text-sm font-bold text-slate-900">
+            {role === "admin" ? "Admin Management" : "Finor Dashboard"}
+          </span>
+          <span className="text-[11px] text-slate-500 font-medium">
+            Welcome back, {user?.name || user?.email || "Investor"}
           </span>
         </div>
       </div>
 
-      {/* 🔥 RIGHT (MUI BASED) */}
+      {/* RIGHT */}
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           flexDirection: "row",
-          gap: 1,
+          gap: 1.5,
           height: 40,
           flexShrink: 0,
         }}
@@ -46,77 +48,76 @@ const DashboardHeader = ({ role, setOpen }) => {
           size="small"
           sx={{
             position: "relative",
-            color: "#9CA3AF",
-            height: 36,
-            width: 36,
-            "&:hover": { backgroundColor: "rgba(255,255,255,0.08)" },
+            color: "#64748b",
+            height: 38,
+            width: 38,
+            backgroundColor: "#f8fafc",
+            border: "1px solid #e2e8f0",
+            "&:hover": { backgroundColor: "#f0f9ff", color: "#0284c7" },
           }}
         >
           <Bell size={18} />
-
           <Box
             sx={{
               position: "absolute",
-              top: 6,
-              right: 6,
+              top: 8,
+              right: 8,
               width: 6,
               height: 6,
-              backgroundColor: "#22c55e",
+              backgroundColor: "#10b981",
               borderRadius: "50%",
             }}
           />
         </IconButton>
 
+        {/* INR EARNINGS WALLET BADGE */}
         <Box
-          gap={1}
           sx={{
-            height: 32,
+            height: 36,
             px: 1.5,
-            borderRadius: "999px",
-            background: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            backdropFilter: "blur(6px)",
+            borderRadius: "12px",
+            backgroundColor: "#f0f9ff",
+            border: "1px solid #bae6fd",
             display: "flex",
             alignItems: "center",
             gap: 1,
           }}
         >
-          <Avatar src={gif} alt="wallet" sx={{ width: 18, height: 18 }} />
+          <div className="w-5 h-5 rounded-full bg-sky-600 text-white font-bold text-[10px] flex items-center justify-center">
+            ₹
+          </div>
 
           <Typography
             sx={{
-              fontSize: "12px",
-              color: "#E5E7EB",
-              fontWeight: 500,
+              fontSize: "13px",
+              color: "#0f172a",
+              fontWeight: 700,
             }}
           >
-            ${user?.wallets?.earningsWallet?.toFixed(4) || 0}
+            {formatINR(user?.wallets?.earningsWallet || 0)}
           </Typography>
         </Box>
+
+        {/* USER AVATAR */}
         <Avatar
           sx={{
-            width: 32,
-            height: 32,
-            fontSize: 12,
+            width: 36,
+            height: 36,
+            fontSize: 13,
             fontWeight: "bold",
-
-            background:
-              "linear-gradient(135deg, var(--primary-dark), var(--primary), #67e8f9)",
-              border: "1px solid rgba(34, 211, 238, 0.4)",
-backdropFilter: "blur(4px)",
-
-            color: "#000",
+            background: "linear-gradient(135deg, #0284c7, #0ea5e9)",
+            border: "2px solid #ffffff",
+            boxShadow: "0 2px 8px rgba(2, 132, 199, 0.2)",
+            color: "#ffffff",
             cursor: "pointer",
-            transition: "all 0.25s ease",
-
+            transition: "all 0.2s ease",
             "&:hover": {
-              transform: "scale(1.08)",
-              boxShadow: "0 0 14px var(--primary-glow)",
+              transform: "scale(1.05)",
             },
           }}
           src={user?.kyc?.memberPhoto?.imageUrl}
         >
-          U
+          {user?.name?.[0] || "U"}
         </Avatar>
       </Box>
     </header>

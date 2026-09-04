@@ -4,6 +4,8 @@ import { transferToEarnings } from "../../apis/user/users.api";
 import ReusableInput from "../../components/global/ReusableInput";
 import ButtonComponent from "../../components/ui/ButtonComponent";
 import { useAuth } from "../../context/AuthContext";
+import { formatINR } from "../../utils/helper";
+import { ArrowRightLeft, Wallet } from "lucide-react";
 
 const WalletTransfer = () => {
   const { user, refreshUser, showLoader, hideLoader } = useAuth();
@@ -14,55 +16,46 @@ const WalletTransfer = () => {
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // 🔥 VALIDATION
   const validate = () => {
     if (!amount) {
-      toast.error("Enter amount");
+      toast.error("Please enter transfer amount");
       return false;
     }
 
     const num = Number(amount);
 
     if (isNaN(num) || num <= 0) {
-      toast.error("Invalid amount");
-      return false;
-    }
-
-    if (num < 1) {
-      toast.error("Minimum transfer is 1");
+      toast.error("Please enter a valid amount");
       return false;
     }
 
     if (num > principal) {
-      toast.error("Insufficient principal balance");
+      toast.error("Insufficient principal wallet balance");
       return false;
     }
 
     return true;
   };
 
-  // 🔥 HANDLE TRANSFER
   const handleTransfer = async () => {
     if (!validate()) return;
 
     showLoader();
-
     try {
       setLoading(true);
-
       const res = await transferToEarnings({
         amount: Number(amount),
       });
 
       if (res?.success) {
-        toast.success("Transfer successful 🚀");
+        toast.success("Funds transferred successfully 🚀");
         refreshUser();
         setAmount("");
       } else {
         toast.error(res?.message || "Transfer failed");
       }
     } catch (err) {
-      toast.error(err.message);
+      toast.error(err.message || "Something went wrong");
     } finally {
       setLoading(false);
       hideLoader();
@@ -70,69 +63,76 @@ const WalletTransfer = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10">
-      <div
-        className="
-        bg-[rgba(2,6,23,0.7)]
-        border border-[#22d3ee]/20
-        rounded-xl p-6
-        shadow-[0_0_20px_rgba(34,211,238,0.1)]
-      "
-      >
-        {/* TITLE */}
-        <h2 className="text-xl font-semibold text-[#22d3ee] mb-6">
-          Transfer to Earnings Wallet
-        </h2>
+    <div className="max-w-xl mx-auto py-8">
+      <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
+        
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
+            <ArrowRightLeft size={20} />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-slate-900">
+              Transfer to Earnings Wallet
+            </h2>
+            <p className="text-xs text-slate-500">Internal balance allocation</p>
+          </div>
+        </div>
 
         {/* BALANCES */}
-        <div className="flex justify-between mb-6 text-sm">
+        <div className="grid grid-cols-2 gap-4 mb-6 p-4 rounded-2xl bg-slate-50 border border-slate-100">
           <div>
-            <p className="text-gray-400">Principal Wallet</p>
-            <p className="text-white font-semibold">
-              {principal.toFixed(2)} USDT
+            <p className="text-xs font-semibold text-slate-500">Principal Wallet</p>
+            <p className="text-lg font-bold text-slate-900 mt-0.5">
+              {formatINR(principal)}
             </p>
           </div>
 
           <div>
-            <p className="text-gray-400">Earnings Wallet</p>
-            <p className="text-[#22d3ee] font-semibold">
-              {earnings.toFixed(2)} USDT
+            <p className="text-xs font-semibold text-slate-500">Earnings Wallet</p>
+            <p className="text-lg font-bold text-sky-600 mt-0.5">
+              {formatINR(earnings)}
             </p>
           </div>
         </div>
 
         {/* INPUT */}
-        <ReusableInput
-          label="Enter Amount"
-          type="number"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
+        <div className="space-y-2">
+          <ReusableInput
+            label="Transfer Amount (INR)"
+            type="number"
+            placeholder="Enter amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
 
-        {/* QUICK BUTTON */}
-        <button
-          onClick={() => setAmount(principal)}
-          className="
-            text-xs mt-2 text-[#22d3ee]
-            hover:underline cursor-pointer
-          "
-        >
-          Use full balance
-        </button>
+          <div className="flex justify-end">
+            <button
+              onClick={() => setAmount(principal)}
+              className="text-xs font-bold text-sky-600 hover:underline cursor-pointer"
+            >
+              Use Max Balance
+            </button>
+          </div>
+        </div>
 
         {/* ACTION */}
         <div className="mt-6">
-          <ButtonComponent variant="neon" fullWidth onClick={handleTransfer}>
-            {loading ? "Processing..." : "Transfer"}
+          <ButtonComponent
+            variant="primary"
+            fullWidth
+            disabled={loading}
+            onClick={handleTransfer}
+          >
+            {loading ? "Transferring..." : "Confirm Internal Transfer →"}
           </ButtonComponent>
         </div>
 
         {/* INFO */}
-        <div className="mt-4 text-xs text-gray-400 space-y-1">
-          <p>• Transfer is instant</p>
-          <p>• Minimum transfer: 1 USDT</p>
-          <p>• No fees applied</p>
+        <div className="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-500 space-y-1">
+          <p>• Internal transfers execute instantly without delay.</p>
+          <p>• Zero processing fees applied for wallet conversion.</p>
         </div>
+
       </div>
     </div>
   );

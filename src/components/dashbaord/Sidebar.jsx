@@ -24,6 +24,7 @@ import {
   BanknoteArrowUp,
   Wallet2Icon,
   RouteOff,
+  ChevronDown,
 } from "lucide-react";
 
 import { sidebarMenu } from "../../constants/sidebarMenu";
@@ -33,7 +34,6 @@ import {
   iconStyles,
   textStyles,
 } from "../../styles/sidebarStyles";
-import { ChevronDown } from "lucide-react";
 import Collapse from "@mui/material/Collapse";
 import { MainContent } from "../../constants/mainContent";
 import { useAuth } from "../../context/AuthContext";
@@ -69,11 +69,6 @@ const Sidebar = ({ open, setOpen }) => {
   const role = user?.role === "admin" ? "admin" : "user";
   const menu = sidebarMenu[role] || [];
 
-  // const handleLogout = () => {
-  //   localStorage.clear();
-  //   navigate("/login");
-  // };
-
   return (
     <Drawer
       variant={isMobile ? "temporary" : "permanent"}
@@ -82,29 +77,35 @@ const Sidebar = ({ open, setOpen }) => {
       sx={drawerStyles(open)}
       ModalProps={{ keepMounted: true }}
     >
-      {/* 🔥 FULL HEIGHT FLEX */}
-      <Box className="flex flex-col h-full">
-        {/* 🔥 TOP */}
-        <div className="px-4 py-3 flex items-center justify-center border-r border-[#076b7c]" >
-          <img
-            src={MainContent.logo}
-            alt="logo"
-            className={`${open ? "h-16" : "h-8"} object-contain`}
-          />
+      <Box className="flex flex-col h-full bg-white text-slate-900 border-r border-slate-200">
+        
+        {/* LOGO BRAND HEADER */}
+        <div className="px-4 py-4 flex items-center justify-between border-b border-slate-100">
+          <div
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2.5 cursor-pointer"
+          >
+            <div className="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center font-bold text-base text-white shadow-xs">
+              ₹
+            </div>
+            {open && (
+              <span className="text-lg font-bold tracking-tight text-slate-900">
+                Finor Capital
+              </span>
+            )}
+          </div>
         </div>
 
-        {/* 🔥 MENU */}
-        <List className="flex-1 overflow-y-auto no-scrollbar  border-r  border-[#076b7c]">
+        {/* NAVIGATION LIST */}
+        <List className="flex-1 overflow-y-auto no-scrollbar py-2">
           {menu.map((item, i) => {
             const isChild = Array.isArray(item.children);
-             const isOpen = openMenu === item.name;
-
+            const isOpen = openMenu === item.name;
             const isActive =
               (location.pathname.split("/")[2] || location.pathname) === item.path;
 
             return (
               <Box key={i}>
-                {/* 🔥 PARENT ITEM */}
                 <Tooltip title={!open ? item.name : ""} placement="right">
                   <ListItemButton
                     onClick={() => {
@@ -128,13 +129,12 @@ const Sidebar = ({ open, setOpen }) => {
                           sx={textStyles(isActive)}
                         />
 
-                        {/* 🔥 DROPDOWN ICON */}
                         {isChild && (
                           <ChevronDown
                             size={16}
                             style={{
-                              transition: "0.3s",
-                              color: "#9CA3AF",
+                              transition: "0.2s",
+                              color: "#64748b",
                               transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
                             }}
                           />
@@ -144,12 +144,13 @@ const Sidebar = ({ open, setOpen }) => {
                   </ListItemButton>
                 </Tooltip>
 
-                {/* 🔥 CHILDREN */}
                 {isChild && open && (
                   <Collapse in={isOpen} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                       {item.children.map((child, idx) => {
-                        const childActive = (location.pathname.split("/")[2] || location.pathname) === child.path;
+                        const childActive =
+                          (location.pathname.split("/")[2] || location.pathname) ===
+                          child.path;
 
                         return (
                           <ListItemButton
@@ -159,19 +160,14 @@ const Sidebar = ({ open, setOpen }) => {
                               if (isMobile) setOpen(false);
                             }}
                             sx={{
-                              ml: open ? 5 : 2,
-                              py: 0.5,
-                              mr: 2,
-                              // mx: 1,
-                              border: childActive ? "1px solid rgba(34, 211, 238, 0.35)" : "none",
-                              // width: "fit-content",
+                              ml: 4.5,
+                              mr: 1.5,
+                              my: 0.3,
+                              py: 0.8,
                               borderRadius: "10px",
-                              background: childActive
-                                ? "linear-gradient(90deg, rgba(34, 211, 238, 0.35), transparent)"
-                                : "transparent",
-
+                              backgroundColor: childActive ? "#e0f2fe" : "transparent",
                               "&:hover": {
-                                background: "rgba(255,255,255,0.05)",
+                                backgroundColor: "#f0f9ff",
                               },
                             }}
                           >
@@ -180,7 +176,8 @@ const Sidebar = ({ open, setOpen }) => {
                               sx={{
                                 "& .MuiTypography-root": {
                                   fontSize: "12px",
-                                  color: childActive ? "#fff" : "#9CA3AF",
+                                  fontWeight: childActive ? 600 : 400,
+                                  color: childActive ? "#0284c7" : "#475569",
                                 },
                               }}
                             />
@@ -195,24 +192,21 @@ const Sidebar = ({ open, setOpen }) => {
           })}
         </List>
 
-        {/* 🔥 DIVIDER */}
-        <Divider sx={{ borderColor: "rgba(255,255,255,0.08)" }} />
+        <Divider sx={{ borderColor: "#e2e8f0" }} />
 
-        {/* 🔥 LOGOUT */}
-        <Box className="p-2 border-r border-[#076b7c]">
+        {/* LOGOUT BUTTON */}
+        <Box className="p-2">
           <Tooltip title={!open ? "Logout" : ""} placement="right">
             <ListItemButton
               onClick={() => logout()}
               sx={{
                 mx: 1,
                 my: 0.5,
-                borderRadius: "12px",
+                borderRadius: "10px",
                 display: "flex",
                 justifyContent: open ? "flex-start" : "center",
-
                 "&:hover": {
-                  background:
-                    "linear-gradient(90deg, rgba(183,110,121,0.15), rgba(127,156,168,0.15))",
+                  backgroundColor: "#fef2f2",
                 },
               }}
             >
@@ -221,7 +215,7 @@ const Sidebar = ({ open, setOpen }) => {
                   minWidth: 0,
                   mr: open ? 2 : 0,
                   justifyContent: "center",
-                  color: "#f87171", // 🔥 subtle red
+                  color: "#ef4444",
                 }}
               >
                 <LogOut size={18} />
@@ -233,8 +227,8 @@ const Sidebar = ({ open, setOpen }) => {
                   sx={{
                     "& .MuiTypography-root": {
                       fontSize: "13px",
-                      fontWeight: 500,
-                      color: "#f87171",
+                      fontWeight: 600,
+                      color: "#ef4444",
                     },
                   }}
                 />
@@ -242,6 +236,7 @@ const Sidebar = ({ open, setOpen }) => {
             </ListItemButton>
           </Tooltip>
         </Box>
+
       </Box>
     </Drawer>
   );

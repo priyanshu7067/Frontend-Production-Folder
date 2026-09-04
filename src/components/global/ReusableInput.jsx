@@ -15,7 +15,7 @@ const ReusableInput = ({
   error = false,
   helperText = "",
   startIcon = null,
-  options = [], // for select
+  options = [],
   multiline = false,
   rows = 3,
   fullWidth = true,
@@ -23,7 +23,6 @@ const ReusableInput = ({
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
-
   const isPassword = type === "password";
   const inputType = isPassword ? (showPassword ? "text" : "password") : type;
 
@@ -46,88 +45,63 @@ const ReusableInput = ({
       size="small"
       sx={{
         width: "100%",
-
-        /* ✅ Input text */
         "& .MuiInputBase-input": {
-          color: "#ffffff",
-          fontSize: "12px",
+          color: "#0f172a",
+          fontSize: "13px",
         },
-
-        /* 🔒 Disabled input text */
         "& .MuiInputBase-input.Mui-disabled": {
           color: "#64748b",
           WebkitTextFillColor: "#64748b",
-          fontSize: "12px",
+          fontSize: "13px",
         },
-
-        /* ✅ Label */
         "& .MuiInputLabel-root": {
-          color: "#94a3b8",
-          fontSize: "12px",
+          color: "#64748b",
+          fontSize: "13px",
         },
-
         "& .MuiInputLabel-root.Mui-focused": {
-          color: "#22d3ee",
+          color: error ? "#ef4444" : "#0284c7",
         },
-
-        /* 🔒 Disabled label */
         "& .MuiInputLabel-root.Mui-disabled": {
-          color: "#475569",
-          fontSize: "12px",
+          color: "#94a3b8",
+          fontSize: "13px",
         },
-
-        /* ✅ Border */
         "& .MuiOutlinedInput-root": {
+          borderRadius: "10px",
+          backgroundColor: "#ffffff",
           "& fieldset": {
-            borderColor: "rgba(255,255,255,0.2)",
+            borderColor: error ? "#ef4444" : "#e2e8f0",
           },
-
           "&:hover fieldset": {
-            borderColor: "#22d3ee",
+            borderColor: error ? "#ef4444" : "#0284c7",
           },
-
           "&.Mui-focused fieldset": {
-            borderColor: "#22d3ee",
+            borderColor: error ? "#ef4444" : "#0284c7",
           },
-
           "&.Mui-disabled fieldset": {
-            borderColor: "rgba(100,116,139,0.3)",
+            borderColor: "#cbd5e1",
           },
         },
-
-        /* 🔒 Disabled background */
         "& .MuiOutlinedInput-root.Mui-disabled": {
-          background: "rgba(100,116,139,0.08)",
+          background: "#f8fafc",
         },
-
-        /* ✅ Placeholder */
         "& .MuiInputBase-input::placeholder": {
-          color: "#64748b",
+          color: "#94a3b8",
           opacity: 1,
-          fontSize: "12px",
+          fontSize: "13px",
         },
-
-        /* ✅ Dropdown text */
         "& .MuiSelect-select": {
-          fontSize: "12px",
+          fontSize: "13px",
         },
-
-        /* 🔒 Disabled icons */
         "& .MuiSvgIcon-root": {
-          fontSize: "16px",
-        },
-
-        "& .MuiSvgIcon-root.Mui-disabled": {
+          fontSize: "18px",
           color: "#64748b",
         },
-
         ...sx,
       }}
       InputProps={{
         startAdornment: startIcon ? (
           <InputAdornment position="start">{startIcon}</InputAdornment>
         ) : null,
-
         endAdornment: isPassword ? (
           <InputAdornment position="end">
             <IconButton

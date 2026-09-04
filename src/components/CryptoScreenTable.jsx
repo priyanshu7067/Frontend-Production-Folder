@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  ResponsiveContainer,
-  Area,
-  AreaChart,
-} from "recharts";
+import { ResponsiveContainer, Area, AreaChart } from "recharts";
 
 const CryptoScreenTable = ({ tokens = [], loading = false }) => {
   const [timeframe, setTimeframe] = useState("24h");
@@ -36,26 +32,25 @@ const CryptoScreenTable = ({ tokens = [], loading = false }) => {
   };
 
   return (
-    <div className="glow-card overflow-hidden border border-white/5 bg-[#0b0e11]">
-
+    <div className="bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
       {/* HEADER */}
-      <div className="flex flex-col lg:flex-row justify-between p-4 gap-4 border-b border-white/5">
+      <div className="flex flex-col sm:flex-row justify-between items-center p-4 gap-4 border-b border-slate-200 bg-slate-50/50">
         <div>
-          <p className="text-sm font-semibold text-[var(--primary)]">
-            TOP CRYPTOCURRENCY
+          <p className="text-xs font-bold uppercase tracking-wider text-sky-600">
+            Market Data Overview (BEP-20 / Crypto Assets)
           </p>
         </div>
 
-        {/* TIMEFRAME */}
-        <div className="flex gap-2 bg-black/40 p-1 rounded-lg border border-white/10">
+        {/* TIMEFRAME TOGGLE */}
+        <div className="flex gap-1 bg-white p-1 rounded-xl border border-slate-200">
           {["1h", "24h", "7D"].map((t) => (
             <button
               key={t}
               onClick={() => setTimeframe(t)}
-              className={`px-3 py-1 text-[11px] rounded-md ${
+              className={`px-3 py-1 text-xs font-bold rounded-lg transition-colors ${
                 timeframe === t
-                  ? "bg-[#1e293b] text-[var(--primary)] border border-[var(--primary)]/30"
-                  : "text-gray-500 hover:text-white"
+                  ? "bg-sky-600 text-white shadow-xs"
+                  : "text-slate-500 hover:text-slate-900"
               }`}
             >
               {t}
@@ -66,28 +61,27 @@ const CryptoScreenTable = ({ tokens = [], loading = false }) => {
 
       {/* TABLE */}
       <div className="overflow-x-auto">
-        <table className="w-full  text-left">
-
-          <thead className="bg-[#111418] border-l border-r">
-            <tr className="text-[10px] uppercase text-gray-100 border-b border-white/5">
-              <th className="px-6 py-4">Token</th>
-              <th className="px-6 py-4 text-right">Volume</th>
-              <th className="px-6 py-4 text-right">Price</th>
-              <th className="px-6 py-4 text-right">Change</th>
-              <th className="px-10 py-4">7D Chart</th>
+        <table className="w-full text-left text-sm text-slate-700">
+          <thead className="bg-slate-50 border-b border-slate-200">
+            <tr className="text-xs uppercase font-bold text-slate-900">
+              <th className="px-6 py-3.5">Asset</th>
+              <th className="px-6 py-3.5 text-right">Volume</th>
+              <th className="px-6 py-3.5 text-right">Price</th>
+              <th className="px-6 py-3.5 text-right">Change</th>
+              <th className="px-6 py-3.5">Trend</th>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="divide-y divide-slate-100">
             {loading ? (
               <tr>
-                <td colSpan="5" className="text-center py-8 text-gray-400">
-                  Loading...
+                <td colSpan="5" className="text-center py-8 text-slate-400">
+                  Loading market data...
                 </td>
               </tr>
             ) : tokens.length === 0 ? (
               <tr>
-                <td colSpan="5" className="text-center py-8 text-gray-500">
+                <td colSpan="5" className="text-center py-8 text-slate-400">
                   No data available
                 </td>
               </tr>
@@ -97,37 +91,34 @@ const CryptoScreenTable = ({ tokens = [], loading = false }) => {
                 const isPositive = change >= 0;
 
                 return (
-                  <tr key={coin.id} className="hover:bg-white/[0.03]">
-
+                  <tr key={coin.id} className="hover:bg-sky-50/40 transition-colors">
                     {/* TOKEN */}
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <img src={coin?.image} className="w-7 h-7" />
+                        <img src={coin?.image} alt={coin.name} className="w-7 h-7" />
                         <div>
-                          <p className="text-sm font-bold text-white uppercase">
+                          <p className="text-sm font-bold text-slate-900 uppercase">
                             {coin.symbol}
                           </p>
-                          <p className="text-[10px] text-gray-400">
-                            {coin.name}
-                          </p>
+                          <p className="text-[11px] text-slate-500">{coin.name}</p>
                         </div>
                       </div>
                     </td>
 
                     {/* VOLUME */}
-                    <td className="px-6 py-4 text-right text-white">
+                    <td className="px-6 py-4 text-right font-medium text-slate-700">
                       {formatCurrency(coin.total_volume)}
                     </td>
 
                     {/* PRICE */}
-                    <td className="px-6 py-4 text-right text-white font-semibold">
-                      ${coin.current_price.toLocaleString()}
+                    <td className="px-6 py-4 text-right font-bold text-slate-900">
+                      ${coin.current_price?.toLocaleString()}
                     </td>
 
                     {/* CHANGE */}
                     <td
                       className={`px-6 py-4 text-right text-xs font-bold ${
-                        isPositive ? "text-green-400" : "text-red-400"
+                        isPositive ? "text-emerald-600" : "text-rose-500"
                       }`}
                     >
                       {isPositive ? "+" : ""}
@@ -136,29 +127,27 @@ const CryptoScreenTable = ({ tokens = [], loading = false }) => {
 
                     {/* CHART */}
                     <td className="px-6 py-4">
-                      <div className="w-32 h-14">
+                      <div className="w-28 h-10">
                         <ResponsiveContainer width="100%" height="100%">
                           <AreaChart data={generateWaveData(coin.current_price)}>
                             <Area
                               type="monotone"
                               dataKey="value"
-                              stroke={isPositive ? "#22c55e" : "#ef4444"}
+                              stroke={isPositive ? "#10b981" : "#f43f5e"}
                               strokeWidth={2}
-                              fillOpacity={0.2}
-                              fill={isPositive ? "#22c55e" : "#ef4444"}
+                              fillOpacity={0.15}
+                              fill={isPositive ? "#10b981" : "#f43f5e"}
                               dot={false}
                             />
                           </AreaChart>
                         </ResponsiveContainer>
                       </div>
                     </td>
-
                   </tr>
                 );
               })
             )}
           </tbody>
-
         </table>
       </div>
     </div>

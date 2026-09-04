@@ -5,8 +5,8 @@ export const sidebarMenu = {
   user: [
     { name: "Dashboard", path: UserRoutes.DASHBOARD, icon: "dashboard" },
     { name: "All Incomes", path: UserRoutes.INCOME_CARDS, icon: "income" },
-    { name: "Live Pricing", path: UserRoutes.LIVE_PRICING, icon: "live" },
-    { name: "AI Trading Bot", path: UserRoutes.TRADING_BOT, icon: "bot" },
+    // { name: "Live Pricing", path: UserRoutes.LIVE_PRICING, icon: "live" },
+    // { name: "AI Trading Bot", path: UserRoutes.TRADING_BOT, icon: "bot" },
     {
       name: "Wallet Fund Transfer",
       icon: "Wallet",

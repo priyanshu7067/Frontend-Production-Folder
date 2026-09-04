@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import img from "../../assets/notfound.jpg";
+
 const TableComponent = ({
   columns = [],
   data = [],
@@ -14,7 +15,6 @@ const TableComponent = ({
   const [searchInput, setSearchInput] = useState("");
   const [isMobile, setIsMobile] = useState(false);
 
-  /* -------------------- SCREEN SIZE -------------------- */
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 640);
     check();
@@ -22,7 +22,6 @@ const TableComponent = ({
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  /* -------------------- SEARCH -------------------- */
   const filteredData = useMemo(() => {
     if (!searchInput.trim()) return safeData;
     const term = searchInput.toLowerCase();
@@ -30,13 +29,9 @@ const TableComponent = ({
     return safeData.filter((row) =>
       Object.values(row).some((value) => {
         if (value === null || value === undefined) return false;
-
-        if (typeof value === "string")
-          return value.toLowerCase().includes(term);
-
+        if (typeof value === "string") return value.toLowerCase().includes(term);
         if (typeof value === "number" || typeof value === "boolean")
           return String(value).includes(term);
-
         if (typeof value === "object") {
           try {
             return JSON.stringify(value).toLowerCase().includes(term);
@@ -45,11 +40,10 @@ const TableComponent = ({
           }
         }
         return false;
-      }),
+      })
     );
   }, [safeData, searchInput]);
 
-  /* -------------------- PAGINATION -------------------- */
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
 
   const paginatedData = useMemo(() => {
@@ -57,18 +51,12 @@ const TableComponent = ({
     return filteredData.slice(start, start + rowsPerPage);
   }, [filteredData, currentPage, rowsPerPage]);
 
-  const startRecord =
-    filteredData.length === 0 ? 0 : (currentPage - 1) * rowsPerPage + 1;
-
+  const startRecord = filteredData.length === 0 ? 0 : (currentPage - 1) * rowsPerPage + 1;
   const endRecord = Math.min(currentPage * rowsPerPage, filteredData.length);
 
-  /* -------------------- PAGINATION RANGE -------------------- */
   const getPaginationRange = () => {
     if (totalPages <= 1) return [1];
-
-    if (isMobile) {
-      return [currentPage]; // ✅ only current page
-    }
+    if (isMobile) return [currentPage];
 
     const range = [];
     const delta = 2;
@@ -90,39 +78,30 @@ const TableComponent = ({
     return range;
   };
 
-  /* -------------------- LOADING -------------------- */
   if (loading) {
     return (
-      <div className="bg-gray-900 rounded-2xl shadow p-6 space-y-4">
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-xs">
         {[...Array(5)].map((_, i) => (
-          <div key={i} className="h-10 bg-[#22d3ee]/10 rounded animate-pulse" />
+          <div key={i} className="h-10 bg-slate-100 rounded animate-pulse" />
         ))}
       </div>
     );
   }
 
   return (
-    <div
-      className="
-  bg-[rgba(2,6,23,0.85)]
-  border border-[#22d3ee]/15
-  rounded-2xl
-  shadow-[0_0_25px_rgba(0,0,0,0.7)]
-  backdrop-blur-xl
-  overflow-hidden
-"
-    >
-      {/* SEARCH */}
+    <div className="bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
+      
+      {/* SEARCH BAR */}
       {searchable && (
-        <div className="p-4 border-b border-white/10 bg-white/5">
+        <div className="p-4 border-b border-slate-200 bg-slate-50/50">
           <div className="relative max-w-sm">
             <SearchIcon
               sx={{
                 position: "absolute",
                 left: 10,
-                top: 8,
+                top: 9,
                 fontSize: 18,
-                color: "#22d3ee",
+                color: "#64748b",
               }}
             />
             <input
@@ -131,25 +110,22 @@ const TableComponent = ({
                 setSearchInput(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="Search..."
-              className="w-full pl-9 pr-3 py-2 rounded-lg 
-            bg-black/40 border border-white/10 text-white text-sm
-            focus:ring-2 focus:ring-[#22d3ee] focus:border-[#22d3ee]
-            placeholder:text-gray-400"
+              placeholder="Search records..."
+              className="w-full pl-9 pr-3 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 placeholder:text-slate-400 outline-none"
             />
           </div>
         </div>
       )}
 
       {/* TABLE */}
-      <div className="overflow-x-auto hide-scrollbar">
-        <table className="w-full min-w-[900px] text-sm text-gray-300">
-          <thead className="bg-white/5 border-b border-white/10">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[800px] text-sm text-slate-700">
+          <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
               {columns.map((col, i) => (
                 <th
                   key={i}
-                  className="px-4 py-3 text-left font-semibold text-[#22d3ee] tracking-wide text-nowrap"
+                  className="px-4 py-3.5 text-left font-bold text-slate-900 tracking-wide whitespace-nowrap"
                 >
                   {col.header}
                 </th>
@@ -157,21 +133,18 @@ const TableComponent = ({
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="divide-y divide-slate-100">
             {paginatedData.length ? (
               paginatedData.map((row, rowIndex) => (
                 <tr
                   key={row._id || rowIndex}
-                  className="border-b border-white/5 hover:bg-[#22d3ee]/5 transition"
+                  className="hover:bg-sky-50/40 transition-colors"
                 >
                   {columns.map((col, colIndex) => (
-                    <td key={colIndex} className="px-4 py-3 whitespace-nowrap">
+                    <td key={colIndex} className="px-4 py-3.5 whitespace-nowrap">
                       {col.render
-                        ? col.render(
-                            row,
-                            (currentPage - 1) * rowsPerPage + rowIndex,
-                          )
-                        : (row[col.accessor] ?? "-")}
+                        ? col.render(row, (currentPage - 1) * rowsPerPage + rowIndex)
+                        : row[col.accessor] ?? "-"}
                     </td>
                   ))}
                 </tr>
@@ -181,11 +154,11 @@ const TableComponent = ({
                 <td colSpan={columns.length}>
                   <div className="flex flex-col items-center justify-center py-12">
                     <img
-                      src={img}
+                      src="https://cdn-icons-png.flaticon.com/128/16504/16504070.png"
                       alt="No data"
-                      className="w-40 h-40 object-contain mb-4 opacity-70"
+                      className="w-20 h-15 object-contain mb-3 opacity-60"
                     />
-                    <p className="text-gray-400 text-sm">{emptyMessage}</p>
+                    <p className="text-slate-500 text-sm font-medium">{emptyMessage}</p>
                   </div>
                 </td>
               </tr>
@@ -194,37 +167,28 @@ const TableComponent = ({
         </table>
       </div>
 
-      {/* PAGINATION */}
-      {/* PAGINATION */}
+      {/* PAGINATION FOOTER */}
       {filteredData.length > 0 && (
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-3 p-4 bg-white/5 border-t border-white/10 text-sm">
-          {/* LEFT INFO */}
-          <p className="text-gray-400">
-            Showing <b className="text-purple-400">{startRecord}</b> –{" "}
-            <b className="text-purple-400">{endRecord}</b> of{" "}
-            <b className="text-purple-400">{filteredData.length}</b>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-3 p-4 bg-slate-50/50 border-t border-slate-200 text-xs text-slate-600">
+          <p>
+            Showing <b className="text-slate-900">{startRecord}</b> –{" "}
+            <b className="text-slate-900">{endRecord}</b> of{" "}
+            <b className="text-slate-900">{filteredData.length}</b> records
           </p>
 
-          {/* RIGHT CONTROLS */}
           <div className="flex items-center gap-2">
-            {/* PREV */}
             <button
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => p - 1)}
-              className="px-3 py-1.5 rounded-full border border-white/10 
-        text-gray-300 disabled:opacity-30 
-        hover:bg-[#22d3ee]/10 transition"
+              className="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 disabled:opacity-40 hover:bg-slate-100 transition"
             >
-              ←
+              ← Prev
             </button>
 
-            {/* 🔥 MOBILE DOTS (Instagram style) */}
             {isMobile ? (
               <div className="flex items-center gap-1 px-2">
                 {Array.from({ length: totalPages }).map((_, i) => {
                   const page = i + 1;
-
-                  // show only nearby dots (like Instagram stories)
                   if (
                     page === 1 ||
                     page === totalPages ||
@@ -234,63 +198,45 @@ const TableComponent = ({
                       <div
                         key={page}
                         onClick={() => setCurrentPage(page)}
-                        className={`h-2.5 w-2.5 rounded-full cursor-pointer transition-all
-                  ${
-                    currentPage === page
-                      ? "bg-gradient-to-r from-[#06b6d4] to-[#22d3ee] scale-125"
-                      : "bg-gray-500/50 hover:bg-gray-400"
-                  }`}
+                        className={`h-2.5 w-2.5 rounded-full cursor-pointer transition-all ${
+                          currentPage === page ? "bg-sky-600 scale-110" : "bg-slate-300"
+                        }`}
                       />
                     );
                   }
-
-                  // show gap indicator
-                  if (page === currentPage - 2 || page === currentPage + 2) {
-                    return (
-                      <span key={page} className="text-gray-500 text-xs">
-                        ...
-                      </span>
-                    );
-                  }
-
                   return null;
                 })}
               </div>
             ) : (
-              /* 💻 DESKTOP PAGINATION */
               <div className="flex items-center gap-1">
                 {getPaginationRange().map((page, i) =>
                   page === "..." ? (
-                    <span key={i} className="px-2 text-gray-500">
+                    <span key={i} className="px-2 text-slate-400">
                       ...
                     </span>
                   ) : (
                     <button
                       key={i}
                       onClick={() => setCurrentPage(page)}
-                      className={`px-3 py-1.5 rounded-lg border transition
-                ${
-                  currentPage === page
-                    ? "bg-gradient-to-r from-[#06b6d4] to-[#22d3ee] text-white border-none shadow-lg"
-                    : "border-white/10 text-gray-300 hover:bg-white/10"
-                }`}
+                      className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition ${
+                        currentPage === page
+                          ? "bg-sky-600 text-white border-sky-600 shadow-xs"
+                          : "border-slate-200 text-slate-700 hover:bg-slate-100"
+                      }`}
                     >
                       {page}
                     </button>
-                  ),
+                  )
                 )}
               </div>
             )}
 
-            {/* NEXT */}
             <button
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage((p) => p + 1)}
-              className="px-3 py-1.5 rounded-full border border-white/10 
-        text-gray-300 disabled:opacity-30 
-        hover:bg-[#22d3ee]/10 transition"
+              className="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 disabled:opacity-40 hover:bg-slate-100 transition"
             >
-              →
+              Next →
             </button>
           </div>
         </div>
