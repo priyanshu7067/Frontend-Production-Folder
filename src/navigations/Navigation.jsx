@@ -9,7 +9,7 @@ const Navigation = () => {
     const token = getToken()
     return (
         <>
-            {(!token && !isAuthenticated) ? <Authenticated /> : <Auth />}
+            {(token && isAuthenticated) ? <Authenticated /> : <Auth />}
 
         </>
     )
