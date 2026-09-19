@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 const ProfilePage = () => {
   const [copied, setCopied] = useState(false);
   const { user } = useAuth();
-  console.log(user);
+  // console.log(user);
   const referralLink = `${window.location.origin}/register?ref=${user?.userId}`;
   // console.log(user);
   return (
@@ -17,7 +17,7 @@ const ProfilePage = () => {
         {/* IMAGE */}
         <div className="relative">
           <img
-            src={user.avatar}
+            src={user?.avatar}
             className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-blue-500"
           />
           <span className="absolute bottom-1 right-1 w-3 h-3 bg-green-500 rounded-full border border-black" />
@@ -25,15 +25,15 @@ const ProfilePage = () => {
 
         {/* INFO */}
         <div className="flex-1 text-center md:text-left">
-          <h2 className="text-lg md:text-xl font-semibold">{user.name || "Kyc Not Verified"}</h2>
-          <p className="text-sm text-gray-400">{user.username || "username"}</p>
-          <p className="text-xs text-gray-500">{user.email || "N/A"}</p>
+          <h2 className="text-lg md:text-xl font-semibold">{user?.name || "Kyc Not Verified"}</h2>
+          <p className="text-sm text-gray-400">{user?.username || "username"}</p>
+          <p className="text-xs text-gray-500">{user?.email || "N/A"}</p>
         </div>
 
         {/* WALLET */}
         <div className="text-center md:text-right">
           <p className="text-xs text-gray-400">Wallet</p>
-          <p className="text-xs text-blue-400 font-mono">{user.userId || "N/A"}</p>
+          <p className="text-xs text-blue-400 font-mono">{user?.userId || "N/A"}</p>
         </div>
       </div>
 
